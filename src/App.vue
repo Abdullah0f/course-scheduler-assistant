@@ -1,7 +1,9 @@
 <template>
-  <NavBar></NavBar>
+  <NavBar/>
 
-  <RouterView />
+  <div class="container">
+    <RouterView />
+  </div>
 </template>
 
 <script>
@@ -11,5 +13,8 @@ export default {
 }
 </script>
 <style scoped>
-
+.container{
+  margin: 0 auto;
+  width: fit-content;
+}
 </style>

@@ -19,26 +19,24 @@ ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  margin-inline: 20px;
+  height: 100%;
   display: flex;
-  justify-content: flex-start;
-}
-
-li {
-  margin: 10px;
-  padding: 20px;
-  text-decoration: none ;
+  align-items: center;
 }
 
 a {
+  width: 120px;
+  display: block;
   text-decoration: none;
-  color: white; 
+  text-align: center;
+  color: white;
+  padding: 20px 8px;
 }
 
 .router-link-active {
-  font-weight: bold;
   background: crimson;
   border-radius: 10px;
-  padding: 15px;
 }
 </style>
 

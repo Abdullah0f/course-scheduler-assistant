@@ -1,5 +1,5 @@
 <template>
-  
+  <h1>الرئيسية</h1>
 </template>
 
 <script>
