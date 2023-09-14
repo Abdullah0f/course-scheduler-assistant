@@ -975,21 +975,89 @@ const schedule = {
   sun: [
     //day component
     {
-      title: 'compilers',
+      title: 'لغات البرمجة والمترجمات',
       starttime: '0800',
       endtime: '0950',
-      class: ' 54 01 2 C CS27',
+      class: ' 54 01 2 A AS32',
       classType: 'محاضرة',
-      instructor: 'محمد شاه محمد كنقو'
+      instructor: 'خالد محمد الصادق بسيس'
     },
     {
-      title: 'compilers'
+      title: 'معالجة الصورة الرقمية',
+      starttime: '1000',
+      endtime: '1150',
+      class: ' 54 01 1 B BF3',
+      classType: 'محاضرة',
+      instructor: 'بلحسن عبدالمجيد خالد العكروت'
+
     } // lecture component
+    
   ],
-  mon: [],
-  tue: [],
-  wed: [],
-  thu: []
+  mon: [
+    {
+      title: 'البرمجة المتقدمة',
+      starttime: '1000',
+      endtime: '1150',
+      class: ' 54 01 1 B BF1',
+      classType: 'محاضرة',
+      instructor: 'محمد عثمان علي حجاوي'
+    },
+    {
+      title: 'اخلاقيات الحوسبة وطرق البحث',
+      starttime: '1300',
+      endtime: '1450',
+      class: ' 54 01 1 C CF17',
+      classType: 'محاضرة',
+      instructor: 'بندر صالح محمد المصلوخ'
+    }
+  ],
+  tue: [
+    {
+      title: 'لغات البرمجة والمترجمات',
+      starttime: '1000',
+      endtime: '1050',
+      class: ' 54 01 2 A AS32',
+      classType: 'محاضرة',
+      instructor: 'خالد محمد الصادق بسيس'
+    },
+    {
+      title: 'لغات البرمجة والمترجمات',
+      starttime: '1100',
+      endtime: '1150',
+      class: ' 54 01 2 A AS32',
+      classType: 'تمارين',
+      instructor: 'خالد محمد الصادق بسيس'
+    },
+    {
+      title: 'معالجة الصورة الرقمية',
+      starttime: '1300',
+      endtime: '1450',
+      class: ' 54 01 1 B BF3',
+      classType: 'تمارين',
+      instructor: 'بلحسن عبدالمجيد خالد العكروت'
+
+    }
+  ],
+  wed: [
+    {
+      title: 'البرمجة المتقدمة',
+      starttime: '1000',
+      endtime: '1150',
+      class: ' 54 01 1 B BF1',
+      classType: 'تمارين',
+      instructor: 'محمد عثمان علي حجاوي'
+    }
+  ],
+  thu: [
+    {
+      title: 'اخلاقيات الحوسبة وطرق البحث',
+      starttime: '1100',
+      endtime: '1150',
+      class: ' 54 01 1 C CF17',
+      classType: 'محاضرة',
+      instructor: 'بندر صالح محمد المصلوخ'
+    },
+  ]
 }
 
 // task1: create navbar component (route)
