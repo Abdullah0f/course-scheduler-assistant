@@ -19,7 +19,7 @@ export const courses = {
             endHour: '16',
             endMin: '50'
           },
-          class: ' 4062 2 3 و 4',
+          location: ' 4062 2 3 و 4',
           classType: 'محاضرة'
         }
       ]
@@ -42,7 +42,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' علوم 01 2 ج 5',
+          location: ' علوم 01 2 ج 5',
           classType: 'محاضرة'
         }
       ]
@@ -65,7 +65,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 4055 01 1 ج 2 ج 12',
+          location: ' 4055 01 1 ج 2 ج 12',
           classType: 'محاضرة'
         }
       ]
@@ -88,7 +88,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 4055 01 1 و 2 و 7',
+          location: ' 4055 01 1 و 2 و 7',
           classType: 'محاضرة'
         }
       ]
@@ -111,7 +111,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' علوم 01 3 و 8',
+          location: ' علوم 01 3 و 8',
           classType: 'محاضرة'
         }
       ]
@@ -134,7 +134,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' علوم 01 2 د 1',
+          location: ' علوم 01 2 د 1',
           classType: 'محاضرة'
         }
       ]
@@ -157,7 +157,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 4034 03 1 f 043',
+          location: ' 4034 03 1 f 043',
           classType: 'محاضرة'
         }
       ]
@@ -180,7 +180,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 4034 03 1 f 043',
+          location: ' 4034 03 1 f 043',
           classType: 'محاضرة'
         }
       ]
@@ -203,7 +203,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS26',
+          location: ' 54 01 2 C CS26',
           classType: 'محاضرة'
         }
       ]
@@ -226,7 +226,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' علوم 01 2 و 3',
+          location: ' علوم 01 2 و 3',
           classType: 'محاضرة'
         }
       ]
@@ -251,7 +251,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 2 a as33 ',
+          location: ' 54 01 2 a as33 ',
           classType: 'محاضرة'
         },
         {
@@ -263,7 +263,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 2 a as33',
+          location: ' 54 01 2 a as33',
           classType: 'محاضرة'
         },
         {
@@ -275,7 +275,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS26',
+          location: ' 54 01 2 C CS26',
           classType: 'عملي'
         }
       ]
@@ -300,7 +300,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' 54 01 2 B BS1 ',
+          location: ' 54 01 2 B BS1 ',
           classType: 'محاضرة'
         },
         {
@@ -312,7 +312,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 2 B BS1',
+          location: ' 54 01 2 B BS1',
           classType: 'محاضرة'
         }
       ]
@@ -337,7 +337,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS2',
+          location: ' 54 01 2 C CS2',
           classType: 'محاضرة'
         },
         {
@@ -349,7 +349,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS1',
+          location: ' 54 01 2 C CS1',
           classType: 'تمارين'
         }
       ]
@@ -374,7 +374,7 @@ export const courses = {
             endHour: '10',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS5 ',
+          location: ' 54 01 2 C CS5 ',
           classType: 'محاضرة'
         },
         {
@@ -386,7 +386,7 @@ export const courses = {
             endHour: '16',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS5',
+          location: ' 54 01 2 C CS5',
           classType: 'محاضرة'
         }
       ]
@@ -411,7 +411,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS27 ',
+          location: ' 54 01 2 C CS27 ',
           classType: 'محاضرة'
         },
         {
@@ -423,7 +423,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 54 01 2 C CS27',
+          location: ' 54 01 2 C CS27',
           classType: 'محاضرة'
         }
       ]
@@ -448,7 +448,7 @@ export const courses = {
             endHour: '08',
             endMin: '50'
           },
-          class: ' 54 01 1 B BF2 ',
+          location: ' 54 01 1 B BF2 ',
           classType: 'محاضرة'
         },
         {
@@ -460,7 +460,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' 54 01 1 B BF2',
+          location: ' 54 01 1 B BF2',
           classType: 'محاضرة'
         },
         {
@@ -472,7 +472,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' 54 01 1 B BF3',
+          location: ' 54 01 1 B BF3',
           classType: 'عملي'
         }
       ]
@@ -497,7 +497,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' 54 01 1 A AF6 ',
+          location: ' 54 01 1 A AF6 ',
           classType: 'عملي'
         },
         {
@@ -509,7 +509,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 1 A AF6',
+          location: ' 54 01 1 A AF6',
           classType: 'عملي'
         }
       ]
@@ -534,7 +534,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 54 01 2 a as32',
+          location: ' 54 01 2 a as32',
           classType: 'محاضرة'
         }
       ]
@@ -557,7 +557,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: '  ',
+          location: '  ',
           classType: 'محاضرة'
         },
         {
@@ -569,7 +569,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 54 01 1 A AF10',
+          location: ' 54 01 1 A AF10',
           classType: 'محاضرة'
         }
       ]
@@ -594,7 +594,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 4035 01 g A AA17',
+          location: ' 4035 01 g A AA17',
           classType: 'محاضرة'
         }
       ]
@@ -617,7 +617,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 35 01 G D GO063',
+          location: ' 35 01 G D GO063',
           classType: 'محاضرة'
         }
       ]
@@ -640,7 +640,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' علوم 01 2 و 2',
+          location: ' علوم 01 2 و 2',
           classType: 'محاضرة'
         }
       ]
@@ -663,7 +663,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 4035 01 g A AA17',
+          location: ' 4035 01 g A AA17',
           classType: 'محاضرة'
         }
       ]
@@ -686,7 +686,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 4035 01 2 B 2B136',
+          location: ' 4035 01 2 B 2B136',
           classType: 'محاضرة'
         }
       ]
@@ -709,7 +709,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' 35 01 F A FO109',
+          location: ' 35 01 F A FO109',
           classType: 'محاضرة'
         }
       ]
@@ -732,7 +732,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' علوم 01 2 و 7',
+          location: ' علوم 01 2 و 7',
           classType: 'محاضرة'
         }
       ]
@@ -755,7 +755,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' علوم 01 2 و 1',
+          location: ' علوم 01 2 و 1',
           classType: 'محاضرة'
         }
       ]
@@ -778,7 +778,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' علوم 01 2 و 8',
+          location: ' علوم 01 2 و 8',
           classType: 'محاضرة'
         }
       ]
@@ -801,7 +801,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 35 111 1 4 F131',
+          location: ' 35 111 1 4 F131',
           classType: 'محاضرة'
         }
       ]
@@ -824,7 +824,7 @@ export const courses = {
             endHour: '11',
             endMin: '50'
           },
-          class: ' 54 01 2 A AS1',
+          location: ' 54 01 2 A AS1',
           classType: 'محاضرة'
         }
       ]
@@ -847,7 +847,7 @@ export const courses = {
             endHour: '16',
             endMin: '50'
           },
-          class: ' 4035 01 g A AA17',
+          location: ' 4035 01 g A AA17',
           classType: 'محاضرة'
         }
       ]
@@ -870,7 +870,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 4033 02 0 B BG02',
+          location: ' 4033 02 0 B BG02',
           classType: 'محاضرة'
         }
       ]
@@ -893,7 +893,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 54 01 1 A AF10',
+          location: ' 54 01 1 A AF10',
           classType: 'محاضرة'
         }
       ]
@@ -916,7 +916,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' علوم 01 2 و 2',
+          location: ' علوم 01 2 و 2',
           classType: 'محاضرة'
         }
       ]
@@ -939,7 +939,7 @@ export const courses = {
             endHour: '09',
             endMin: '50'
           },
-          class: ' علوم 01 2 ج 4',
+          location: ' علوم 01 2 ج 4',
           classType: 'محاضرة'
         }
       ]
@@ -962,7 +962,7 @@ export const courses = {
             endHour: '14',
             endMin: '50'
           },
-          class: ' 4033 02 1 D DF08',
+          location: ' 4033 02 1 D DF08',
           classType: 'محاضرة'
         }
       ]
@@ -970,7 +970,7 @@ export const courses = {
   ]
 }
 
-const schedule = {
+export const schedule = {
   // schedule component
   sun: [
     //day component
@@ -978,7 +978,7 @@ const schedule = {
       title: 'لغات البرمجة والمترجمات',
       starttime: '0800',
       endtime: '0950',
-      class: ' 54 01 2 A AS32',
+      location: ' 54 01 2 A AS32',
       classType: 'محاضرة',
       instructor: 'خالد محمد الصادق بسيس'
     },
@@ -986,7 +986,7 @@ const schedule = {
       title: 'معالجة الصورة الرقمية',
       starttime: '1000',
       endtime: '1150',
-      class: ' 54 01 1 B BF3',
+      location: ' 54 01 1 B BF3',
       classType: 'محاضرة',
       instructor: 'بلحسن عبدالمجيد خالد العكروت'
 
@@ -998,7 +998,7 @@ const schedule = {
       title: 'البرمجة المتقدمة',
       starttime: '1000',
       endtime: '1150',
-      class: ' 54 01 1 B BF1',
+      location: ' 54 01 1 B BF1',
       classType: 'محاضرة',
       instructor: 'محمد عثمان علي حجاوي'
     },
@@ -1006,7 +1006,7 @@ const schedule = {
       title: 'اخلاقيات الحوسبة وطرق البحث',
       starttime: '1300',
       endtime: '1450',
-      class: ' 54 01 1 C CF17',
+      location: ' 54 01 1 C CF17',
       classType: 'محاضرة',
       instructor: 'بندر صالح محمد المصلوخ'
     }
@@ -1016,7 +1016,7 @@ const schedule = {
       title: 'لغات البرمجة والمترجمات',
       starttime: '1000',
       endtime: '1050',
-      class: ' 54 01 2 A AS32',
+      location: ' 54 01 2 A AS32',
       classType: 'محاضرة',
       instructor: 'خالد محمد الصادق بسيس'
     },
@@ -1024,7 +1024,7 @@ const schedule = {
       title: 'لغات البرمجة والمترجمات',
       starttime: '1100',
       endtime: '1150',
-      class: ' 54 01 2 A AS32',
+      location: ' 54 01 2 A AS32',
       classType: 'تمارين',
       instructor: 'خالد محمد الصادق بسيس'
     },
@@ -1032,7 +1032,7 @@ const schedule = {
       title: 'معالجة الصورة الرقمية',
       starttime: '1300',
       endtime: '1450',
-      class: ' 54 01 1 B BF3',
+      location: ' 54 01 1 B BF3',
       classType: 'تمارين',
       instructor: 'بلحسن عبدالمجيد خالد العكروت'
 
@@ -1043,7 +1043,7 @@ const schedule = {
       title: 'البرمجة المتقدمة',
       starttime: '1000',
       endtime: '1150',
-      class: ' 54 01 1 B BF1',
+      location: ' 54 01 1 B BF1',
       classType: 'تمارين',
       instructor: 'محمد عثمان علي حجاوي'
     }
@@ -1053,15 +1053,15 @@ const schedule = {
       title: 'اخلاقيات الحوسبة وطرق البحث',
       starttime: '1100',
       endtime: '1150',
-      class: ' 54 01 1 C CF17',
+      location: ' 54 01 1 C CF17',
       classType: 'محاضرة',
       instructor: 'بندر صالح محمد المصلوخ'
     },
   ]
 }
 
-// task1: create navbar component (route)
-// task2: create schedule object (hardcoded)
+// task1: create navbar component (route)   => done
+// task2: create schedule object (hardcoded) => done
 // task3: create schedule component
 // task4: create day component
 // task5: create lecture component

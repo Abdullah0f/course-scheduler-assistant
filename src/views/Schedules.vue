@@ -1,13 +1,14 @@
 <template>
   <h1>الجدول</h1>
+  <Schedule :schedule="schedule" />
 </template>
 
-<script>
-export default {
+<script setup>
+import {schedule} from '../../schedule.js'
+import Schedule from '../components/Schedule.vue';
 
-}
+
 </script>
 
-<style>
-
+<style scoped>
 </style>
