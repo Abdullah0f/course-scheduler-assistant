@@ -976,16 +976,20 @@ export const schedule = {
     //day component
     {
       title: 'لغات البرمجة والمترجمات',
-      starttime: '0800',
-      endtime: '0950',
+      startHour: '08',
+      endHour: '09',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 2 A AS32',
       classType: 'محاضرة',
       instructor: 'خالد محمد الصادق بسيس'
     },
     {
       title: 'معالجة الصورة الرقمية',
-      starttime: '1000',
-      endtime: '1150',
+      startHour: '10',
+      endHour: '11',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 1 B BF3',
       classType: 'محاضرة',
       instructor: 'بلحسن عبدالمجيد خالد العكروت'
@@ -996,16 +1000,20 @@ export const schedule = {
   mon: [
     {
       title: 'البرمجة المتقدمة',
-      starttime: '1000',
-      endtime: '1150',
+      startHour: '10',
+      endHour: '11',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 1 B BF1',
       classType: 'محاضرة',
-      instructor: 'محمد عثمان علي حجاوي'
+      instructor: 'محمد عثمان علي حجازي'
     },
     {
       title: 'اخلاقيات الحوسبة وطرق البحث',
-      starttime: '1300',
-      endtime: '1450',
+      startHour: '13',
+      endHour: '14',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 1 C CF17',
       classType: 'محاضرة',
       instructor: 'بندر صالح محمد المصلوخ'
@@ -1014,24 +1022,30 @@ export const schedule = {
   tue: [
     {
       title: 'لغات البرمجة والمترجمات',
-      starttime: '1000',
-      endtime: '1050',
+      startHour: '10',
+      endHour: '11',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 2 A AS32',
       classType: 'محاضرة',
       instructor: 'خالد محمد الصادق بسيس'
     },
     {
       title: 'لغات البرمجة والمترجمات',
-      starttime: '1100',
-      endtime: '1150',
+      startHour: '11',
+      endHour: '11',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 2 A AS32',
       classType: 'تمارين',
       instructor: 'خالد محمد الصادق بسيس'
     },
     {
       title: 'معالجة الصورة الرقمية',
-      starttime: '1300',
-      endtime: '1450',
+      startHour: '13',
+      endHour: '14',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 1 B BF3',
       classType: 'تمارين',
       instructor: 'بلحسن عبدالمجيد خالد العكروت'
@@ -1041,18 +1055,22 @@ export const schedule = {
   wed: [
     {
       title: 'البرمجة المتقدمة',
-      starttime: '1000',
-      endtime: '1150',
+      startHour: '11',
+      endHour: '11',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 1 B BF1',
       classType: 'تمارين',
-      instructor: 'محمد عثمان علي حجاوي'
+      instructor: 'محمد عثمان علي حجازي'
     }
   ],
   thu: [
     {
       title: 'اخلاقيات الحوسبة وطرق البحث',
-      starttime: '1100',
-      endtime: '1150',
+      startHour: '11',
+      endHour: '11',
+      startMin:'00',
+      endMin:'50',
       location: ' 54 01 1 C CF17',
       classType: 'محاضرة',
       instructor: 'بندر صالح محمد المصلوخ'
