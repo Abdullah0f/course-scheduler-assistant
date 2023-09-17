@@ -1,7 +1,7 @@
 <template>
     <div class="lecture">
       <h3>{{ lectureData.title }}</h3>
-      <p>الوقت: {{ lectureData.starttime }} - {{ lectureData.endtime }}</p>
+      <p>الوقت: {{ readableTime(lectureData.starttime) }} - {{ readableTime(lectureData.endtime) }}</p>
       <p>القاعة: {{ lectureData.location }}</p>
       <p>النوع: {{ lectureData.classType }}</p>
       <p>المحاضر: {{ lectureData.instructor }}</p>
@@ -15,6 +15,9 @@
       required: true
     }
   })
+  const readableTime = (time) => {
+    return `${time.getHours()}:${time.getMinutes()<10?'0':''}${time.getMinutes()}`
+  }
   </script>
   
   <style scoped>
