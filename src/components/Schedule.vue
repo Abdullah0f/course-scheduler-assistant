@@ -1,13 +1,14 @@
 <template>
     <div class="schedule">
       <div class="hours-column">
-        <div v-for="hour in 12" :key="hour" class="hour">
-          {{ hour+7 }}:00
+        <div v-for="hour in 8" :key="hour" class="hour" :style="{height: size+'px'}">
+          {{ (hour+7)%12 }}:00
         </div>
       </div>
       <div class="days-container">
         <div v-for="day in days" :key="day">
-          <Day :dayData="schedule[day]" :dayName="daysMap[day]" />
+          <h2>{{ daysMap[day] }}</h2>
+          <Day :dayData="schedule[day]" />
         </div>
       </div>
     </div>
@@ -15,7 +16,7 @@
   
 
 <script setup>
-import { toRefs } from 'vue'
+import { provide, toRefs, ref } from 'vue'
 import Day from './Day.vue'
 
 // Props
@@ -23,8 +24,15 @@ const props = defineProps({
   schedule: {
     type: Object,
     required: true
+  },
+  size:{
+    type: Number,
+    required: false,
+    default: 100
   }
 })
+const size = ref(props.size)
+provide('size', size.value)
 
 // Convert props to reactive references
 const { schedule } = toRefs(props)
@@ -48,18 +56,19 @@ const daysMap = {
   display: flex;
   flex-direction: row;
 }
-
+h2{
+  text-align: center;
+}
 .hours-column {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-right: 10px;
   border-right: 1px solid #aaa;
-  margin-top: 65px;
+  margin-top: 25px;
 }
 
 .hour {
-  height: 60px; // assuming 1 hour is 60px
   display: flex;
   align-items: center;
 }

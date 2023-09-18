@@ -11,6 +11,8 @@
 </template>
 
 <script setup>
+import { inject } from 'vue';
+
 const props = defineProps({
   lectureData: {
     type: Object,
@@ -18,7 +20,7 @@ const props = defineProps({
   }
 })
 const { lectureData } = props;
-const PIXELS_PER_HOUR = 60;
+const PIXELS_PER_HOUR = inject('size')
 const scheduleStartHour = 8;  // Assuming schedule starts at 8 AM
 
 const calculateTop = (courseStartTime, scheduleStartTime) => {
