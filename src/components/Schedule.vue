@@ -1,10 +1,18 @@
 <template>
-  <div class="schedule">
-    <div v-for="day in days" :key="day">
-      <Day :dayData="schedule[day]" :dayName="daysMap[day]" />
+    <div class="schedule">
+      <div class="hours-column">
+        <div v-for="hour in 12" :key="hour" class="hour">
+          {{ hour+7 }}:00
+        </div>
+      </div>
+      <div class="days-container">
+        <div v-for="day in days" :key="day">
+          <Day :dayData="schedule[day]" :dayName="daysMap[day]" />
+        </div>
+      </div>
     </div>
-  </div>
-</template>
+  </template>
+  
 
 <script setup>
 import { toRefs } from 'vue'
@@ -32,7 +40,7 @@ const daysMap = {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .schedule {
   border: 1px solid #aaa;
   padding: 10px;
@@ -40,4 +48,25 @@ const daysMap = {
   display: flex;
   flex-direction: row;
 }
+
+.hours-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 10px;
+  border-right: 1px solid #aaa;
+  margin-top: 65px;
+}
+
+.hour {
+  height: 60px; // assuming 1 hour is 60px
+  display: flex;
+  align-items: center;
+}
+
+.days-container {
+  display: flex;
+  flex: 1;
+}
 </style>
+
