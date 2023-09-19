@@ -1,75 +1,60 @@
 <template>
-  <div class="lecture">
-    <h3 class="title">{{ lectureData.title }}</h3>
-    <p class="content">الوقت: {{ compTime() }}</p>
-    <p class="content">القاعة: {{ lectureData.location }}</p>
-    <p class="content">النوع: {{ lectureData.classType }}</p>
-    <p class="content">المحاضر: {{ lectureData.instructor }}</p>
+<div class="lecture" :style="{ top: lectureTop + 'px', height: lectureHeight+'px'}">
+    <h3>{{ lectureData.title }}</h3>
+    <p>
+      الوقت: {{ readableTime(lectureData.starttime) }} - {{ readableTime(lectureData.endtime) }}
+    </p>
+    <p>القاعة: {{ lectureData.location }}</p>
+    <p>النوع: {{ lectureData.classType }}</p>
+    <p>المحاضر: {{ lectureData.instructor }}</p>
   </div>
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
 const props = defineProps({
   lectureData: {
     type: Object,
     required: true
+  },
+  size:{
+    type: Number,
+    required: true,
   }
 })
-function compTime() {
-  if (props.lectureData.startHour > '12') {
-    return (
-      props.lectureData.startHour -
-      12 +
-      ':' +
-      props.lectureData.startMin +
-      'م-' +
-      (props.lectureData.endHour - 12) +
-      ':' +
-      props.lectureData.endMin +
-      'م'
-    )
-  } else if (props.lectureData.startHour === '12') {
-    return (
-      props.lectureData.startHour +
-      ':' +
-      props.lectureData.startMin +
-      'م' +
-      props.lectureData.endHour +
-      ':' +
-      props.lectureData.endMin +
-      'م'
-    )
-  } else {
-    return (
-      props.lectureData.startHour +
-      ':' +
-      props.lectureData.startMin +
-      'ص-' +
-      props.lectureData.endHour +
-      ':' +
-      props.lectureData.endMin +
-      'ص'
-    )
-  }
+const size = computed(() => props.size);
+const lectureData = computed(() => props.lectureData);
+
+const PIXELS_PER_HOUR = computed(() => size.value);
+const scheduleStartHour = 8;  // Assuming schedule starts at 8 AM
+
+const calculateTop = (courseStartTime, scheduleStartTime) => {
+  const differenceInHours = courseStartTime.getHours() - scheduleStartTime;
+  return differenceInHours * PIXELS_PER_HOUR.value;
+}
+
+const calculateHeight = (courseStartTime, courseEndTime) => {
+  const durationInHours = courseEndTime.getHours() - courseStartTime.getHours();
+  const durationInMinutes = courseEndTime.getMinutes() - courseStartTime.getMinutes();
+  const totalDurationInMinutes = (durationInHours * 60) + durationInMinutes;
+
+  return (totalDurationInMinutes / 60) * PIXELS_PER_HOUR.value;
+}
+const lectureTop = computed(() => calculateTop(lectureData.value.starttime, scheduleStartHour));
+const lectureHeight = computed(() => calculateHeight(lectureData.value.starttime, lectureData.value.endtime));
+const readableTime = (time) => {
+  return `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`
 }
 </script>
-
-<style scoped>
+<style scoped lang="scss">
 .lecture {
-  border: 1px solid #ddd;
-  padding: 10px;
-  margin: 10px 0;
-  background-color: #f5f5f5;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-.title {
-  margin: 0;
-  font-size: 1.2rem;
-  text-align: center;
-}
-.content {
-  color: #666;
-  margin: 5px 0;
+    border: 1px solid #ddd;
+    padding: 5px;
+    background-color: #f4f4f4;
+    position: absolute;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+    overflow: hidden;
 }
 </style>
+

@@ -1,36 +1,40 @@
 <template>
-  <div class="day">
-    <h2 class="dayName">{{ dayName }}</h2>
-    <div v-for="lecture in dayData" :key="lecture.starttime">
-      <Lecture :lectureData="lecture" />
+    <div class="day" :style="{height: (height)+'px'}">
+        <div v-for="lecture in dayData" :key="lecture.starttime">
+          <Lecture :lectureData="lecture" :size="size"/>
+        </div>
     </div>
-  </div>
-</template>
-
-<script setup>
-import Lecture from './Lecture.vue'
-
-const props = defineProps({
-  dayData: {
-    type: Array,
-    required: true
-  },
-  dayName: {
-    type: String,
-    required: true
+  </template>
+  
+  
+  <script setup>
+  import { computed } from 'vue'
+  import Lecture from './Lecture.vue'
+  
+  const props = defineProps({
+    dayData: {
+      type: Array,
+      required: true
+    },
+    size:{
+      type: Number,
+      required: true,
+    }
+  })
+  const height = computed(() => props.size*8)
+  </script>
+  
+  <style scoped lang="scss">
+  .day {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    position: relative;
+    width: 200px;
+    position: relative; // this is important to position the lectures inside
   }
-})
-</script>
 
-<style scoped>
-.day {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin: 10px 0;
-}
-.dayName {
-  margin: 0;
-  text-align: center;
-  border-bottom: 1px solid #0b0b0b;
-}
-</style>
+  </style>
+  
+  
+  
