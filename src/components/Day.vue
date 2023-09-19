@@ -1,14 +1,14 @@
 <template>
-    <div class="day" :style="{height: (size*8)+'px'}">
+    <div class="day" :style="{height: (height)+'px'}">
         <div v-for="lecture in dayData" :key="lecture.starttime">
-          <Lecture :lectureData="lecture" />
+          <Lecture :lectureData="lecture" :size="size"/>
         </div>
     </div>
   </template>
   
   
   <script setup>
-  import { inject } from 'vue'
+  import { computed } from 'vue'
   import Lecture from './Lecture.vue'
   
   const props = defineProps({
@@ -16,9 +16,12 @@
       type: Array,
       required: true
     },
+    size:{
+      type: Number,
+      required: true,
+    }
   })
-
-  const size = inject('size')
+  const height = computed(() => props.size*8)
   </script>
   
   <style scoped lang="scss">

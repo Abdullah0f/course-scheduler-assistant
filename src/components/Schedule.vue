@@ -1,22 +1,27 @@
 <template>
     <div class="schedule">
+      <div class="schedule-column">
       <div class="hours-column">
+        <h2>الوقت</h2>
         <div v-for="hour in 8" :key="hour" class="hour" :style="{height: size+'px'}">
           {{ (hour+7)%12 }}:00
         </div>
       </div>
-      <div class="days-container">
         <div v-for="day in days" :key="day">
           <h2>{{ daysMap[day] }}</h2>
-          <Day :dayData="schedule[day]" />
+          <Day :dayData="schedule[day]" :size="size" />
         </div>
+      </div>
+      <div class="btns">
+        <button @click="size++">increase size</button>
+        <button @click="size--">decrease size</button>
       </div>
     </div>
   </template>
   
 
 <script setup>
-import { provide, toRefs, ref } from 'vue'
+import { ref, computed } from 'vue'
 import Day from './Day.vue'
 
 // Props
@@ -28,14 +33,11 @@ const props = defineProps({
   size:{
     type: Number,
     required: false,
-    default: 100
+    default: 127
   }
 })
-const size = ref(props.size)
-provide('size', size.value)
-
-// Convert props to reactive references
-const { schedule } = toRefs(props)
+const size = ref(props.size);
+const schedule = computed(() => props.schedule);
 
 // Define days
 const days = ['sun', 'mon', 'tue', 'wed', 'thu']
@@ -49,6 +51,14 @@ const daysMap = {
 </script>
 
 <style scoped lang="scss">
+.btns{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 150px;
+  left:50px;
+  gap:10px
+}
 .schedule {
   border: 1px solid #aaa;
   padding: 10px;
@@ -62,18 +72,15 @@ h2{
 .hours-column {
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding-right: 10px;
-  border-right: 1px solid #aaa;
-  margin-top: 25px;
 }
 
 .hour {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
-.days-container {
+.schedule-column {
   display: flex;
   flex: 1;
 }

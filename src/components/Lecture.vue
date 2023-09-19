@@ -11,21 +11,27 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   lectureData: {
     type: Object,
     required: true
+  },
+  size:{
+    type: Number,
+    required: true,
   }
 })
-const { lectureData } = props;
-const PIXELS_PER_HOUR = inject('size')
+const size = computed(() => props.size);
+const lectureData = computed(() => props.lectureData);
+
+const PIXELS_PER_HOUR = computed(() => size.value);
 const scheduleStartHour = 8;  // Assuming schedule starts at 8 AM
 
 const calculateTop = (courseStartTime, scheduleStartTime) => {
   const differenceInHours = courseStartTime.getHours() - scheduleStartTime;
-  return differenceInHours * PIXELS_PER_HOUR;
+  return differenceInHours * PIXELS_PER_HOUR.value;
 }
 
 const calculateHeight = (courseStartTime, courseEndTime) => {
@@ -33,12 +39,10 @@ const calculateHeight = (courseStartTime, courseEndTime) => {
   const durationInMinutes = courseEndTime.getMinutes() - courseStartTime.getMinutes();
   const totalDurationInMinutes = (durationInHours * 60) + durationInMinutes;
 
-  return (totalDurationInMinutes / 60) * PIXELS_PER_HOUR;
+  return (totalDurationInMinutes / 60) * PIXELS_PER_HOUR.value;
 }
-
-const lectureTop = calculateTop(lectureData.starttime, scheduleStartHour);
-const lectureHeight = calculateHeight(lectureData.starttime, lectureData.endtime);
-
+const lectureTop = computed(() => calculateTop(lectureData.value.starttime, scheduleStartHour));
+const lectureHeight = computed(() => calculateHeight(lectureData.value.starttime, lectureData.value.endtime));
 const readableTime = (time) => {
   return `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`
 }
