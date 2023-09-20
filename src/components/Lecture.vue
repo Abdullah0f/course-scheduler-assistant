@@ -1,5 +1,5 @@
 <template>
-<div class="lecture" :style="{ top: lectureTop + 'px', height: lectureHeight+'px'}">
+  <div class="lecture" :style="{ top: lectureTop + 'px', height: lectureHeight + 'px' }">
     <h3>{{ lectureData.title }}</h3>
     <p>
       الوقت: {{ readableTime(lectureData.starttime) }} - {{ readableTime(lectureData.endtime) }}
@@ -11,47 +11,46 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed } from 'vue'
 
 const props = defineProps({
   lectureData: {
     type: Object,
     required: true
   },
-  size:{
+  hourPixels: {
     type: Number,
-    required: true,
+    required: true
   },
+  timings: {
+    type: Object,
+    required: true
+  }
 })
-const PIXELS_PER_HOUR = computed(() => props.size);
-const scheduleStartHour = 8;  // Assuming schedule starts at 8 AM
-
-const calculateTop = (courseStartTime, scheduleStartTime) => {
-  const differenceInHours = courseStartTime.getHours() - scheduleStartTime;
-  return differenceInHours * PIXELS_PER_HOUR.value;
-}
-
-const calculateHeight = (courseStartTime, courseEndTime) => {
-  const durationInHours = courseEndTime.getHours() - courseStartTime.getHours();
-  const durationInMinutes = courseEndTime.getMinutes() - courseStartTime.getMinutes();
-  const totalDurationInMinutes = (durationInHours * 60) + durationInMinutes;
-
-  return (totalDurationInMinutes / 60) * PIXELS_PER_HOUR.value;
-}
-const lectureTop = computed(() => calculateTop(props.lectureData.starttime, scheduleStartHour));
-const lectureHeight = computed(() => calculateHeight(props.lectureData.starttime, props.lectureData.endtime));
+const lectureTop = computed(
+  () =>
+    props.hourPixels *
+    (props.lectureData.starttime.getHours() - props.timings.earliestTime.getHours())
+)
+const lectureHeight = computed(() => {
+  const durationInHours =
+    props.lectureData.endtime.getHours() - props.lectureData.starttime.getHours()
+  const durationInMinutes =
+    props.lectureData.endtime.getMinutes() - props.lectureData.starttime.getMinutes()
+  const totalDurationInMinutes = durationInHours * 60 + durationInMinutes
+  return (totalDurationInMinutes / 60) * props.hourPixels
+})
 const readableTime = (time) => {
-  return `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`
+  return `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`
 }
 </script>
 <style scoped lang="scss">
 .lecture {
-    border: 1px solid #ddd;
-    padding: 5px;
-    background-color: #f4f4f4;
-    position: absolute;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-    overflow: hidden;
+  border: 1px solid #ddd;
+  padding: 5px;
+  background-color: #f4f4f4;
+  position: absolute;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
 }
 </style>
-

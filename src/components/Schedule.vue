@@ -1,15 +1,15 @@
 <template>
     <div class="schedule">
-      <HourColumn :size="size" :showLine="showLine"/>
+      <HourColumn :hourPixels="hourPixels" :timings="timings" :showLine="showLine"/>
         <div v-for="day in DAYS" :key="day">
           <h2>{{ DAYS_MAP[day] }}</h2>
-          <Day :dayData="schedule[day]" :size="size" />
+          <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
         </div>
       </div>
       <div class="btns">
-        <button @click="size+=changeAmount">increase size</button>
-        <button @click="size=127">reset, current: {{ size }}</button>
-        <button @click="size-=changeAmount">decrease size</button>
+        <button @click="hourPixels+=changeAmount">increase size</button>
+        <button @click="hourPixels=127">reset, current: {{ hourPixels }}</button>
+        <button @click="hourPixels-=changeAmount">decrease size</button>
         <input type="number" v-model="changeAmount" placeholder="changeAmount">
         <button @click="showLine=!showLine">toggle line</button>
       </div>
@@ -17,31 +17,35 @@
   
 
 <script setup>
-import { ref } from 'vue'
-import Day from './Day.vue'
-import {DAYS_MAP, DAYS} from '../config/constants'
 import HourColumn from './HourColumn.vue';
-// Props
+import Day from './Day.vue'
+import { ref, computed } from 'vue'
+import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '../utils/constants'
+import { getTimings } from '../utils/scheduleHelpers';
 const props = defineProps({
   schedule: {
     type: Object,
     required: true
   },
   size:{
-    type: Number,
+    type: String,
     required: false,
-    default: 127
+    default: 'default',
+    validator: (value) => {
+      return ['default', 'small'].includes(value);
+    }
   }
 })
-const size_mapping = {
-  'default': 127,
-  'small': 100,
-  'large': 200
-}
-// const PIXELS_PER_HOUR = computed(() => size_mapping[props.size]);
+const timings = computed(()=> getTimings(props.schedule));
+
+// its ref(127) in order for debugging btns to work, otherwise it should be computed(() => SIZE_PIXELS_MAP[props.size]);
+const hourPixels = ref(127)//computed(() => SIZE_PIXELS_MAP[props.size]);
+
+
 const showLine = ref(true);
 const changeAmount = ref(1);
 </script>
+
 
 <style scoped lang="scss">
 .btns{

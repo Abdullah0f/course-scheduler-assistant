@@ -1,7 +1,7 @@
 <template>
     <div class="day" :style="{height: height+'px'}">
         <div v-for="lecture in dayData" :key="lecture.starttime">
-          <Lecture :lectureData="lecture" :size="size"/>
+          <Lecture :lectureData="lecture" :hourPixels="hourPixels" :timings="timings"/>
         </div>
     </div>
   </template>
@@ -16,14 +16,16 @@
       type: Array,
       required: true
     },
-    size:{
+    hourPixels:{
       type: Number,
+      required: true,
+    },
+    timings: {
+      type: Object,
       required: true,
     }
   })
-  const startTime = 8;
-  const endTime = 15;
-  const height = computed(() => props.size*(endTime-startTime));
+  const height = computed(() => props.hourPixels*(props.timings.timeDiff));
   </script>
   
   <style scoped lang="scss">
@@ -33,7 +35,7 @@
     margin: 10px 0;
     position: relative;
     width: 200px;
-    position: relative; // this is important to position the lectures inside
+    position: relative;
   }
 
   </style>
