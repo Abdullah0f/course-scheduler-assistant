@@ -1,5 +1,5 @@
 <template>
-    <div class="day" :style="{height: (height)+'px'}">
+    <div class="day" :style="{height: height+'px'}">
         <div v-for="lecture in dayData" :key="lecture.starttime">
           <Lecture :lectureData="lecture" :size="size"/>
         </div>
@@ -21,7 +21,9 @@
       required: true,
     }
   })
-  const height = computed(() => props.size*8)
+  const startTime = 8;
+  const endTime = 15;
+  const height = computed(() => props.size*(endTime-startTime));
   </script>
   
   <style scoped lang="scss">

@@ -21,12 +21,9 @@ const props = defineProps({
   size:{
     type: Number,
     required: true,
-  }
+  },
 })
-const size = computed(() => props.size);
-const lectureData = computed(() => props.lectureData);
-
-const PIXELS_PER_HOUR = computed(() => size.value);
+const PIXELS_PER_HOUR = computed(() => props.size);
 const scheduleStartHour = 8;  // Assuming schedule starts at 8 AM
 
 const calculateTop = (courseStartTime, scheduleStartTime) => {
@@ -41,8 +38,8 @@ const calculateHeight = (courseStartTime, courseEndTime) => {
 
   return (totalDurationInMinutes / 60) * PIXELS_PER_HOUR.value;
 }
-const lectureTop = computed(() => calculateTop(lectureData.value.starttime, scheduleStartHour));
-const lectureHeight = computed(() => calculateHeight(lectureData.value.starttime, lectureData.value.endtime));
+const lectureTop = computed(() => calculateTop(props.lectureData.starttime, scheduleStartHour));
+const lectureHeight = computed(() => calculateHeight(props.lectureData.starttime, props.lectureData.endtime));
 const readableTime = (time) => {
   return `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`
 }
