@@ -2,8 +2,8 @@
   <div class="hours-column">
     <h2>وقت</h2>
     <div class="hours">
-        <div v-for="hour in 8" :key="hour" class="hour" :style="{ height: size + 'px' }">
-            <span class="hour-label">{{ (hour + 7) % 12 }}:00</span>
+        <div v-for="i in timings.timeDiff+1" :key="i" class="hour" :style="{ height: hourPixels + 'px' }">
+            <span class="hour-label">{{ timings.earliestTime.getHours() + i -1 }}:00</span>
             <div class="hr-line" v-if="showLine"></div>
         </div>
     </div>
@@ -12,7 +12,7 @@
 
 <script setup>
 const props = defineProps({
-  size: {
+  hourPixels: {
     type: Number,
     required: true,
   },
@@ -21,6 +21,10 @@ const props = defineProps({
     required: false,
     default: true,
   },
+  timings: {
+    type: Object,
+    required: true,
+  }
 });
 </script>
 
