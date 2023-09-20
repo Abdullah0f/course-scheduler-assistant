@@ -1,4 +1,5 @@
 // import { getCourses } from "./courses.js";
+// .html
 export const courses = {
   '104 سلم': [
     {
@@ -13,12 +14,14 @@ export const courses = {
         {
           day: ['2'],
           time: ' 03:00 م - 04:50 م ',
-          timee: {
-            startHour: '15',
-            startMin: '00',
-            endHour: '16',
-            endMin: '50'
-          },
+          starttime: '15:00',
+          endtime: '16:50',
+          // timee: {
+          //   startHour: '15',
+          //   startMin: '00',
+          //   endHour: '16',
+          //   endMin: '50'
+          // },
           location: ' 4062 2 3 و 4',
           classType: 'محاضرة'
         }
@@ -969,9 +972,13 @@ export const courses = {
     }
   ]
 }
+const scdhuels = [
+  {
+
+  }
+]
 
 export const schedule = {
-  // schedule component
   sun: [
     //day component
     {
@@ -1059,6 +1066,16 @@ export const schedule = {
 
 // task1: create navbar component (route)   => done
 // task2: create schedule object (hardcoded) => done
-// task3: create schedule component
-// task4: create day component
-// task5: create lecture component
+// task3: create schedule component          => done
+// task4: create day component              => done
+// task5: create lecture component          => done
+// task6: create Courses from html
+// task7: create Schdules from courses
+// task8: make scdhule responsive
+// task9: schdule style (1 hour lecture and 2 hour lecture)
+// task10: make navbar thru primevue
+// task11: make login route and view
+// task12: schdule list comopnent (display schdule responsivly)
+// task13: any addition to home page
+
+
