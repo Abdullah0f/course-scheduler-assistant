@@ -5,6 +5,9 @@
     <Button type="button" label="Button 2" severity="secondary"></Button>
     <Button type="button" label="Button 3" severity="help"></Button>
 </div>
+<h1 class="text-3xl font-bold underline">
+    Hello world!
+  </h1>
 </template>
 
 <script setup>
