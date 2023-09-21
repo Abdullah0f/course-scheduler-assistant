@@ -1,11 +1,11 @@
 <template>
-  <h1>الرئيسية</h1>
+  <div>
+    <TheHeader  />
+  </div>
 </template>
 
-<script>
-export default {
-
-}
+<script setup>
+import TheHeader from '../components/Homecomponents/TheHeader.vue';
 </script>
 
 <style>
