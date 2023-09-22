@@ -87,27 +87,36 @@ function createAnotherCourseWithThisPeriod(course, periods, type) {
   return newCourse
 }
 
-function extractTime(time) {
-
-  time = time.trim();
+export function extractTime(time) {
+  time = time.trim()
 
   // Split the time string using " - " as the delimiter
-  var timeParts = time.split(" - ");
+  const timeParts = time.split(' - ')
 
   // Extract the start time and end time
-  var startTime = timeParts[0];
-  var endTime = timeParts[1];
-
-  // Remove the "ص" and "م" characters
-  startTime = startTime.slice(0, -1); // Remove last character
-  endTime = endTime.slice(0, -1);     // Remove last character
-
-  // console.log("startTime: " + startTime);
-  // console.log("endTime: " + endTime);
+  let startTime = convertTo24HourFormat(timeParts[0])
+  let endTime = convertTo24HourFormat(timeParts[1])
 
   // Convert the times to Date objects
-  startTime = new Date("1970-01-01 " + startTime);
-  endTime = new Date("1970-01-01 " + endTime);
+  startTime = new Date('1970-01-01 ' + startTime)
+  endTime = new Date('1970-01-01 ' + endTime)
 
   return { startTime, endTime }
+}
+function convertTo24HourFormat(time) {
+  // get ص or م
+  const amOrPm = time.slice(-1)
+  // remove ص or م
+  time = time.slice(0, -1)
+  // split time string into hours and minutes
+  const timeParts = time.split(':')
+  let hours = timeParts[0]
+  let minutes = timeParts[1]
+  // convert to 24-hour format
+  if (amOrPm === 'ص') {
+    if (hours === '12') hours = '00'
+  } else {
+    if (hours !== '12') hours = parseInt(hours) + 12
+  }
+  return hours + ':' + minutes
 }
