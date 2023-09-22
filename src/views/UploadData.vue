@@ -1,6 +1,6 @@
 <template>
     <div>
-      <FileUpload mode="basic" name="demo[]" auto class="my-3 gap-2" :maxFileSize="1000000" :custom-upload="true" @uploader="handleFileUpload" />
+      <FileUpload mode="basic" auto choose-label="اختر ملف" class="my-3 gap-2 shadow-4 fadeinup hover:bg-primary-reverse" :maxFileSize="1000000" :custom-upload="true" @uploader="handleFileUpload" />
     <div v-if="parsedContent">
       <h2>Parsed HTML Content:</h2>
       <div v-html="parsedContent"></div>
@@ -15,7 +15,6 @@ import FileUpload from 'primevue/fileupload';
 
 const parsedContent = ref(null);
 const handleFileUpload =  event => {
-  console.log(event)
   const file = event.files[0];
   if (file) {
     const reader = new FileReader();
