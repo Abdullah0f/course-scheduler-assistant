@@ -1,45 +1,27 @@
 <template>
-  <nav>
-    <ul >
-      <li><router-link to="/">الرئيسية</router-link></li>
-      <li><router-link to="/schedules">الجداول</router-link></li>
-      <li><router-link to="/profile">الملف الشخصي</router-link></li>
-      <li><router-link to="/uploadData">رفع ملف</router-link></li>
-    </ul>
-  </nav>
+  <div>
+    <TabMenu :model="items" :activeIndex="activeIndex" @update:activeIndex="changeTab" />
+  </div>
 </template>
 
-<style scoped>
-nav {
-  background-color: #333;
-  height: 80px;
-  width: 100%;
+<script setup>
+import TabMenu from 'primevue/tabmenu';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const items = ref([
+  { label: ' الرئيسية ', icon: 'pi pi-fw pi-home', to: '/' },
+  { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },
+  { label: ' الملف الشخصي ', icon: 'pi pi-fw pi-user', to: '/profile' },
+  { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' },
+]);
+
+const activeIndex = ref(0);
+const router = useRouter();
+
+function changeTab(index) {
+  activeIndex.value = index;
+  router.push(items.value[index].to);
 }
-
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  margin-inline: 20px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-a {
-  width: 120px;
-  display: block;
-  text-decoration: none;
-  text-align: center;
-  color: white;
-  padding: 20px 8px;
-}
-
-.router-link-active {
-  background: crimson;
-  border-radius: 10px;
-}
-</style>
-
-
+</script>
 
