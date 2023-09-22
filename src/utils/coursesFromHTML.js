@@ -58,12 +58,17 @@ function generatePeriods(periodsString, type, instructorName) {
     const days = periodString.split('@t')[0].trim().match(/\d/g)
     const time = periodString.match(/@t\s*(.*?)\s*@r/)[1]
     const { startTime, endTime } = extractTime(time)
+    // console.log("outSide ST "+startTime)
+    // console.log("#".repeat(20))
+    // console.log("outside ET "+endTime)
     const location = periodString.match(/@r\s*(.*)/)[1]
     const classType = type
     const instructor = instructorName
     const period = {
       days,
       time,
+      startTime,
+      endTime,
       location,
       classType,
       instructor
@@ -85,9 +90,26 @@ function createAnotherCourseWithThisPeriod(course, periods, type) {
 }
 
 function extractTime(time) {
-  // TODO
-  return {
-    startTime: '',
-    endTime: ''
-  }
+
+  time = time.trim();
+
+  // Split the time string using " - " as the delimiter
+  var timeParts = time.split(" - ");
+
+  // Extract the start time and end time
+  var startTime = timeParts[0];
+  var endTime = timeParts[1];
+
+  // Remove the "ص" and "م" characters
+  startTime = startTime.slice(0, -1); // Remove last character
+  endTime = endTime.slice(0, -1);     // Remove last character
+
+  // console.log("startTime: " + startTime);
+  // console.log("endTime: " + endTime);
+
+  // Convert the times to Date objects
+  startTime = new Date("1970-01-01 " + startTime);
+  endTime = new Date("1970-01-01 " + endTime);
+
+  return { startTime, endTime }
 }
