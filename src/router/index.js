@@ -10,16 +10,21 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-   {
-    path: '/schedules',
-    name: 'schedules',
-    component: Schedules
-   },
-   {
-    path: '/Profile',
-    name: 'profile',
-    component: Profile
-   }
+    {
+      path: '/schedules',
+      name: 'schedules',
+      component: Schedules
+    },
+    {
+      path: '/Profile',
+      name: 'profile',
+      component: Profile
+    },
+    {
+      path: '/uploadData',
+      name: 'uploadData',
+      component: () => import('../views/uploadData.vue')
+    }
   ]
 })
 

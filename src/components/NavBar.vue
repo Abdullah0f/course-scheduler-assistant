@@ -4,6 +4,7 @@
       <li><router-link to="/">الرئيسية</router-link></li>
       <li><router-link to="/schedules">الجداول</router-link></li>
       <li><router-link to="/profile">الملف الشخصي</router-link></li>
+      <li><router-link to="/uploadData">رفع ملف</router-link></li>
     </ul>
   </nav>
 </template>
