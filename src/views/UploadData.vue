@@ -8,7 +8,7 @@
       class="my-3 gap-2 shadow-4 fadeinup hover:bg-primary-reverse"
       :max-file-size="3000000"
       :custom-upload="true"
-      accept=".html"
+      accept=".html, .htm"
       :invalid-file-type-message="FILE_MSGS.FILE_TYPE"
       :invalid-file-size-message="FILE_MSGS.FILE_SIZE"
       @uploader="handleFileUpload"
