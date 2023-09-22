@@ -1,78 +1,59 @@
 <template>
-    <div>
-      <FileUpload mode="basic" auto choose-label="اختر ملف" class="my-3 gap-2 shadow-4 fadeinup hover:bg-primary-reverse" :maxFileSize="1000000" :custom-upload="true" @uploader="handleFileUpload" />
-    <div v-if="parsedContent">
-      <h2>Parsed HTML Content:</h2>
-      <div v-html="parsedContent"></div>
+  <div>
+    <Toast :pt = "{icon: {class:'ml-3'}}" />
+    <FileUpload
+      mode="basic"
+      auto
+      choose-label="اختر ملف"
+      class="my-3 gap-2 shadow-4 fadeinup hover:bg-primary-reverse"
+      :max-file-size="3000000"
+      :custom-upload="true"
+      accept=".html"
+      :invalid-file-type-message="FILE_MSGS.FILE_TYPE"
+      :invalid-file-size-message="FILE_MSGS.FILE_SIZE"
+      @uploader="handleFileUpload"
+    />
+    <div >
+      <ShowCoursesDebug :courses="courses" />
     </div>
-    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { getCourses } from '../utils/coursesFromHTML';
-import FileUpload from 'primevue/fileupload';
+import { ref } from 'vue'
+import { getCourses } from '../utils/coursesFromHTML'
+import FileUpload from 'primevue/fileupload'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
+import {FILE_MSGS} from '../utils/msgs'
+import { useCoursesStore } from '../stores/courses'
+import ShowCoursesDebug from '../components/ShowCoursesDebug.vue'
 
-const parsedContent = ref(null);
-const handleFileUpload =  event => {
-  const file = event.files[0];
+const toast = useToast()
+const courses = ref({})
+const handleFileUpload = (event) => {
+  const file = event.files[0]
   if (file) {
-    const reader = new FileReader();
+    const reader = new FileReader()
     reader.onload = (e) => {
-      const content = e.target.result;
-      showCourses(getCourses(content));
-    };
-    reader.readAsText(file);
+        try {
+        const content = e.target.result
+        courses.value = getCourses(content)
+        useCoursesStore().setCourses(courses.value)
+        toast.add({ severity: 'success', summary: FILE_MSGS.SUMMARY.SUCCESS, detail: FILE_MSGS.SUCCESS, life: 3000 })
+      } catch (e) {
+        console.log(e)
+        toast.add({ severity: 'error', summary: FILE_MSGS.SUMMARY.ERROR, detail: FILE_MSGS.ERROR, life: 3000 })
+      }
+    }
+    reader.onerror = (e) => {
+      console.log(e)
+      toast.add({ severity: 'error', summary: FILE_MSGS.SUMMARY.ERROR, detail: FILE_MSGS.READ_ERROR, life: 3000 })
+    }
+    reader.readAsText(file)
+  }
+  else {
+    toast.add({ severity: 'warn', summary: FILE_MSGS.SUMMARY.ERROR, detail: FILE_MSGS.NO_FILE, life: 3000 })
   }
 }
-function random(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-const showCourses = (courses) => {
-  console.log(courses)
-  const html = Object.keys(courses)
-    .map((code) => {
-        const courseArray = courses[code];
-        const firstCourse = courseArray[0];
-        
-        let periodsHTML = '';
-
-        courseArray.forEach(course => {
-            periodsHTML += `
-                <div class="bg-gray-100 p-3 mb-2">
-                    ${course.periods.map(period => `
-                        <div class="bg-blue-${100 * random(1, 5)}">
-                            <p>اليوم: ${period.days}</p>
-                            <p>النوع: ${period.classType}</p>
-                            <p>الوقت: ${period.time}</p>
-                            <p>المحاضر: ${period.instructor}</p>
-                            <p>المكان: ${period.location}</p>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        });
-
-        return `
-            <div>
-                <h3>${firstCourse.code} - ${firstCourse.name}</h3>
-                <p>الشعبة: ${firstCourse.classCode}</p>
-                <p>الساعات: ${firstCourse.hours}</p>
-                <p>مفتوحه: ${firstCourse.open}</p>
-                <p>المحاضر: ${firstCourse.instructor}</p>
-                <p>عدد الشعب: ${courseArray.length}</p>
-                <p>الامتحان: ${firstCourse.exam}</p>
-                ${periodsHTML}
-            </div>
-        `;
-    })
-    .join('');
-
-parsedContent.value = html;
-
-};
 </script>
-
-<style lang="scss" scoped>
-
-</style>
