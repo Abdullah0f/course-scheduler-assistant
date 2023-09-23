@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TabMenu :model="items" :activeIndex="activeIndex" @update:activeIndex="changeTab" />
+    <TabMenu :model="items" :pt="{action:{class:'focus:shadow-none'},icon:{class:'mr-0 ml-2'},label:{class:'white-space-nowrap'}}"  :activeIndex="activeIndex" @update:activeIndex="changeTab" />
   </div>
 </template>
 
