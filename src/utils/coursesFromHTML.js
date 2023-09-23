@@ -50,15 +50,16 @@ export function getCourses(htmlString) {
   })
   return courses
 }
-function generatePeriods(periodsString, type, instructorName) {
+export function generatePeriods(periodsString, type, instructorName) {
+  if (!periodsString) return []
   const periods = []
   const numOfPeriods = [...periodsString.matchAll(/@t/g)].length //since @t is the delimiter between diffrent periods
   for (let i = 0; i < numOfPeriods; i++) {
     const periodString = periodsString.split('@n')[i]
     const days = periodString.split('@t')[0].trim().match(/\d/g)
-    const time = periodString.match(/@t\s*(.*?)\s*@r/)[1]
+    const time = periodString.match(/@t\s*(.*?)\s*@r/)[1]?.trim()
     const { startTime, endTime } = extractTime(time)
-    const location = periodString.match(/@r\s*(.*)/)[1]
+    const location = periodString.match(/@r\s*(.*)/)[1]?.trim()
     const classType = type
     const instructor = instructorName
     const period = {
