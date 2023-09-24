@@ -14,8 +14,8 @@ export const courses = {
         {
           day: ['2'],
           time: ' 03:00 م - 04:50 م ',
-          starttime: '15:00',
-          endtime: '16:50',
+          startTime: '15:00',
+          endTime: '16:50',
           // timee: {
           //   startHour: '15',
           //   startMin: '00',
@@ -972,27 +972,22 @@ export const courses = {
     }
   ]
 }
-const scdhuels = [
-  {
-
-  }
-]
 
 export const schedule = {
   sun: [
     //day component
     {
       title: 'لغات البرمجة والمترجمات',
-      starttime: new Date('1970-01-01T08:00'),
-      endtime: new Date('1970-01-01T09:50'),
+      startTime: new Date('1970-01-01T08:00'),
+      endTime: new Date('1970-01-01T09:50'),
       location: ' 54 01 2 A AS32',
       classType: 'محاضرة',
       instructor: 'خالد محمد الصادق بسيس'
     },
     {
       title: 'معالجة الصورة الرقمية',
-      starttime: new Date('1970-01-01T10:00'),
-      endtime: new Date('1970-01-01T11:50'),
+      startTime: new Date('1970-01-01T10:00'),
+      endTime: new Date('1970-01-01T11:50'),
       location: ' 54 01 1 B BF3',
       classType: 'محاضرة',
       instructor: 'بلحسن عبدالمجيد خالد العكروت'
@@ -1001,16 +996,16 @@ export const schedule = {
   mon: [
     {
       title: 'البرمجة المتقدمة',
-      starttime: new Date('1970-01-01T10:00'),
-      endtime: new Date('1970-01-01T11:50'),
+      startTime: new Date('1970-01-01T10:00'),
+      endTime: new Date('1970-01-01T11:50'),
       location: ' 54 01 1 B BF1',
       classType: 'محاضرة',
       instructor: 'محمد عثمان علي حجازي'
     },
     {
       title: 'اخلاقيات الحوسبة وطرق البحث',
-      starttime: new Date('1970-01-01T13:00'),
-      endtime: new Date('1970-01-01T14:50'),
+      startTime: new Date('1970-01-01T13:00'),
+      endTime: new Date('1970-01-01T14:50'),
       location: ' 54 01 1 C CF17',
       classType: 'محاضرة',
       instructor: 'بندر صالح محمد المصلوخ'
@@ -1019,24 +1014,24 @@ export const schedule = {
   tue: [
     {
       title: 'لغات البرمجة والمترجمات',
-      starttime: new Date('1970-01-01T10:00'),
-      endtime: new Date('1970-01-01T10:50'),
+      startTime: new Date('1970-01-01T10:00'),
+      endTime: new Date('1970-01-01T10:50'),
       location: ' 54 01 2 A AS32',
       classType: 'محاضرة',
       instructor: 'خالد محمد الصادق بسيس'
     },
     {
       title: 'لغات البرمجة والمترجمات',
-      starttime: new Date('1970-01-01T11:00'),
-      endtime: new Date('1970-01-01T11:50'),
+      startTime: new Date('1970-01-01T11:00'),
+      endTime: new Date('1970-01-01T11:50'),
       location: ' 54 01 2 A AS32',
       classType: 'تمارين',
       instructor: 'خالد محمد الصادق بسيس'
     },
     {
       title: 'معالجة الصورة الرقمية',
-      starttime: new Date('1970-01-01T13:00'),
-      endtime: new Date('1970-01-01T14:50'),
+      startTime: new Date('1970-01-01T13:00'),
+      endTime: new Date('1970-01-01T14:50'),
       location: ' 54 01 1 B BF3',
       classType: 'تمارين',
       instructor: 'بلحسن عبدالمجيد خالد العكروت'
@@ -1045,8 +1040,8 @@ export const schedule = {
   wed: [
     {
       title: 'البرمجة المتقدمة',
-      starttime: new Date('1970-01-01T10:00'),
-      endtime: new Date('1970-01-01T11:50'),
+      startTime: new Date('1970-01-01T10:00'),
+      endTime: new Date('1970-01-01T11:50'),
       location: ' 54 01 1 B BF1',
       classType: 'تمارين',
       instructor: 'محمد عثمان علي حجازي'
@@ -1055,8 +1050,8 @@ export const schedule = {
   thu: [
     {
       title: 'اخلاقيات الحوسبة وطرق البحث',
-      starttime: new Date('1970-01-01T11:00'),
-      endtime: new Date('1970-01-01T11:50'),
+      startTime: new Date('1970-01-01T11:00'),
+      endTime: new Date('1970-01-01T11:50'),
       location: ' 54 01 1 C CF17',
       classType: 'محاضرة',
       instructor: 'بندر صالح محمد المصلوخ'

@@ -5,7 +5,7 @@
       mode="basic"
       auto
       choose-label="اختر ملف"
-      class="my-3 gap-2 shadow-4 fadeinup hover:bg-primary-reverse"
+      class="my-3 gap-2 shadow-4 fadeinup hover:bg-primary-reverse animation-duration-300 z-5"
       :max-file-size="3000000"
       :custom-upload="true"
       accept=".html, .htm"
@@ -39,6 +39,7 @@ const handleFileUpload = (event) => {
         try {
         const content = e.target.result
         courses.value = getCourses(content)
+        console.log(courses.value)
         useCoursesStore().setCourses(courses.value)
         toast.add({ severity: 'success', summary: FILE_MSGS.SUMMARY.SUCCESS, detail: FILE_MSGS.SUCCESS, life: 3000 })
       } catch (e) {
