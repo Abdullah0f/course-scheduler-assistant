@@ -1,29 +1,38 @@
 <template>
     <div id="homeApp">
       <GenderSelection @genderSelected="handleGenderSelected" />
-      <SelectingCityCollege v-if="selectedGenderMale" :city="selectedCity" @collegeSelected="handleCitySelected" />
+      <SelectingCityCollege v-if="userData.selectedGender != null" :gender="userData.selectedGender" @selectCityCollege="handleCiCoSelected" />
 </div>
 </template>
 
 <script setup>
 import GenderSelection from './GenderSelection.vue';
 import SelectingCityCollege from './SelectingCityCollege.vue';
-import { ref } from 'vue'
+// import { ref } from 'vue'
+import {useUserStore} from '@/stores/HomePageData';
 
-let selectedGenderMale = ref(false);
-let selectedGenderFemale = ref(false);
+const userData = useUserStore()
+// const selectedGender = userData.selectedGender;
+
 const handleGenderSelected = (gender) => {
   console.log(gender);
   if (gender === 'male'){
-   return selectedGenderMale.value = true;
+   return  userData.setSelectedGender(gender);
+  }{
+  return  userData.setSelectedGender(gender);
   }
-  return gender === 'female' ? selectedGenderFemale.value = true : selectedGenderFemale.value = false;
+  
 };
-const selectedCity = ref(null);
-const handleCitySelected = (city) => {
-  console.log(city);
-  selectedCity.value = city;
+
+const handleCiCoSelected = (info) => {
+  console.log(info);
+  userData.setSelectedCity(info.city);
+  userData.setSelectedCollege(info.college);
 };
+
+// userData.setGender(selectGender.value)
+// userData.setCity(selectedCity.value)
+// userData.setCollege(selectedCollege.value)
 // const scrollTo = ref(null)
 
 // const scrollToTarget = () => {

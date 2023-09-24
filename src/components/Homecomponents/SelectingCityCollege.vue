@@ -6,77 +6,87 @@
       <Dropdown
         v-model="selectedCity"
         :options="cities"
-        optionLabel="name"
         placeholder="ادخل المقر"
         class="ml-2 w-full justify-content-center md:w-14rem"
       />
     </div>
-    <!-- College selection logic here -->
-    <div class="flex flex-column gap-2 scalein animation-duration-1000" v-if="selectedCity">
+    <div class="flex flex-column gap-2 scalein animation-duration-1000" v-if="selectedCity != null">
+      <!-- :class="{ 'selected': selectedCollege === college }" -->
       <Button
+        @change="selectedGender"
+        link
         v-for="(college, i) in filteredColleges"
         :key="i"
-        link
         :label="college.name"
-        @click="selectCollege(college)"
+        @click="selectCityCollege(college)"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, defineProps, defineEmits } from 'vue'
-// toRef is used to create a reference to a prop, so that we can use it in computed properties
+import { ref, computed, toRef, watch } from 'vue'
 import Button from 'primevue/button'
 import Dropdown from 'primevue/dropdown'
-
 const props = defineProps({
-  city: {
+  gender: {
     type: String,
-    required: true
+    required: true,
+    validate: function () {
+      if (this.gender == 'male' || this.gender == 'female') return true
+      else return false
+    }
   }
 })
+const cities = ['الخرج', 'وادي الدواسر', 'حوطة بن تميم', 'الأفلاج', 'السليل']
+const selectedCity = ref(null)
 
-const emit = defineEmits(['collegeSelected'])
-
-const cities = [
-  { name: 'الخرج' },
-  { name: 'وادي الدواسر' },
-  { name: 'الدراسات العليا' },
-  { name: 'حوطة بن تميم' },
-  { name: 'الأفلاج' },
-  { name: 'السليل' }
-]
-
-// const selectedCity = toRef(props, 'city')
-
-const selectedCity = ref(props.city)
 const maleColleges = ref([
   { name: 'كلية الهندسة', city: ['الخرج', 'وادي الدواسر'] },
   { name: 'كلية الصيدلة', city: ['الخرج'] },
   { name: 'كلية الطب', city: ['الخرج'] },
   { name: 'كلية هندسة وعلوم الحاسب', city: ['الخرج'] },
-  {
-    name: 'كلية الأدب والفنون التطبيقية بالدلم',
-    city: ['الخرج', 'السليل', 'الأفلاج', 'حوطة بن تميم']
-  },
+  { name: ' كلية الأدب والفنون التطبيقية بالدلم', city: ['الخرج'] },
+  { name: 'الآدب والعلوم', city: ['وادي الدواسر'] },
   { name: 'كلية العلوم والدراسات الإنسانية', city: ['الخرج', 'السليل', 'الأفلاج', 'حوطة بن تميم'] },
-  { name: 'كلية إدارة الأعمال', city: ['الخرج'] },
-  { name: 'كليةالتربية', city: ['الخرج'] },
-  { name: 'كلية العلوم الطبية التطبيقية', city: ['الخرج'] },
+  { name: 'كلية إدارة الأعمال', city: ['الخرج', 'حوطة بن تميم'] },
+  { name: 'كليةالتربية', city: ['الخرج', 'وادي الدواسر'] },
+  { name: 'كلية العلوم الطبية التطبيقية', city: ['الخرج', 'وادي الدواسر'] },
+  { name: 'كلية طب الأسنان', city: ['الخرج'] }
+])
+const femaleColleges = ref([
+  { name: 'كلية الهندسة', city: ['الخرج'] },
+  { name: 'كلية الصيدلة', city: ['الخرج'] },
+  { name: 'كلية الطب', city: ['الخرج'] },
+  { name: 'كلية هندسة وعلوم الحاسب', city: ['الخرج', 'حوطة بن تميم'] },
+  { name: 'كلية الآداب والعلوم الإنسانية', city: ['وادي الدواسر'] },
+  { name: 'كلية العلوم والدراسات الإنسانية', city: ['الخرج', 'السليل', 'الأفلاج', 'حوطة بن تميم'] },
+  { name: 'كلية إدارة الأعمال', city: ['الخرج', 'حوطة بن تميم'] },
+  { name: 'كلية التربية', city: ['الخرج', 'وادي الدواسر', 'حوطة بن تميم'] },
+  { name: 'كلية العلوم الطبية التطبيقية', city: ['الخرج', 'وادي الدواسر'] },
   { name: 'كلية طب الأسنان', city: ['الخرج'] }
 ])
 
+const selectedGender = toRef(props, 'gender')
+// Watch for changes in selectedGender and reset selectedCity to null
+watch(selectedGender, () => {
+  selectedCity.value = null
+})
 const filteredColleges = computed(() => {
   // Filter colleges based on the selected city
-  console.log("Selected:"+selectedCity.value)
-  console.log(maleColleges.value)
-  return maleColleges.value.filter((college) => college.city.includes(selectedCity.value))
+  if (!selectedGender.value || !selectedCity.value) return []
+  const colleges = selectedGender.value == 'male' ? maleColleges.value : femaleColleges.value
+  return colleges.filter((college) => college.city.includes(selectedCity.value))
 })
 
-const selectCollege = (college) => {
+const emit = defineEmits(['selectCityCollege'])
+
+const selectCityCollege = (college) => {
   // Emit the selected college to the parent component
-  emit('collegeSelected', college)
+  emit('selectCityCollege', {
+    college: college.name,
+    city: selectedCity.value
+  })
 }
 </script>
 
