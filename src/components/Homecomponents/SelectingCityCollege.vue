@@ -33,8 +33,7 @@ const props = defineProps({
     type: String,
     required: true,
     validate: function () {
-      if (this.gender == 'male' || this.gender == 'female') return true
-      else return false
+      return this.gender == 'male' || this.gender == 'female';
     }
   }
 })

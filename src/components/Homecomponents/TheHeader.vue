@@ -1,34 +1,34 @@
 <template>
-    <div id="homeApp">
-      <GenderSelection @genderSelected="handleGenderSelected" />
-      <SelectingCityCollege v-if="userData.selectedGender != null" :gender="userData.selectedGender" @selectCityCollege="handleCiCoSelected" />
-</div>
+  <div id="homeApp">
+    <GenderSelection @genderSelected="handleGenderSelected" />
+    <SelectingCityCollege
+      id="selectingCityCollege"
+      v-if="userData.selectedGender != null"
+      :gender="userData.selectedGender"
+      @selectCityCollege="handleCiCoSelected"
+    />
+  </div>
 </template>
 
 <script setup>
-import GenderSelection from './GenderSelection.vue';
-import SelectingCityCollege from './SelectingCityCollege.vue';
+import GenderSelection from './GenderSelection.vue'
+import SelectingCityCollege from './SelectingCityCollege.vue'
 // import { ref } from 'vue'
-import {useUserStore} from '@/stores/HomePageData';
+import { useUserStore } from '@/stores/HomePageData'
 
 const userData = useUserStore()
 // const selectedGender = userData.selectedGender;
 
 const handleGenderSelected = (gender) => {
-  console.log(gender);
-  if (gender === 'male'){
-   return  userData.setSelectedGender(gender);
-  }{
-  return  userData.setSelectedGender(gender);
-  }
-  
-};
+  console.log(gender)
+  userData.setSelectedGender(gender)
+}
 
 const handleCiCoSelected = (info) => {
-  console.log(info);
-  userData.setSelectedCity(info.city);
-  userData.setSelectedCollege(info.college);
-};
+  console.log(info)
+  userData.setSelectedCity(info.city)
+  userData.setSelectedCollege(info.college)
+}
 
 // userData.setGender(selectGender.value)
 // userData.setCity(selectedCity.value)

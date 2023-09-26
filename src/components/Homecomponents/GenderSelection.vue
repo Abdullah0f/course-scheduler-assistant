@@ -22,12 +22,15 @@
 
 <script setup>
 import Button from 'primevue/button'
+import VueScrollTo from 'vue-scrollto'
 
 const emit  = defineEmits(['genderSelected'])
 
 const selectGender = (gender) => {
   // Emit the selected gender to the parent component
   emit('genderSelected', gender)
+  VueScrollTo.scrollTo('#selectingCityCollege', 800)
+
 }
 </script>
 
