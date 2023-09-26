@@ -2,7 +2,7 @@
   <div class="lecture" :style="{ top: lectureTop + 'px', height: lectureHeight + 'px' }">
     <h3>{{ lectureData.title }}</h3>
     <p>
-      الوقت: {{ readableTime(lectureData.starttime) }} - {{ readableTime(lectureData.endtime) }}
+      الوقت: {{ readableTime(lectureData.startTime) }} - {{ readableTime(lectureData.endTime) }}
     </p>
     <p>القاعة: {{ lectureData.location }}</p>
     <p>النوع: {{ lectureData.classType }}</p>
@@ -30,13 +30,13 @@ const props = defineProps({
 const lectureTop = computed(
   () =>
     props.hourPixels *
-    (props.lectureData.starttime.getHours() - props.timings.earliestTime.getHours())
+    (props.lectureData.startTime.getHours() - props.timings.earliestTime.getHours())
 )
 const lectureHeight = computed(() => {
   const durationInHours =
-    props.lectureData.endtime.getHours() - props.lectureData.starttime.getHours()
+    props.lectureData.endTime.getHours() - props.lectureData.startTime.getHours()
   const durationInMinutes =
-    props.lectureData.endtime.getMinutes() - props.lectureData.starttime.getMinutes()
+    props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes()
   const totalDurationInMinutes = durationInHours * 60 + durationInMinutes
   return (totalDurationInMinutes / 60) * props.hourPixels
 })

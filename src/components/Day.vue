@@ -1,6 +1,6 @@
 <template>
     <div class="day" :style="{height: height+'px'}">
-        <div v-for="lecture in dayData" :key="lecture.starttime">
+        <div v-for="lecture in dayData" :key="lecture.startTime">
           <Lecture :lectureData="lecture" :hourPixels="hourPixels" :timings="timings"/>
         </div>
     </div>

@@ -4,8 +4,8 @@ export function getTimings(schedule) {
 
   for (const day in schedule) {
     schedule[day].forEach((item) => {
-      earliestTime = item.starttime < earliestTime ? item.starttime : earliestTime
-      latestTime = item.endtime > latestTime ? item.endtime : latestTime
+      earliestTime = item.startTime < earliestTime ? item.startTime : earliestTime
+      latestTime = item.endTime > latestTime ? item.endTime : latestTime
     })
   }
 
