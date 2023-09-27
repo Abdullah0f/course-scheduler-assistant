@@ -1,0 +1,457 @@
+    //preloader
+    $(window).ready(function() {
+        $('#status').fadeOut();
+        $('#preloader').delay(200).fadeOut('slow');
+    });
+
+
+//Loads the correct sidebar on window load,
+//collapses the sidebar on window resize.
+// Sets the min-height of #page-wrapper to window size
+$(function() {
+
+
+
+	 // var loc = window.location.pathname;
+
+	 // console.log(loc);
+	 // console.log($(this).attr('href'));
+
+	 //  $('#sidebar ul.components li').removeClass('active');
+
+	 //  $('#sidebar ul.components li ul.collapse ').find('a').each(function() {
+
+	 //    if ($(this).attr('href') == 'http://builder.local'+loc) {
+	 //      $(this).parent().addClass('active');
+	 //      $(this).parent().parent().parent().addClass('active menu-open');
+	 //    }
+
+	 //  });	
+
+
+
+
+     var path = window.location.href; // because the 'href' property of the DOM element is the absolute path
+     $('#sidebar ul a').each(function() {
+      if (this.href === path) {
+       $(this).addClass('active');
+       $(this).parent().parent().addClass('collapse in');
+      }
+     });
+
+
+    $('#sidebarCollapse').on('click', function () {
+         $('#sidebar').toggleClass('active');
+     });
+	
+	if ($(".dropdown-toggle").length > 0){
+		$('.dropdown-toggle').dropdown();
+	}
+
+	
+	if ($(window).innerWidth() < 1000) {
+            $('.SAU-right-menu ').addClass('collapse');
+			
+}
+    $(window).bind("load resize", function() {
+        width = (this.window.innerWidth > 0) ? this.window.innerWidth : this.screen.width;
+        if (width < 1000) {
+			
+			/* main menu in phone 
+			-----------------------*/
+			var MenuHeight = $('.SAU-main-menu  .dropdown-menu').height();
+			$('.SAU-main-menu .first-level-ul .first-level-li').on('show.bs.dropdown', function () {
+				 $(".owl-carousel .owl-stage-outer").css("min-height",MenuHeight+130);
+				})
+			$('.SAU-main-menu .first-level-ul .first-level-li').on('hide.bs.dropdown', function () {
+				  $(".owl-carousel .owl-stage-outer").css("min-height","0");
+				})
+			/*------------------------*/
+			
+			$('.SAU-main-menu  .first-level-ul').addClass("owl-carousel");
+			$('.owl-carousel').owlCarousel({
+				loop:false,
+				margin:0,
+				nav:false,
+				autoWidth:true,
+				rtl: true ,
+				dots: true,
+				 autoHeight: true,
+				navText: [ '<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>' ],
+				responsive:{
+					0:{
+						items:3
+					},
+					600:{
+						items:3
+					},
+					1000:{
+						items:5
+					}
+				}
+			})
+
+        } else {
+            $('.SAU-right-menu ').removeClass('collapse')
+        }
+
+      
+    })
+
+$('.SAU-ul-toggler').click(function (event) {
+		event.preventDefault();
+		$(this).parent().children('ul.SAU-ul-sub').slideToggle(300);
+		$(this).parent().toggleClass("open active");
+	});
+	
+	
+if ($(".SAU-right-menu > ul li > ul > li.active").length > 0){
+	$(".SAU-right-menu > ul li > ul > li.active").parent("ul").parent("li").children("a.SAU-ul-toggler").trigger("click");
+	$(".SAU-right-menu > ul li > ul > li.active").parent("ul").parent("li").addClass("active");
+		
+	} 
+	})
+	
+	
+
+
+
+
+
+
+$(function() {
+
+
+
+$(".login-bg-section").css("height", $(document).height());
+
+  $('#toggle').click(function(){
+  	$(this).toggleClass("on spin");
+    $('#menu').fadeToggle();
+    return false;
+  });
+
+
+	
+if ($(".select2").length > 0){
+    $('.select2').select2();
+}
+
+if ($("#textarea").length > 0){
+	CKEDITOR.replace( 'textarea', {
+	    toolbar: 'MyToolbar',
+	    language:'ar',
+	    direction:'rtl'
+	});
+}
+
+
+
+if ($(".date").length > 0 ){
+
+    $('.date').datepicker({
+		language: 'en',
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
+}
+
+
+
+if ($(".info-popup").length > 0){
+	
+
+
+/*	if (document.cookie) {
+		if (!$.cookie("info_popup") ){
+			$('.info-popup').fadeIn();
+		}
+		
+		
+		$(".info-popup .action-bg a").click(function(){
+			$.cookie("info_popup" , '1', {expires: 365});
+			$('.info-popup').fadeOut("slow");
+		});
+		
+		$(".info-popup  i.fa.fa-times-circle-o").click(function(){
+			$('.info-popup').fadeOut();
+		});
+		
+		
+		} 
+		
+		
+		else {
+		$('.info-popup').fadeIn();
+		$('.info-popup  i.fa.fa-times-circle-o').click(function(){
+			$('.info-popup').fadeOut();
+		});
+		}*/
+		
+		
+	//	$('.info-popup').fadeIn();
+		$('.info-popup  i.fa.fa-times-circle-o').click(function(){
+			$('.info-popup').fadeOut();
+		});
+}
+
+	
+	
+$('input:not([type]), input[type="color"], input[type="email"], input[type="number"], input[type="password"], input[type="tel"], input[type="url"], input[type="text"] ,select , textarea').addClass('form-control');
+$('table.SAU-table-grid').addClass('table table-striped table-hover table-colored');
+
+
+if ( $(".SAU-username span.none").length > 0){
+	var SAUuserName =  $(".SAU-username span.none").text();
+
+      $(".SAU-username h2").typed({
+        strings: [SAUuserName],
+            // typing speed
+            typeSpeed: 0,
+            // time before typing starts
+            startDelay: 0,
+            // backspacing speed
+            backSpeed: 0,
+            // time before backspacing
+            backDelay: 500,
+            // loop
+            loop: false,
+            // false = infinite
+            loopCount: false,
+            // show cursor
+            showCursor: false,
+            // character for cursor
+            cursorChar: "|",
+            // attribute to type (null == text)
+            attr: null,
+            // either html or text
+            contentType: 'html',
+            // call when done callback function
+            callback: function() {},
+            // starting callback function before each string
+            preStringTyped: function() {},
+            //callback for every typed string
+            onStringTyped: function() {},
+            // callback for reset
+            resetCallback: function() {}
+      });
+
+	}/* End of typed text ----------*/
+
+
+	
+/* get view 
+------------------*/
+ /* $.get("http://localhost/sau-dashboard-v2/HTML/views/menu.html", function(data) {
+    $("#some-menu").html(data);
+  });*/
+
+if ($(".wow").length > 0){
+	new WOW().init();
+}
+
+if ($('[data-toggle="tooltip"]').length > 0){
+ $('[data-toggle="tooltip"]').tooltip();
+}
+
+
+
+var MainContainerHeight = $(".SAU-main-container").height();
+
+$(".SAU-right-menu").css("min-height" , MainContainerHeight);
+$(".SAU-main-content").css("min-height" , MainContainerHeight);
+
+
+/* popup 
+--------------------*/
+if ($(".popup-banner").length > 0){
+
+	if (window.cookie) {
+		if (!$.cookie("survey_visits") ){
+			$('.popup-banner').fadeIn();
+		}
+
+		$('.close-action').click(function(){
+			$('.popup-banner').fadeOut();
+		});
+		$(".dont-show").click(function(){
+			$.cookie("survey_visits" , '1', {expires: 365});
+			$('.popup-banner').fadeOut();
+		});
+	} else {
+		 
+			$('.popup-banner').fadeIn();
+		
+
+		$('.close-action').click(function(){
+			$('.popup-banner').fadeOut();
+		});
+		$(".dont-show").click(function(){
+			$('.popup-banner').fadeOut();
+		});
+	}
+
+}
+
+if ($(".datetimepicker").length > 0){
+
+	$('.datetimepicker').datetimepicker({
+		format: "YYYY-MM-DD" , 
+		//locale: 'ar_sa'
+	});
+
+}
+
+/* rating popup 
+--------------------*/
+
+if ($(".start-rating").length > 0){
+	  var domain = 'psau.edu.sa';
+	
+	  var rate = $.cookie('rating-cookie');
+        if (rate != s) {
+            $('.ratting-popup').show();
+        }
+        // load user rating
+        $('.start-rating').rating({
+            containerClass: 'is-star',
+            showCaption: false,
+            clearElement: true,
+            rtl: true
+        });
+
+        $('.start-rating').on('change', function () {
+            var value = $(this).val();
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                accept: 'application/json',
+                url: 'https://services.psau.edu.sa/google/api/Rating',
+                headers: {},
+                dataType: 'json',
+                data: JSON.stringify(
+                {
+                    UserName: username,
+                    SystemId: systemId,
+                    Value: value
+                }),
+                success: function (data) {
+                    $.cookie('rating-cookie', s, { domain: domain, path: '/' });
+                    $('.ratting-popup .message').fadeIn();
+                    setTimeout(function () {
+                        $('.ratting-popup ').fadeOut();
+                    }, 2000);
+                }
+            });
+        });
+        $('.ratting-popup .fa-close').click(function () {
+            $(this).parent().hide();
+            $.cookie('rating-cookie', s, { domain: domain, path: '/' });
+        });
+
+        function loadRating() {
+            $.ajax({
+                url: 'https://services.psau.edu.sa/google/api/Rating?username=' + username + '&systemid=' + systemId,
+                success: function (data) {
+                    if (data) {
+                        $('.start-rating').rating('update', data.Value);
+                    }
+                }
+            });
+        }
+		
+        //loadRating();
+
+	/*
+	
+	 $('.start-rating').rating({
+            containerClass: 'is-star' ,
+			showCaption:false , 
+			clearElement:true ,
+			rtl:true
+        }).on("rating.change", function(event) {
+       $('.ratting-popup .none').fadeIn();
+	   
+	   setTimeout(function(){
+			 $('.ratting-popup .none').fadeOut();
+			}, 3000);
+
+	   
+	   console.log('Done');
+    });
+	
+	
+	$('.start-rating').on(
+         'change', function () {
+          console.log('Rating selected: ' + $(this).val());
+     });*/
+	 
+	 
+}
+
+});/* end of main function */
+function rowOverFlow() {
+	var headertext = [],
+	headers = document.querySelectorAll(".rowFlow th"),
+	tablerows = document.querySelectorAll(".rowFlow th"),
+	tablebody = document.querySelector(".rowFlow tbody");
+
+	for(var i = 0; i < headers.length; i++) {
+	  var current = headers[i];
+	  headertext.push(current.textContent.replace(/\r?\n|\r/,""));
+	} 
+	for (var i = 0, row; row = tablebody.rows[i]; i++) {
+	  for (var j = 0, col; col = row.cells[j]; j++) {
+		col.setAttribute("data-th", headertext[j]);
+	  } 
+	}
+}
+function rowOverFlow2() {
+	var headertext = [],
+	headers = document.querySelectorAll(".rowFlow2 th"),
+	tablerows = document.querySelectorAll(".rowFlow2 th"),
+	tablebody = document.querySelector(".rowFlow2 tbody");
+
+	for(var i = 0; i < headers.length; i++) {
+	  var current = headers[i];
+	  headertext.push(current.textContent.replace(/\r?\n|\r/,""));
+	} 
+	for (var i = 0, row; row = tablebody.rows[i]; i++) {
+	  for (var j = 0, col; col = row.cells[j]; j++) {
+		col.setAttribute("data-th", headertext[j]);
+	  } 
+	}
+}
+
+function rowOverFlow() {
+	var headertext = [],
+	headers = document.querySelectorAll(".rowFlow th"),
+	tablerows = document.querySelectorAll(".rowFlow th"),
+	tablebody = document.querySelector(".rowFlow tbody");
+
+	for(var i = 0; i < headers.length; i++) {
+	  var current = headers[i];
+	  headertext.push(current.textContent.replace(/\r?\n|\r/,""));
+	} 
+	for (var i = 0, row; row = tablebody.rows[i]; i++) {
+	  for (var j = 0, col; col = row.cells[j]; j++) {
+		col.setAttribute("data-th", headertext[j]);
+	  } 
+	}
+}
+function rowOverFlow2() {
+	var headertext = [],
+	headers = document.querySelectorAll(".rowFlow2 th"),
+	tablerows = document.querySelectorAll(".rowFlow2 th"),
+	tablebody = document.querySelector(".rowFlow2 tbody");
+
+	for(var i = 0; i < headers.length; i++) {
+	  var current = headers[i];
+	  headertext.push(current.textContent.replace(/\r?\n|\r/,""));
+	} 
+	for (var i = 0, row; row = tablebody.rows[i]; i++) {
+	  for (var j = 0, col; col = row.cells[j]; j++) {
+		col.setAttribute("data-th", headertext[j]);
+	  } 
+	}
+}

@@ -1,0 +1,492 @@
+@import url("../../libs/bootstrap/bootstrap.min.css");
+@import url("../../libs/bootstrap/bootstrap-rtl.css");
+@import url("../../libs/font-awesome/css/font-awesome.css");
+@import url("../../libs/owl.carousel.2/assets/owl.carousel.css");
+@import url("../../libs/bootstrap-datepicker/datepicker3.css");
+@import url("../../libs/bootstrap/plugins/select2/select2.min.css");
+@import url("core.css");
+@import url("style.css");
+
+
+
+@media (max-width: 768px), (max-width:1024px),only screen and (-webkit-min-device-pixel-ratio:2) and (max-width:1024px),only screen and (min--moz-device-pixel-ratio:2) and (max-width:1024px),only screen and (-o-min-device-pixel-ratio:2/1) and (max-width:1024px),only screen and (min-device-pixel-ratio:2) and (max-width:1024px),only screen and (min-resolution:192dpi) and (max-width:1024px),only screen and (min-resolution:2dppx) and (max-width:1024px) {
+   table.rowFlow > tbody > tr > td > table.resDataTb2 {
+        width: 54.7% !important;
+    }
+
+    table.rowFlow > tbody > tr > td > table table {
+        width: initial;
+    }
+}
+@media (max-width: 768px) {
+    table.rowFlow{
+        border:0px;
+    }
+    table.rowFlow2{
+        border:0px;
+    }
+    table.rowFlow caption {
+        background-image: none;
+    }
+
+    table.rowFlow > thead {
+        display: none;
+    }
+
+    table.rowFlow > tbody > tr {
+        width: 100%;
+        display: table;
+        margin-top: 15px;
+    }
+
+    table.rowFlow > tbody > tr > td {
+        height: initial;
+        min-height: 20px;
+        width: 100%;
+        display: inline-flex;
+        padding: 0;
+    }
+
+    table.rowFlow > tbody > tr > td > table {
+        line-height: 1.3;
+        width: 54% !important;
+    }
+
+    table.rowFlow > tbody > tr > td:last-child > table {
+        line-height: 1.3;
+        width: 100% !important;
+    }
+
+    table.rowFlow > tbody > tr > td:last-child:before {
+        display: none:
+    }
+
+    .rowFlow tbody tr td p {
+        display: inline-block;
+    }
+
+    table.rowFlow > tbody > tr > td::before {
+        color: #fff;
+        background-color: #3c7974;
+        content: attr(data-th);
+        display: inline-block;
+        width: 40%;
+        padding: 5px;
+        margin-left: 5px;
+    }
+
+    table.stdschedule.rowFlow > tbody > tr > td:nth-child(8)::before {
+        width: 95%;
+    }
+
+    table.rowFlow > tbody > tr > td > span {
+        font-size: 13px;
+        display: inline-flex;
+    }
+
+    table.rowFlow2 caption {
+        background-image: none;
+    }
+
+    table.rowFlow2 thead {
+        display: none;
+    }
+
+    table.rowFlow2 > tbody > tr {
+        width: 100%;
+        display: table;
+        margin-top: 15px;
+    }
+
+    table.rowFlow2 > tbody > tr > td {
+        height: initial;
+        min-height: 20px;
+        width: 100%;
+        display: inline-flex;
+        padding: 0;
+    }
+
+    table.rowFlow2 > tbody > tr > td::before {
+        color: #fff;
+        background-color: #3c7974;
+        content: attr(data-th);
+        display: inline-block;
+        padding: 5px;
+        margin-left: 5px;
+        width: 40%;
+    }
+
+    table.rowFlow2 > tbody > tr > td > span {
+        display: inline-flex;
+    }
+
+    
+
+    table.rowFlow > tbody > tr:first-child > td:last-child > table > thead {
+        top: initial;
+        position: initial;
+    }
+
+    table.rowFlow > tbody > tr:first-child > td:last-child > table > thead > tr {
+        width: initial;
+        display: table-row;
+        text-align: initial;
+    }
+
+    table.rowFlow > tbody > tr:first-child > td:last-child > table > thead > tr > th {
+        margin-top: initial;
+        display: table-cell;
+        width: initial !important;
+        text-align: initial;
+    }
+
+    table.rowFlow > tbody > tr > td > table > thead {
+        display: table-header-group;
+    }
+}
+ 
+
+a.calendarStyle1:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle1:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle1:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle1:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle2:link    {color:White; font-weight: normal; text-decoration: none; font-size: 10pt;  }
+a.calendarStyle2:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle2:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle2:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle3:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle3:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle3:visited {color:White; font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle3:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle4:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle4:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle4:visited {color:White; font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle4:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle5:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle5:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle5:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle5:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle6:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle6:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle6:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle6:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle7:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle7:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle7:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle7:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle8:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle8:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle8:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle8:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle9:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle9:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle9:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle9:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+
+a.calendarStyle10:link    {color:White; font-weight: normal; text-decoration: none;  font-size: 10pt;  }
+a.calendarStyle10:active  {color:White; font-weight: normal; text-decoration: none; font-size: 10pt; }
+a.calendarStyle10:visited {color:White;font-weight: normal;  text-decoration: none; font-size: 10pt; }
+a.calendarStyle10:hover   {color:rgb(255,239,214); font-weight: normal; text-decoration: none; font-size: 10pt; }
+    
+
+
+ 
+ .fontText {   
+    font-weight: bold;
+    font-size: 14px;
+    color: black;
+ }
+ 
+
+.fontTextSmall {   
+    font-size: 12px;
+    color: #53423a;
+ }
+
+.fontTextSmallBlue {   
+    font-size: 12px;
+    color: #006aa5;
+ }
+ 
+.fontTextBigRed {   
+    font-size: 12px;
+    color: Red;
+    font-weight: bold;
+ }
+ 
+ 
+ .fontTextSmallRed {   
+    font-size: 12px;
+    color: Red;
+ }
+
+ .fontTextRegistration {   
+    font-size: 11px; 
+    color: Black; 
+    font-style:normal;
+    TEXT-DECORATION: none; 
+    font-weight: bold;
+ }
+ 
+ 
+.fontTextRegistrationLarge {   
+    font-size: 12px; 
+    color: Black; 
+    font-style:normal;
+    TEXT-DECORATION: none; 
+    font-weight: bold;
+ }
+
+ .fontTextRegistrationRed {   
+    font-size: 11px; 
+    color: Red; 
+    font-style:normal;
+    TEXT-DECORATION: none; 
+    font-weight: bold;
+ }
+
+ .fontTextUserAr {   
+    font-size: 10px; 
+    color: #4976A0; 
+    font-style:normal;
+    TEXT-DECORATION: none; 
+    font-weight: bold;
+ } 
+ 
+ .fontTextUserEn {   
+    font-size: 11px; 
+    color: #4976A0; 
+    font-style:normal;
+    TEXT-DECORATION: none; 
+    font-weight: bold;
+ } 
+ 
+  .fontTextMain {   
+    font-size: 12px; 
+    color: #666; 
+    font-style:normal;
+    TEXT-DECORATION: none; 
+    font-weight: bold;
+ }
+ 
+ .fontTextLarge {   
+    font-size: 15px; 
+    color: #333333; 
+    font-style:normal;
+    TEXT-DECORATION: none; 
+    font-weight: bold;
+ }
+ 
+ .fontTextStudent {   
+    font-weight: bold;
+    font-size: 12px;
+    color: black;
+    color: #3686bb; 
+ }
+ 
+ 
+  .fontTextSemester {   
+    font-weight: bold;
+    font-size: 12px;
+    color: black;
+    color: #3E925E; 
+ }
+ 
+
+ .fontTextWhite {   
+    font-weight: bold;
+    font-size: 12px;
+    color: White;
+ }
+ 
+ .fontTextRed {   
+    font-weight: bold;
+    font-size: 12px;
+    color: Red;
+ }
+ 
+  .fontTextSmallRed {
+    font-size: 12px;
+    color: Red;
+ }
+ 
+ .fontTextGreen {   
+    font-weight: bold;
+    font-size: 12px;
+    color: Green; 
+ }
+ 
+ .fontTextGreenSmall {   
+    font-size: 12px;
+    color: Green; 
+ }
+ 
+ .fontTextBlack {   
+    font-weight: bold;
+    font-size: 12px;
+    color: black;
+ }
+  
+ .fontTextTitle {
+        color: #6b2a0a;
+	font-size: 16px;
+	font-size: 21px;
+	padding-bottom: 15px;
+        text-align: center;
+        
+}
+ 
+ 
+ .fontTextGroundGreen {   
+    font-weight: bold;
+    font-size: 12px;
+    color: White; 
+    background-color: rgb(0,181,0);
+    
+ }
+ 
+ .fontTextGroundRed {   
+    font-weight: bold;
+    font-size: 12px;
+    color: White;
+    background-color: Red;
+ }
+ 
+  .fontTextGroundWhite {   
+    font-weight: bold;
+    font-size: 12px;
+    color: Black;
+    background-color: White;
+ }
+ 
+ 
+ .fontTextWhiteSmall {   
+    font-weight: bold;
+    font-size: 9px;
+    color: White;
+ }
+
+ .fontTextWelcomeMsgAr {   
+    font-weight: bold;
+    font-size: 18px;
+    color: black;
+    text-align:justify; 
+    text-justify:inter-word;
+ }
+ 
+ .fontTextWelcomeMsgEn {   
+    font-weight: bold;
+    font-size: 15px;
+    color: black;
+    text-align:justify; 
+    text-justify:inter-word;
+ }
+ 
+.sooonStatus{
+	font-size: 12px;
+	color: rgb(255,132,0);
+        height: 15pt;
+        text-align: center;
+        font-weight: bold;
+}
+.nowStatus {
+	font-size: 12px;
+	color: green;
+        height: 15pt;
+        text-align: center;
+        font-weight: bold;
+}
+.endStatus{
+	font-size: 12px;
+	color: red;
+        height: 15pt;
+        text-align: center;
+        font-weight: bold;
+}
+ 
+.graduationDoc td, tr {
+    border: none;
+}
+
+.graduationDoc {
+    margin: 0 auto;
+    padding: 10px;
+    border: 1px dashed #54682f;
+}
+
+
+.tooltip{
+    display: inline; 
+}
+
+.tooltip:hover:after{
+    background: #333;
+    background: rgba(0,0,0,.8);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #fff;
+    content: attr(title);
+    left: 20%;
+    padding: 10px 30px;
+    position: absolute;
+    z-index: 98;
+    width: 150px;
+}
+
+.tooltip:hover:before{
+    border: solid;
+    border-color: #333 transparent;
+    border-width: 6px 6px 0 6px;
+    bottom: 20px;
+    content: "";
+    left: 50%;
+    position: absolute;
+    z-index: 99;
+}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    border-top: none !important;
+}
+
+.sooonStatus{
+	font-size: 12px;
+	color: rgb(255,132,0);
+        height: 15pt;
+        text-align: center;
+        font-weight: bold;
+}
+.nowStatus {
+	font-size: 12px;
+	color: green;
+        height: 15pt;
+        text-align: center;
+        font-weight: bold;
+}
+.endStatus{
+	font-size: 12px;
+	color: red;
+        height: 15pt;
+        text-align: center;
+        font-weight: bold;
+}
+.AppMaleFont:before {
+	content: "\f04a";
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 12px;
+    color: #652100;
+    padding-left:5px
+}
+.AppMaleFontGray:before {
+	content: "\f04a";
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: 12px;
+    color: #652100;
+    padding-left:5px
+}

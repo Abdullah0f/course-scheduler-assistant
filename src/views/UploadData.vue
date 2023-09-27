@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Toast :pt = "{icon: {class:'ml-3'}}" />
+    <Toast :pt = "{icon: 'ml-3'}" />
     <FileUpload
       mode="basic"
       auto
