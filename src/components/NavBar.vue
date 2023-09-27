@@ -1,27 +1,6 @@
 <template>
   <div>
-    <TabMenu
-      v-if="windowWidth >= 768"
-      :model="items"
-      :pt="{
-        action: { class: 'focus:shadow-none' },
-        icon: { class: 'mr-0 ml-2' },
-        label: { class: 'white-space-nowrap' }
-      }"
-      :activeIndex="activeIndex"
-      @update:activeIndex="changeTab"
-    />
-    <Menubar
-      v-else
-      :model="items"
-      :pt="{
-        // action: { class: 'focus:' },
-        icon: { class: 'mr-0 ml-2' },
-        // label: { class: 'white-space-nowrap' }
-      }"
-      :activeIndex="activeIndex"
-      @update:activeIndex="changeTab"
-    />
+    <TabMenu :model="items" :pt="{action:'focus:shadow-none',icon:'mr-0 ml-2',label:'white-space-nowrap'}"  :activeIndex="activeIndex" @update:activeIndex="changeTab" />
   </div>
 </template>
 
