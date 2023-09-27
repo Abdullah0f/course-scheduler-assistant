@@ -1,7 +1,7 @@
 <template>
   <h1>الجدول</h1>
   <Schedule :schedule="schedule" />
-  <ChooseCourses :courses="transformedCourses" v-if="courses.length" @submit-courses="handleCourses"/>
+  <ChooseCourses :courses="transformedCourses" v-if="Object.keys(courses).length !== 0" @submit-courses="handleCourses"/>
   <div v-if="schedules" class="flex flex-column items-center">
       <div v-for="schedule in schedules" :key="schedule.id">
         <Schedule :schedule="schedule" />
@@ -21,6 +21,7 @@ const courses = useCoursesStore().courses;
 const transformedCourses = computed(() => {
     return Object.keys(courses).map(key => ({ name: courses[key][0].name, code: key }));
 });
+console.log(Object.keys(courses).length === 0)
 
 function handleCourses(selectedCourses){
   const selectedCoursesObject = selectedCourses.reduce((acc, courseCode) => {
