@@ -27,6 +27,10 @@ export function generateSchedules(
   currentSchedule = initializeBlankSchedule(),
   currentIndex = 0
 ) {
+  // if courses is not an array but an object (probably the first time), convert it to an array
+  if (!Array.isArray(courses)) {
+    courses = Object.values(courses)
+  }
   if (currentIndex === courses.length) {
     return [currentSchedule]
   }

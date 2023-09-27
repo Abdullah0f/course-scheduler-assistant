@@ -1,6 +1,6 @@
 <template>
     <div class="my-5" >
-        <MultiSelect class="w-full mb-2" v-model="selectedCourses" display="chip" :options="(courses)" optionLabel="name"  placeholder="Select Courses"
+        <MultiSelect class="w-full mb-2" v-model="selectedCourses" display="chip" :options="courses" optionLabel="name" optionValue="code"  placeholder="Select Courses"
     :maxSelectedLabels="5" filter :showToggleAll="false" :pt="{checkboxContainer:'mr-0 ml-2',removeTokenIcon:'ml-0 mr-2'}" />
 
     <!-- submit button -->
@@ -14,14 +14,11 @@ import Button from 'primevue/button';
 import {  ref, watch } from 'vue'
 const props = defineProps({
     courses: {
-        type: Object,
+        type: Array,
         required: true
     }
 })
 const selectedCourses = ref([])
-watch(selectedCourses, (newValue, oldValue) => {
-    console.log(newValue)
-})
 </script>
 
 <style lang="scss" scoped>
