@@ -20,7 +20,7 @@
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
 import { ref, computed } from 'vue'
-import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '../utils/constants'
+import {DAYS_MAP, DAYS} from '../utils/constants'
 import { getTimings } from '../utils/scheduleHelpers';
 const props = defineProps({
   schedule: {
