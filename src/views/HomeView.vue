@@ -1,13 +1,21 @@
 <template>
-  <div>
-    <TheHeader  />
+  <div class="p-d-flex p-jc-center p-ai-center p-dir-col">
+    <!-- <div class="m-6">
+      <h2>Your Heading Here</h2>
+      <p>Your message here</p>
+      <Button label="Go to Gender" class="p-m-2" />
+    </div> -->
+    <TheHeader id="gender" />
   </div>
 </template>
 
 <script setup>
-import TheHeader from '../components/Homecomponents/TheHeader.vue';
+// import  Button  from 'primevue/button';
+import TheHeader from '@/components/Homecomponents/TheHeader.vue';
 </script>
 
-<style>
-
+<style scoped>
+.p-d-flex {
+  height: 100vh;
+}
 </style>
