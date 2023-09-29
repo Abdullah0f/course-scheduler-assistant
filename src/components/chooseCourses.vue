@@ -1,9 +1,8 @@
 <template>
     <div class="my-5" >
         <MultiSelect class="w-full mb-2" v-model="selectedCourses" display="chip" :options="courses" optionLabel="name" optionValue="code"  placeholder="Select Courses"
-    :maxSelectedLabels="5" filter :showToggleAll="false" :pt="{checkboxContainer:'mr-0 ml-2',removeTokenIcon:'ml-0 mr-2'}" />
+    :maxSelectedLabels="8" filter  scrollHeight="350px" :showToggleAll="false" :pt="{checkboxContainer:'mr-0 ml-2',removeTokenIcon:'ml-0 mr-2'}" />
 
-    <!-- submit button -->
     <Button label="تاكيد" @click="$emit('submit-courses', selectedCourses)"></Button>
     </div>
 </template>
