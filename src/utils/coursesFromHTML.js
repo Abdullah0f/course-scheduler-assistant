@@ -35,7 +35,6 @@ export function getCourses(htmlString) {
       name,
       classCode,
       type,
-      periodsString,
       hours,
       open,
       instructor,

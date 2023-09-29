@@ -11,8 +11,8 @@
 <script setup>
 import MultiSelect from 'primevue/multiselect';
 import Button from 'primevue/button';
-import {  ref, watch } from 'vue'
-const props = defineProps({
+import {  ref } from 'vue'
+ defineProps({
     courses: {
         type: Array,
         required: true

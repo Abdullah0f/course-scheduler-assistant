@@ -27,16 +27,16 @@ const props = defineProps({
     required: true
   }
 })
-const lectureTop = computed(
-  () =>
-    props.hourPixels *
-    (props.lectureData.startTime.getHours() - props.timings.earliestTime.getHours())
-)
+const lectureTop = computed( () =>{
+  const hourDiff = props.lectureData.startTime.getHours() - props.timings.earliestTime.getHours()
+  const totalMinutes = hourDiff * 60 + props.lectureData.startTime.getMinutes()
+   return  props.hourPixels * (totalMinutes / 60)
+})
+
+
 const lectureHeight = computed(() => {
-  const durationInHours =
-    props.lectureData.endTime.getHours() - props.lectureData.startTime.getHours()
-  const durationInMinutes =
-    props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes()
+  const durationInHours = props.lectureData.endTime.getHours() - props.lectureData.startTime.getHours()
+  const durationInMinutes = props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes()
   const totalDurationInMinutes = durationInHours * 60 + durationInMinutes
   return (totalDurationInMinutes / 60) * props.hourPixels
 })
