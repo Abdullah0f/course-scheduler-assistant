@@ -13,9 +13,6 @@
       :invalid-file-size-message="FILE_MSGS.FILE_SIZE"
       @uploader="handleFileUpload"
     />
-    <div >
-      <ShowCoursesDebug :courses="courses" />
-    </div>
   </div>
 </template>
 
@@ -27,10 +24,8 @@ import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 import {FILE_MSGS} from '../utils/msgs'
 import { useCoursesStore } from '../stores/courses'
-import ShowCoursesDebug from '../components/ShowCoursesDebug.vue'
 
 const toast = useToast()
-const courses = ref({})
 const handleFileUpload = (event) => {
   const file = event.files[0]
   if (file) {
@@ -38,9 +33,8 @@ const handleFileUpload = (event) => {
     reader.onload = (e) => {
         try {
         const content = e.target.result
-        courses.value = getCourses(content)
-        console.log(courses.value)
-        useCoursesStore().setCourses(courses.value)
+        const courses = getCourses(content)
+        useCoursesStore().setCourses(courses)
         toast.add({ severity: 'success', summary: FILE_MSGS.SUMMARY.SUCCESS, detail: FILE_MSGS.SUCCESS, life: 3000 })
       } catch (e) {
         console.log(e)
