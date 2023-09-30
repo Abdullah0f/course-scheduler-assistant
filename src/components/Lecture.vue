@@ -52,5 +52,6 @@ const readableTime = (time) => {
   position: absolute;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   overflow: scroll;
+  width: -webkit-fill-available;
 }
 </style>
