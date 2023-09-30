@@ -1,18 +1,18 @@
 <template>
-    <div class="schedule">
+    <div class="schedule" :style="{ transform: `scale(${scale})` }">
       <HourColumn :hourPixels="hourPixels" :timings="timings" :showLine="showLine"/>
         <div v-for="day in DAYS" :key="day">
           <h2>{{ DAYS_MAP[day] }}</h2>
           <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
         </div>
       </div>
-      <div class="btns">
+      <!-- <div class="btns">
         <button @click="hourPixels+=changeAmount">increase size</button>
         <button @click="hourPixels=127">reset, current: {{ hourPixels }}</button>
         <button @click="hourPixels-=changeAmount">decrease size</button>
         <input type="number" v-model="changeAmount" placeholder="changeAmount">
         <button @click="showLine=!showLine">toggle line</button>
-      </div>
+      </div> -->
   </template>
   
 
@@ -37,6 +37,7 @@ const props = defineProps({
   }
 })
 const timings = computed(()=> getTimings(props.schedule));
+const scale = computed(() => (props.size === 'small' ? 0.4 : 1)); // Adjust the scaling factor as needed
 
 // its ref(127) in order for debugging btns to work, otherwise it should be computed(() => SIZE_PIXELS_MAP[props.size]);
 const hourPixels = ref(127)//computed(() => SIZE_PIXELS_MAP[props.size]);
@@ -62,6 +63,7 @@ const changeAmount = ref(1);
   margin: 10px 0;
   display: flex;
   flex-direction: row;
+  width: fit-content;
 }
 h2{
   text-align: center;
