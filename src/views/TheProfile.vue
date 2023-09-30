@@ -8,8 +8,6 @@
 </template>
 <script setup>
 import Button from 'primevue/button';
-// import { useCourseStore } from '../stores/course';
-// const fun = () => useCourseStore().setCourse(5)
 </script>
 
 <style>

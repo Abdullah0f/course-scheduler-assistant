@@ -1,20 +1,21 @@
 <template>
     <div class="schedule">
       <HourColumn :hourPixels="hourPixels" :timings="timings" :showLine="showLine"/>
-        <div v-for="day in DAYS" :key="day">
-          <h2>{{ DAYS_MAP[day] }}</h2>
+        <div v-for="day in DAYS" :key="day" class="flex-1">
+          <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
           <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
         </div>
       </div>
-      <div class="btns">
+      <!-- <div class="btns">
         <button @click="hourPixels+=changeAmount">increase size</button>
         <button @click="hourPixels=127">reset, current: {{ hourPixels }}</button>
         <button @click="hourPixels-=changeAmount">decrease size</button>
         <input type="number" v-model="changeAmount" placeholder="changeAmount">
         <button @click="showLine=!showLine">toggle line</button>
-      </div>
+      </div> -->
   </template>
   
+
 
 <script setup>
 import HourColumn from './HourColumn.vue';
@@ -42,7 +43,7 @@ const timings = computed(()=> getTimings(props.schedule));
 const hourPixels = ref(127)//computed(() => SIZE_PIXELS_MAP[props.size]);
 
 
-const showLine = ref(true);
+const showLine = ref(false);
 const changeAmount = ref(1);
 </script>
 
@@ -62,9 +63,9 @@ const changeAmount = ref(1);
   margin: 10px 0;
   display: flex;
   flex-direction: row;
-}
-h2{
-  text-align: center;
+  width: 80vw;
+  max-width: 1100px;
+  min-width: 800px;
 }
 </style>
 
