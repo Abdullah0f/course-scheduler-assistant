@@ -1,6 +1,6 @@
 <template>
     <div class="schedule" :class="props.size">
-      <HourColumn :hourPixels="hourPixels" :timings="timings"/>
+      <HourColumn v-if="device=='other'"  :hourPixels="hourPixels" :timings="timings"/>
         <div v-for="day in DAYS" :key="day" class="flex-1">
           <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
           <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
