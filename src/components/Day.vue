@@ -1,8 +1,6 @@
 <template>
     <div class="day" :style="{height: height+'px'}">
-        <div v-for="lecture in dayData" :key="lecture.startTime">
-          <Lecture :lectureData="lecture" :hourPixels="hourPixels" :timings="timings"/>
-        </div>
+          <Lecture class="mx-1" v-for="lecture in dayData" :key="lecture.startTime" :lectureData="lecture" :hourPixels="hourPixels" :timings="timings"/>
     </div>
   </template>
   
@@ -31,13 +29,9 @@
   <style scoped lang="scss">
   .day {
     border: 1px solid #ccc;
-    padding: 10px;
     margin: 10px 0;
     position: relative;
-    width: 200px;
-    position: relative;
   }
-
   </style>
   
   

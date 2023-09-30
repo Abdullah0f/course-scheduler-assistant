@@ -20,6 +20,6 @@ function getTimeDiff(earliestTime, latestTime) {
   return (
     latestTime.getHours() -
     earliestTime.getHours() +
-    (latestTime.getMinutes() - earliestTime.getMinutes() > 0 ? 1 : 0)
+    (latestTime.getMinutes() > 0 ? 1 : 0)
   )
 }

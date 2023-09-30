@@ -1,5 +1,5 @@
 <template>
-  <div class="lecture" :style="{ top: lectureTop + 'px', height: lectureHeight + 'px' }">
+  <div class="lecture hide-scrollbar" :style="{ top: lectureTop + 'px', height: lectureHeight + 'px' }">
     <h3>{{ lectureData.title }}</h3>
     <p>
       الوقت: {{ readableTime(lectureData.startTime) }} - {{ readableTime(lectureData.endTime) }}
@@ -51,6 +51,23 @@ const readableTime = (time) => {
   background-color: #f4f4f4;
   position: absolute;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: scroll;
+  width: -webkit-fill-available;
+  @media screen and (max-width: 600px) {
+    h3{
+      font-size: 0.5rem;
+    }
+    p{
+      font-size: 0rem;
+    }
+  }
+}
+.small .lecture {
+  h3{
+    font-size: 0.6rem;
+  }
+  p{
+    font-size: 0.5rem;
+  }
 }
 </style>
