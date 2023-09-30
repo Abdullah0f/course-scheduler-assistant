@@ -17,7 +17,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { getCourses } from '../utils/coursesFromHTML'
 import FileUpload from 'primevue/fileupload'
 import Toast from 'primevue/toast'
@@ -34,6 +33,7 @@ const handleFileUpload = (event) => {
         try {
         const content = e.target.result
         const courses = getCourses(content)
+        console.log(courses)
         useCoursesStore().setCourses(courses)
         toast.add({ severity: 'success', summary: FILE_MSGS.SUMMARY.SUCCESS, detail: FILE_MSGS.SUCCESS, life: 3000 })
       } catch (e) {

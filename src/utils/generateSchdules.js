@@ -44,27 +44,30 @@ export function generateSchedules(
     let hasConflict = false
     let tempSchedule = deepCopy(currentSchedule)
     for (const period of option.periods) {
-      const day = dayToString(period.days[0])
-
-      if (!tempSchedule[day]) {
-        tempSchedule[day] = []
-      }
-      if (periodConflictsWithDaySchedule(period, tempSchedule[day])) {
-        hasConflict = true
-        break
-      } else {
-        const schedulePeriod = {
-          title: option.name,
-          startTime: period.startTime,
-          endTime: period.endTime,
-          location: period.location,
-          classType: period.classType,
-          instructor: period.instructor
+      for (const dayNumber of period.days) { // Iterate over each day
+        const day = dayToString(dayNumber)
+  
+        if (!tempSchedule[day]) {
+          tempSchedule[day] = []
         }
-        tempSchedule[day].push(schedulePeriod)
+        if (periodConflictsWithDaySchedule(period, tempSchedule[day])) {
+          hasConflict = true
+          break
+        } else {
+          const schedulePeriod = {
+            title: option.name,
+            startTime: period.startTime,
+            endTime: period.endTime,
+            location: period.location,
+            classType: period.classType,
+            instructor: period.instructor
+          }
+          tempSchedule[day].push(schedulePeriod)
+        }
       }
+      if (hasConflict) break; // If there's a conflict, break from the periods loop
     }
-
+  
     if (!hasConflict) {
       possibleSchedules = possibleSchedules.concat(
         generateSchedules(courses, tempSchedule, currentIndex + 1)
