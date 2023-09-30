@@ -2,7 +2,7 @@
   <div class="mt-8 flex flex-column md:flex-row md:justify-content-between gap-3">
     <!-- check  -->
     <div 
-      class="btn1 mb-3 md:ml-5 w-17rem fadein  animation-duration-1000 flex flex-column align-items-center gap-1"
+      class="btn1 mb-3 md:ml-5 w-17rem fadein  animation-duration-300 flex flex-column align-items-center gap-1"
     >
       <!-- Gender selection buttons and logic -->
       <i class="pi pi-user" style="font-size: 2.5rem"></i>
@@ -10,7 +10,7 @@
       <Button id="male" type="button" @click="selectGender('male')" outlined>أضغط هنا</Button>
     </div>
     <div
-      class="btn1 w-17rem fadein animation-duration-1000 w-14rem flex flex-column align-items-center gap-1"
+      class="btn1 w-17rem fadein animation-duration-300 w-14rem flex flex-column align-items-center gap-1"
     >
       <!-- Gender selection buttons and logic -->
       <i class="pi pi-user" style="font-size: 2.5rem"></i>

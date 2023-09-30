@@ -1,6 +1,6 @@
 <template>
   <div
-    class="stdForm flex flex-column gap-5 mb-5 justify-content-center fadein animation-duration-1000"
+    class="stdForm flex flex-column gap-5 mb-5 justify-content-center fadein animation-duration-300"
   >
     <div class="flex justify-content-center">
       <Dropdown
@@ -10,7 +10,7 @@
         class="ml-2 w-full justify-content-center md:w-14rem"
       />
     </div>
-    <div class="flex flex-column gap-2 scalein animation-duration-1000" v-if="selectedCity != null">
+    <div class="flex flex-column gap-2 scalein animation-duration-300" v-if="selectedCity != null">
       <!-- :class="{ 'selected': selectedCollege === college }" -->
       <Button
         @change="selectedGender"
