@@ -8,6 +8,12 @@ export const DAYS_MAP = {
 export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu']
 
 export const SIZE_PIXELS_MAP = {
-  default: 127,
-  small: 100
+  phone:{
+    default: 60,
+    small: 60
+  },
+  other: {
+    default: 127,
+    small: 60
+  }
 }

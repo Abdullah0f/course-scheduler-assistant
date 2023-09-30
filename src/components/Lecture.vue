@@ -53,5 +53,21 @@ const readableTime = (time) => {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   overflow: scroll;
   width: -webkit-fill-available;
+  @media screen and (max-width: 600px) {
+    h3{
+      font-size: 0.5rem;
+    }
+    p{
+      font-size: 0rem;
+    }
+  }
+}
+.small .lecture {
+  h3{
+    font-size: 0.6rem;
+  }
+  p{
+    font-size: 0.5rem;
+  }
 }
 </style>

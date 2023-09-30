@@ -1,18 +1,11 @@
 <template>
-    <div class="schedule">
-      <HourColumn :hourPixels="hourPixels" :timings="timings" :showLine="showLine"/>
+    <div class="schedule" :class="props.size">
+      <HourColumn :hourPixels="hourPixels" :timings="timings"/>
         <div v-for="day in DAYS" :key="day" class="flex-1">
           <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
           <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
         </div>
       </div>
-      <!-- <div class="btns">
-        <button @click="hourPixels+=changeAmount">increase size</button>
-        <button @click="hourPixels=127">reset, current: {{ hourPixels }}</button>
-        <button @click="hourPixels-=changeAmount">decrease size</button>
-        <input type="number" v-model="changeAmount" placeholder="changeAmount">
-        <button @click="showLine=!showLine">toggle line</button>
-      </div> -->
   </template>
   
 
@@ -20,8 +13,8 @@
 <script setup>
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
-import { ref, computed } from 'vue'
-import {DAYS_MAP, DAYS} from '../utils/constants'
+import { computed ,ref} from 'vue'
+import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '../utils/constants'
 import { getTimings } from '../utils/scheduleHelpers';
 const props = defineProps({
   schedule: {
@@ -38,25 +31,15 @@ const props = defineProps({
   }
 })
 const timings = computed(()=> getTimings(props.schedule));
-
-// its ref(127) in order for debugging btns to work, otherwise it should be computed(() => SIZE_PIXELS_MAP[props.size]);
-const hourPixels = ref(127)//computed(() => SIZE_PIXELS_MAP[props.size]);
-
-
-const showLine = ref(false);
-const changeAmount = ref(1);
+// get width of user's screen
+const width = ref(window.innerWidth);
+const device = computed(() => width.value < 600? 'phone' : 'other');
+const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
 </script>
 
 
-<style scoped lang="scss">
-.btns{
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 150px;
-  left:50px;
-  gap:10px
-}
+<style lang="scss">
+
 .schedule {
   border: 1px solid #aaa;
   padding: 10px;
@@ -66,6 +49,26 @@ const changeAmount = ref(1);
   width: 80vw;
   max-width: 1100px;
   min-width: 800px;
+  // for phones
+  @media screen and (max-width: 600px) {
+    width: 100vw;
+    max-width: 600px;
+    min-width: 0px;
+    h2 {
+      font-size: 0.7rem;
+    }
+  }
 }
+.schedule.small {
+  width: 30vw;
+  min-width: 350px;
+  max-width: 600px;
+
+  h2 {
+    font-size: 1rem;
+  }
+
+}
+
 </style>
 

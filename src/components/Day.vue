@@ -31,9 +31,7 @@
     border: 1px solid #ccc;
     margin: 10px 0;
     position: relative;
-    position: relative;
   }
-
   </style>
   
   

@@ -2,10 +2,14 @@
   <div class="hours-column">
     <h2>وقت</h2>
     <div class="hours">
-        <div v-for="i in timings.timeDiff+1" :key="i" class="hour" :style="{ height: hourPixels + 'px' }">
-            <span class="hour-label">{{ timings.earliestTime.getHours() + i -1 }}:00</span>
-            <div class="hr-line" v-if="showLine"></div>
-        </div>
+      <div
+        v-for="i in timings.timeDiff + 1"
+        :key="i"
+        class="hour"
+        :style="{ height: hourPixels + 'px' }"
+      >
+        <span class="hour-label">{{ timings.earliestTime.getHours() + i - 1 }}:00</span>
+      </div>
     </div>
   </div>
 </template>
@@ -14,22 +18,16 @@
 const props = defineProps({
   hourPixels: {
     type: Number,
-    required: true,
-  },
-  showLine: {
-    type: Boolean,
-    required: false,
-    default: true,
+    required: true
   },
   timings: {
     type: Object,
-    required: true,
+    required: true
   }
-});
+})
 </script>
 
 <style lang="scss" scoped>
-
 .hours-column {
   display: flex;
   flex-direction: column;
@@ -41,30 +39,36 @@ const props = defineProps({
   align-items: flex-start;
   position: relative;
   box-sizing: border-box;
-    &:first-child .hour-label {
-        transform: translateY(-10%);
-    }
-    &:last-child{
-        height: 0 !important;
+  &:first-child .hour-label {
+    transform: translateY(-10%);
+  }
+  &:last-child {
+    height: 0 !important;
     .hour-label {
-        transform: translateY(-110%);
+      transform: translateY(-110%);
     }
+  }
 }
-}
-.hour-label{
-  position: absolute;
+
+.hours-column {
+  .hour-label {
+    position: absolute;
     top: 0px;
     left: 0;
-    transform: translateY(-50%);  // Moving it up by its own height
+    transform: translateY(-50%); // Moving it up by its own height
     padding: 0 5px; // optional padding
   }
-
-.hr-line{
-  position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background-color: #aaa;
-    width: 1100px;
-}</style>
+  @media screen and (max-width: 600px) {
+    padding-right: 0;
+    .hour-label {
+      font-size: 0.7rem;
+    }
+  }
+}
+.small .hours-column {
+  padding-right: 0;
+  .hour-label {
+    font-size: 0.8rem;
+  }
+}
+</style>
