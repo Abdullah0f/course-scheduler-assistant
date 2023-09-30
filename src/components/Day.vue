@@ -28,7 +28,7 @@
   
   <style scoped lang="scss">
   .day {
-    border: 1px solid #ccc;
+    border: 0.5px solid #ccc;
     margin: 10px 0;
     position: relative;
   }

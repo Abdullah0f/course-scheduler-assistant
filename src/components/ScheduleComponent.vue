@@ -54,6 +54,7 @@ const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
     width: 100vw;
     max-width: 600px;
     min-width: 0px;
+    padding: 2px;
     h2 {
       font-size: 0.7rem;
     }
