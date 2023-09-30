@@ -5,29 +5,29 @@
   >
     <h3>{{ lectureData.title }}</h3>
 
-    <div v-if="!isMobile">
-      <p>
+    <div>
+      <p v-if="!isMobile">
         الوقت: {{ readableTime(lectureData.startTime) }} - {{ readableTime(lectureData.endTime) }}
       </p>
-      <p>القاعة: {{ lectureData.location }}</p>
-      <p>النوع: {{ lectureData.classType }}</p>
-      <p>المحاضر: {{ lectureData.instructor }}</p>
+      <p v-if="showFullData">القاعة: {{ lectureData.location }}</p>
+      <p v-if="!isMobile && showFullData">النوع: {{ lectureData.classType }}</p>
+      <p v-if="showFullData">المحاضر: {{ lectureData.instructor }}</p>
     </div>
 
     <!-- Start Time (Mobile Only) -->
-    <div class="start-time-mobile" v-if="isMobile">
+    <div class="top-0 right-0 absolute px-1 block" v-if="isMobile">
       <p>{{ readableTime(lectureData.startTime) }}</p>
     </div>
 
     <!-- End Time (Mobile Only) -->
-    <div class="end-time-mobile" v-if="isMobile">
+    <div class="bottom-0 left-0 absolute px-1 block" v-if="isMobile">
       <p>{{ readableTime(lectureData.endTime) }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 
 const props = defineProps({
   lectureData: {
@@ -49,18 +49,21 @@ const lectureTop = computed(() => {
   return props.hourPixels * (totalMinutes / 60)
 })
 
-const isMobile = computed(() => {
-  // Check if the screen width is less than or equal to 600px (adjust as needed)
-  return window.innerWidth <= 600
-})
+const isMobile = inject('isMobile')
 
-const lectureHeight = computed(() => {
+const totalDurationInMinutes = computed(()=>{
+const durationInMinutes = 
+  props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes();
   const durationInHours =
     props.lectureData.endTime.getHours() - props.lectureData.startTime.getHours()
-  const durationInMinutes =
-    props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes()
-  const totalDurationInMinutes = durationInHours * 60 + durationInMinutes
-  return (totalDurationInMinutes / 60) * props.hourPixels
+  return durationInHours * 60 + durationInMinutes
+});
+
+const showFullData = computed(() => totalDurationInMinutes.value > 90)
+
+const lectureHeight = computed(() => {
+  
+  return (totalDurationInMinutes.value / 60) * props.hourPixels
 })
 const readableTime = (time) => {
   return `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`
@@ -83,23 +86,6 @@ const readableTime = (time) => {
       font-size: 0.3rem;
     }
   }
-}
-
-.start-time-mobile,
-.end-time-mobile {
-  padding: 0 3px;
-  display: block;
-  position: absolute;
-}
-
-.start-time-mobile {
-  top: 0;
-  right: 0;
-}
-
-.end-time-mobile {
-  bottom: 0;
-  left: 0;
 }
 .small .lecture {
   h3 {

@@ -1,6 +1,6 @@
 <template>
     <div class="schedule" :class="props.size">
-      <HourColumn v-if="device=='other'"  :hourPixels="hourPixels" :timings="timings"/>
+      <HourColumn v-if="!isMobile"  :hourPixels="hourPixels" :timings="timings"/>
         <div v-for="day in DAYS" :key="day" class="flex-1">
           <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
           <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
@@ -13,7 +13,7 @@
 <script setup>
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
-import { computed ,ref} from 'vue'
+import { computed ,ref, onMounted, onUnmounted, provide} from 'vue'
 import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '../utils/constants'
 import { getTimings } from '../utils/scheduleHelpers';
 const props = defineProps({
@@ -31,10 +31,22 @@ const props = defineProps({
   }
 })
 const timings = computed(()=> getTimings(props.schedule));
-// get width of user's screen
-const width = ref(window.innerWidth);
-const device = computed(() => width.value < 600? 'phone' : 'other');
+const isMobile = ref(window.innerWidth <= 600);
+provide('isMobile', isMobile);
+const device = computed(() => isMobile.value? 'mobile' : 'other');
 const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
+
+const updateIsMobile = () => {
+  isMobile.value = window.innerWidth <= 600;
+};
+
+onMounted(() => {
+  window.addEventListener('resize', updateIsMobile);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateIsMobile);
+});
 </script>
 
 
