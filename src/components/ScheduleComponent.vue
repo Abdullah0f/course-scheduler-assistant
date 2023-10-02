@@ -74,7 +74,7 @@ onUnmounted(() => {
 }
 .schedule.small {
   width: 30vw;
-  min-width: 350px;
+  min-width: 430px;
   max-width: 600px;
 
   h2 {

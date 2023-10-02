@@ -8,7 +8,7 @@
         class="hour"
         :style="{ height: hourPixels + 'px' }"
       >
-        <span class="hour-label">{{ timings.earliestTime.getHours() + i - 1 }}:00</span>
+        <span class="hour-label">{{ readableTime(timings.earliestTime.getHours() + i - 1) }}:00</span>
       </div>
     </div>
   </div>
@@ -25,6 +25,7 @@ const props = defineProps({
     required: true
   }
 })
+const readableTime = (time) => time>12? time-12 : time;
 </script>
 
 <style lang="scss" scoped>
