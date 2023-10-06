@@ -22,7 +22,7 @@ import { ref, computed } from 'vue'
 const schedules = ref(null)
 const courses = useCoursesStore().courses;
 const transformedCourses = computed(() => {
-    return Object.keys(courses).map(key => ({ name: courses[key][0].name, code: key }));
+    return Object.keys(courses).map(key => ({ name: courses[key][0].code +" | "+courses[key][0].name, code: key }));
 });
 
 function handleCourses(selectedCourses){

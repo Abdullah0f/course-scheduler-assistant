@@ -12,6 +12,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "html2canvas": "^1.4.1",
     "normalize.css": "^8.0.1",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",

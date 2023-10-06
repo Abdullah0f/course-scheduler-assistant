@@ -1,18 +1,20 @@
 <template>
-    <div class="schedule" :class="props.size">
+    <div ref="scheduleDiv" class="schedule" :class="props.size">
       <HourColumn v-if="!isMobile"  :hourPixels="hourPixels" :timings="timings"/>
         <div v-for="day in DAYS" :key="day" class="flex-1">
           <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
           <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
         </div>
       </div>
+      <SaveButton :targetRef="scheduleDiv" />
   </template>
   
 
 
 <script setup>
 import HourColumn from './HourColumn.vue';
-import Day from './Day.vue'
+import Day from './Day.vue';
+import SaveButton from './SaveButton.vue';
 import { computed ,ref, onMounted, onUnmounted, provide} from 'vue'
 import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '../utils/constants'
 import { getTimings } from '../utils/scheduleHelpers';
@@ -30,6 +32,7 @@ const props = defineProps({
     }
   }
 })
+const scheduleDiv = ref();
 const timings = computed(()=> getTimings(props.schedule));
 const isMobile = ref(window.innerWidth <= 600);
 provide('isMobile', isMobile);
