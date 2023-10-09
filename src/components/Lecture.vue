@@ -28,7 +28,8 @@
 
 <script setup>
 import { computed, inject } from 'vue'
-import { useIsMobileStore } from '../stores/isMobile'
+import { isMobileFunc } from '../utils/helpers'
+import { useWindowSize } from '@vueuse/core'
 const props = defineProps({
   lectureData: {
     type: Object,
@@ -48,7 +49,8 @@ const lectureTop = computed(() => {
   const totalMinutes = hourDiff * 60 + props.lectureData.startTime.getMinutes()
   return props.hourPixels * (totalMinutes / 60)
 })
-const isMobile = computed(()=>useIsMobileStore().isMobile)
+const isMobile = computed(()=> isMobileFunc(useWindowSize().width.value))
+
 const totalDurationInMinutes = computed(()=>{
 const durationInMinutes = 
   props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes();

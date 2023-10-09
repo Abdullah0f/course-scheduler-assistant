@@ -13,10 +13,11 @@
 <script setup>
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
-import {useIsMobileStore} from '../stores/isMobile'
 import { computed ,ref, provide} from 'vue'
 import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '../utils/constants'
 import { getTimings } from '../utils/scheduleHelpers';
+import {isMobileFunc} from '../utils/helpers'
+import {useWindowSize} from '@vueuse/core'
 const props = defineProps({
   schedule: {
     type: Object,
@@ -32,8 +33,7 @@ const props = defineProps({
   }
 })
 const timings = computed(()=> getTimings(props.schedule));
-// this store has getter named isMobile
-const isMobile = computed(()=>useIsMobileStore().isMobile)
+const isMobile = computed(()=> isMobileFunc(useWindowSize().width.value))
 const device = computed(() => isMobile.value? 'mobile' : 'other');
 const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
 
