@@ -49,7 +49,8 @@ const lectureTop = computed(() => {
   const totalMinutes = hourDiff * 60 + props.lectureData.startTime.getMinutes()
   return props.hourPixels * (totalMinutes / 60)
 })
-const isMobile = computed(()=> isMobileFunc(useWindowSize().width.value))
+const windowSize = useWindowSize()
+const isMobile = computed(()=> isMobileFunc(windowSize.width.value))
 
 const totalDurationInMinutes = computed(()=>{
 const durationInMinutes = 

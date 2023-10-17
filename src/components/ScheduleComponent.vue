@@ -32,8 +32,9 @@ const props = defineProps({
     }
   }
 })
+const windowSize = useWindowSize()
 const timings = computed(()=> getTimings(props.schedule));
-const isMobile = computed(()=> isMobileFunc(useWindowSize().width.value))
+const isMobile = computed(()=> isMobileFunc(windowSize.width.value))
 const device = computed(() => isMobile.value? 'mobile' : 'other');
 const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
 
