@@ -117,5 +117,5 @@ function convertTo24HourFormat(time) {
   } else {
     if (hours !== '12') hours = parseInt(hours) + 12
   }
-  return hours + ':' + minutes
+  return (hours + ':' + minutes).trim()
 }

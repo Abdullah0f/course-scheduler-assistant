@@ -78,6 +78,8 @@ const readableTime = (time) => {
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   overflow: scroll;
   width: -webkit-fill-available;
+  width: -moz-available;
+  width: fill-available;
   @media screen and (max-width: 600px) {
     h3 {
       font-size: 0.5rem;
