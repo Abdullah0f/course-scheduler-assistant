@@ -14,9 +14,9 @@
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
 import { computed ,ref, provide} from 'vue'
-import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '../utils/constants'
-import { getTimings } from '../utils/scheduleHelpers';
-import {isMobileFunc} from '../utils/helpers'
+import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '@/utils/constants'
+import { getTimings } from '@/utils/scheduleHelpers';
+import {isMobileFunc} from '@/utils/helpers'
 import {useWindowSize} from '@vueuse/core'
 const props = defineProps({
   schedule: {

@@ -27,8 +27,8 @@
 </template>
 
 <script setup>
-import { computed, inject } from 'vue'
-import { isMobileFunc } from '../utils/helpers'
+import { computed } from 'vue'
+import { isMobileFunc } from '@/utils/helpers'
 import { useWindowSize } from '@vueuse/core'
 const props = defineProps({
   lectureData: {
