@@ -1,32 +1,23 @@
 <template>
-  <div class="">
+  <temp>
     <h1>الجدول</h1>
-    <div>
-      <Button
-        rounded
-        outlined
-        severity="info"
-        size="small"
-        v-styleclass="{ selector: '@next', toggleClass: 'hidden' }"
-        icon="pi pi-circle"
-      />
-      <ScheduleComponent :schedule="schedule" class="hidden" size="default" />
-    </div>
-    <ChooseCourses
-      :courses="transformedCourses"
-      v-if="Object.keys(courses).length !== 0"
-      @submit-courses="handleCourses"
-    />
-    <ChooseFilters />
-    <div v-if="schedules" class="flex flex-column items-center">
-      <h2>
-        عدد الجداول الممكنة <span class="text-blue-600 mr-2">{{ schedules.length }}</span>
-      </h2>
-      <div v-for="schedule in schedules" :key="schedule.id">
-        <ScheduleComponent :schedule="schedule" />
-      </div>
-    </div>
-  </div>
+    <Button
+    rounded
+    outlined
+    severity="info"
+    size="small"
+    v-styleclass="{ selector: '@next', toggleClass: 'hidden' }"
+    icon="pi pi-circle"
+    ></Button>
+    <ScheduleComponent :schedule="schedule" class="hidden" size="default" />
+  </temp>
+  <ChooseCourses
+    :courses="transformedCourses"
+    v-if="Object.keys(courses).length !== 0"
+    @submit-courses="handleCourses"
+  />
+  <ChooseFilters />
+  <SchedulesList v-if="schedules" :schedules="schedules" />
 </template>
 
 <script setup>
@@ -35,6 +26,7 @@ import ScheduleComponent from '@/components/ScheduleComponents/ScheduleComponent
 import { generateSchedules } from '@/utils/generateSchdules.js'
 import ChooseCourses from '@/components/ScheduleComponents/chooseCourses.vue'
 import ChooseFilters from '@/components/ScheduleComponents/ChooseFilters.vue'
+import SchedulesList from '@/components/ScheduleComponents/SchedulesList.vue'
 import { useCoursesStore } from '@/stores/courses'
 import Button from 'primevue/button'
 import { ref, computed } from 'vue'

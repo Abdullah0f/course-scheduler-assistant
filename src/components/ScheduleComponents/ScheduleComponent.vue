@@ -65,7 +65,7 @@ const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
 }
 .schedule.small {
   width: 30vw;
-  min-width: 350px;
+  min-width: 430px;
   max-width: 600px;
 
   h2 {
