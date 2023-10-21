@@ -23,20 +23,10 @@ function periodConflictsWithDaySchedule(period, daySchedule) {
 }
 
 function canAddCourseOptionToSchedule(option, schedule) {
-  for (const period of option.periods) {
-    for (const dayNumber of period.days) {
-      const day = dayToString(dayNumber)
-
-      if (!schedule[day]) {
-        schedule[day] = []
-      }
-
-      if (periodConflictsWithDaySchedule(period, schedule[day])) {
-        return false
-      }
-    }
-  }
-  return true
+  return option.periods.every((period) => {
+    const days = period.days.map(dayToString)
+    return days.every((day) => !periodConflictsWithDaySchedule(period, schedule[day]))
+  })
 }
 function addCourseOptionToSchedule(option, schedule) {
   for (const period of option.periods) {
@@ -58,29 +48,32 @@ function addCourseOptionToSchedule(option, schedule) {
   return schedule
 }
 // Generate all possible schedules
-export function generateSchedules(
-  courses,
-  currentSchedule = initializeBlankSchedule(),
-  currentIndex = 0
-) {
-  // if courses is not an array but an object (probably the first time), convert it to an array
-  const coursesArray = Array.isArray(courses) ? courses : Object.values(courses)
-  if (currentIndex === coursesArray.length) {
+export function theAlgorithm(courses, currentSchedule, currentIndex) {
+  if (currentIndex === courses.length) {
     return [currentSchedule]
   }
 
   let possibleSchedules = []
-  const currentCourse = coursesArray[currentIndex]
+  const currentCourse = courses[currentIndex]
 
   for (const option of currentCourse) {
     let tempSchedule = cloneDeep(currentSchedule)
     if (canAddCourseOptionToSchedule(option, tempSchedule)) {
       tempSchedule = addCourseOptionToSchedule(option, tempSchedule)
       possibleSchedules = possibleSchedules.concat(
-        generateSchedules(coursesArray, tempSchedule, currentIndex + 1)
+        theAlgorithm(courses, tempSchedule, currentIndex + 1)
       )
     }
   }
 
   return possibleSchedules
+}
+
+export function generateSchedules(courses) {
+  const coursesArray = Object.values(courses)
+
+  // sort courses by number of options
+  coursesArray.sort((course1, course2) => course1.length - course2.length)
+
+  return theAlgorithm(coursesArray, initializeBlankSchedule(), 0)
 }
