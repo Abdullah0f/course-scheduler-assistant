@@ -13,7 +13,7 @@
 
 <script setup>
 import { defineAsyncComponent, ref, watchEffect } from 'vue'
-
+import {SCHEDULES_LIST_INTERVAL_WAIT_MS, SCHEDULES_LIST_CHUNKS_PER_TIME_UNIT} from '@/utils/constants'
 const ScheduleComponent = defineAsyncComponent(() => import('@/components/ScheduleComponents/ScheduleComponent.vue'))
 
 const { schedules } = defineProps(['schedules'])
@@ -25,12 +25,12 @@ watchEffect(() => {
     let currentIndex = 0
     const interval = setInterval(() => {
       if (currentIndex < schedules.length) { 
-        displayedCount.value = currentIndex + 100
-        currentIndex++
+        currentIndex += SCHEDULES_LIST_CHUNKS_PER_TIME_UNIT; // Add 100 to the current index
+        displayedCount.value = Math.min(currentIndex, schedules.length); // Use Math.min to avoid overshooting
       } else {
         clearInterval(interval)
       }
-    }, 20) // Adjust this delay as per your needs
+    }, SCHEDULES_LIST_INTERVAL_WAIT_MS) // Adjust this delay as per your needs
 })
 </script>
 
