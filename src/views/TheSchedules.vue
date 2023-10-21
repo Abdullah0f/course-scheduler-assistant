@@ -1,5 +1,5 @@
 <template>
-  <temp>
+  <div id="temp">
     <h1>الجدول</h1>
     <Button
     rounded
@@ -9,8 +9,10 @@
     v-styleclass="{ selector: '@next', toggleClass: 'hidden' }"
     icon="pi pi-circle"
     ></Button>
-    <ScheduleComponent :schedule="schedule" class="hidden" size="default" />
-  </temp>
+    <div class="hidden">
+      <ScheduleComponent :schedule="schedule" size="default" />
+    </div>
+  </div>
   <ChooseCourses
     :courses="transformedCourses"
     v-if="Object.keys(courses).length !== 0"

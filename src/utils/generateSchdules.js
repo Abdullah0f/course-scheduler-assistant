@@ -1,4 +1,5 @@
 import { DAYS } from './constants'
+import cloneDeep from 'lodash/cloneDeep'
 
 function initializeBlankSchedule() {
   let schedule = {}
@@ -44,8 +45,8 @@ function addCourseOptionToSchedule(option, schedule) {
 
       const schedulePeriod = {
         title: option.name,
-        startTime: period.startTime,
-        endTime: period.endTime,
+        startTime: new Date(period.startTime),
+        endTime: new Date(period.endTime),
         location: period.location,
         classType: period.classType,
         instructor: period.instructor
@@ -72,7 +73,7 @@ export function generateSchedules(
   const currentCourse = coursesArray[currentIndex]
 
   for (const option of currentCourse) {
-    let tempSchedule = deepCopy(currentSchedule)
+    let tempSchedule = cloneDeep(currentSchedule)
     if (canAddCourseOptionToSchedule(option, tempSchedule)) {
       tempSchedule = addCourseOptionToSchedule(option, tempSchedule)
       possibleSchedules = possibleSchedules.concat(
@@ -82,36 +83,4 @@ export function generateSchedules(
   }
 
   return possibleSchedules
-}
-
-function deepCopy(obj) {
-  if (obj === null || typeof obj !== 'object') {
-    return obj
-  }
-
-  if (obj instanceof Date) {
-    const copy = new Date()
-    copy.setTime(obj.getTime())
-    return copy
-  }
-
-  if (Array.isArray(obj)) {
-    const arrCopy = []
-    for (let i = 0; i < obj.length; i++) {
-      arrCopy[i] = deepCopy(obj[i])
-    }
-    return arrCopy
-  }
-
-  if (obj instanceof Object) {
-    const objCopy = {}
-    for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        objCopy[key] = deepCopy(obj[key])
-      }
-    }
-    return objCopy
-  }
-
-  throw new Error('Unable to copy obj. Type not supported.')
 }

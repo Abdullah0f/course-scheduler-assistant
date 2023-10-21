@@ -97,8 +97,8 @@ export function extractTime(time) {
   let endTime = convertTo24HourFormat(timeParts[1])
 
   // Convert the times to Date objects
-  startTime = new Date('1970-01-01 ' + startTime)
-  endTime = new Date('1970-01-01 ' + endTime)
+  startTime = timeToTimestamp(startTime)
+  endTime = timeToTimestamp(endTime)
 
   return { startTime, endTime }
 }
@@ -118,4 +118,9 @@ function convertTo24HourFormat(time) {
     if (hours !== '12') hours = parseInt(hours) + 12
   }
   return (hours + ':' + minutes).trim()
+}
+
+function timeToTimestamp(time) {
+  const date = new Date('1970-01-01 ' + time)
+  return date.getTime()
 }
