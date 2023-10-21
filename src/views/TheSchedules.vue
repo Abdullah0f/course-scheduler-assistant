@@ -15,12 +15,19 @@
       <ScheduleComponent :schedule="schedule" size="default" />
     </div>
   </div>
+  <div v-if="Object.keys(courses).length !== 0">
+  
   <ChooseCourses
-    :courses="transformedCourses"
-    v-if="Object.keys(courses).length !== 0"
-    @submit-courses="handleCourses"
+  :courses="transformedCourses"
+  @courses-changed="updateSelectedCourses"
   />
-  <ChooseFilters />
+
+  <ChooseFilters
+  @filters-changed="updateFilters"
+  :filters="filters"
+  />
+  <Button class="w-max mt-3" label="تاكيد" @click="handleCourses"></Button>
+  </div>
 </div>
 
   <SchedulesList v-if="schedules" :schedules="schedules" />
@@ -43,8 +50,19 @@ const transformedCourses = computed(() => {
   return Object.keys(courses).map(key => ({ name: courses[key][0].code +" | "+courses[key][0].name, code: key }));
 })
 
-function handleCourses(selectedCourses) {
-  const selectedCoursesObject = selectedCourses.reduce((acc, courseCode) => {
+const selectedCourses = ref([])
+const updateSelectedCourses = courses => selectedCourses.value = courses
+
+const filters = ref({
+  allowLocked: false,
+  daysOff: 0,
+  offInTheseDays: [],
+  breaksLimit: -1,
+})
+const updateFilters = newFilters => filters.value = newFilters
+
+function handleCourses() {
+  const selectedCoursesObject = selectedCourses.value.reduce((acc, courseCode) => {
     acc[courseCode] = courses[courseCode]
     return acc
   }, {})
