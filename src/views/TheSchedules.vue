@@ -32,6 +32,7 @@ import SchedulesList from '@/components/ScheduleComponents/SchedulesList.vue'
 import { useCoursesStore } from '@/stores/courses'
 import Button from 'primevue/button'
 import { ref, computed } from 'vue'
+
 const schedules = ref(null)
 const courses = useCoursesStore().courses
 const transformedCourses = computed(() => {

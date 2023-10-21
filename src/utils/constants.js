@@ -6,7 +6,7 @@ export const DAYS_MAP = {
   thu: 'الخميس'
 }
 export const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu']
-
+export const MAX_GENERATED_SCHEDULES = 5000
 export const SIZE_PIXELS_MAP = {
   mobile:{
     default: 60,

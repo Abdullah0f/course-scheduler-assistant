@@ -1,4 +1,4 @@
-import { DAYS } from './constants'
+import { DAYS, MAX_GENERATED_SCHEDULES } from './constants'
 import cloneDeep from 'lodash/cloneDeep'
 
 function initializeBlankSchedule() {
@@ -63,6 +63,9 @@ export function theAlgorithm(courses, currentSchedule, currentIndex) {
       possibleSchedules = possibleSchedules.concat(
         theAlgorithm(courses, tempSchedule, currentIndex + 1)
       )
+      if (possibleSchedules.length >= MAX_GENERATED_SCHEDULES) {
+        break
+      }
     }
   }
 
