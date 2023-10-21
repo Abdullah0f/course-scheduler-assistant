@@ -3,7 +3,7 @@
         <h2>
           عدد الجداول الممكنة <span class="text-blue-600 mr-2">{{ schedules.length }}</span>
         </h2>
-        <div class="flex flex-wrap justify-content-center">
+        <div class="flex flex-wrap justify-content-center gap-2">
           <div v-for="(schedule, index) in schedules" :key="index">
             <ScheduleComponent v-if="index < displayedCount" :schedule="schedule" size="small" />
           </div>

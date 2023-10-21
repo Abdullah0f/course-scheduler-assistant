@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin: 0 auto" class="w-max">
     <Toast :pt = "{icon: 'ml-3'}" />
     <FileUpload
       mode="basic"

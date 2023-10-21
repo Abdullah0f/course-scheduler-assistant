@@ -1,4 +1,6 @@
 <template>
+  <div class="mr-5">
+
   <div id="temp">
     <h1>الجدول</h1>
     <Button
@@ -19,6 +21,8 @@
     @submit-courses="handleCourses"
   />
   <ChooseFilters />
+</div>
+
   <SchedulesList v-if="schedules" :schedules="schedules" />
 </template>
 

@@ -13,8 +13,4 @@ export default {
 }
 </script>
 <style scoped>
-.container{
-  margin: 0 auto;
-  width: fit-content;
-}
 </style>
