@@ -4,7 +4,7 @@
           عدد الجداول الممكنة <span class="text-blue-600 mr-2">{{ schedules.length }}</span>
         </h2>
         <div class="flex flex-wrap justify-content-center gap-2">
-          <div v-for="(schedule, index) in schedules" :key="index">
+          <div v-for="(schedule, index) in sortedSchedules" :key="index">
             <ScheduleComponent v-if="index < displayedCount" :schedule="schedule" size="small" />
           </div>
         </div>
@@ -12,14 +12,21 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, ref, watchEffect } from 'vue'
+import { defineAsyncComponent, ref, watchEffect, computed } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 import {SCHEDULES_PER_PAGE} from '@/utils/constants'
 
 const ScheduleComponent = defineAsyncComponent(() => import('@/components/ScheduleComponents/ScheduleComponent.vue'))
 
-const { schedules } = defineProps(['schedules'])
-
+const props = defineProps({
+  schedules: {
+    type: Array,
+    required: true
+  },
+})
+const sortedSchedules = computed(() => {
+  return [...props.schedules].sort((a, b) => a.meta.timings.timeDiff - b.meta.timings.timeDiff);
+});
 const displayedCount = ref(SCHEDULES_PER_PAGE)
 
 const { y } = useWindowScroll()

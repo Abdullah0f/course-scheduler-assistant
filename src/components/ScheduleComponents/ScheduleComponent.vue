@@ -17,7 +17,6 @@ import Day from './Day.vue'
 import SaveButton from './SaveButton.vue';
 import { computed, ref } from 'vue'
 import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '@/utils/constants'
-import { getTimings } from '@/utils/scheduleHelpers';
 import {isMobileFunc} from '@/utils/helpers'
 import {useWindowSize} from '@vueuse/core'
 const props = defineProps({
@@ -36,7 +35,7 @@ const props = defineProps({
 })
 const scheduleDiv = ref();
 const windowSize = useWindowSize()
-const timings = computed(()=> getTimings(props.schedule));
+const timings = computed(()=> (props.schedule.meta.timings));
 const isMobile = computed(()=> isMobileFunc(windowSize.width.value))
 const device = computed(() => isMobile.value? 'mobile' : 'other');
 const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);

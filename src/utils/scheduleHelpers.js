@@ -11,10 +11,22 @@ export function getTimings(schedule) {
 
   return {
     earliestTime,
-    latestTime: latestTime,
+    latestTime,
+    earliestHour: earliestTime.getHours(),
     timeDiff: getTimeDiff(earliestTime, latestTime)
   }
 }
+
+export function getTotalBreaks(schedule) {
+  // TODO: implement this function
+  return 0
+}
+export function getDaysOff(schedule) {
+  // TODO: implement this function
+  return null
+}
+
+
 function getTimeDiff(earliestTime, latestTime) {
   // find diff between hours and if there is a remainder, add 1
   return (

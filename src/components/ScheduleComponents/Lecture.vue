@@ -46,7 +46,7 @@ const props = defineProps({
 })
 const lectureColor = computed(() => getColor(props.lectureData.title))
 const lectureTop = computed(() => {
-  const hourDiff = props.lectureData.startTime.getHours() - props.timings.earliestTime.getHours()
+  const hourDiff = props.lectureData.startTime.getHours() - props.timings.earliestHour
   const totalMinutes = hourDiff * 60 + props.lectureData.startTime.getMinutes()
   return props.hourPixels * (totalMinutes / 60)
 })
@@ -62,7 +62,7 @@ const totalDurationInMinutes = computed(() => {
   return durationInHours * 60 + durationInMinutes
 })
 
-const showFullData = computed(() => totalDurationInMinutes.value > 90)
+const showFullData = computed(() => totalDurationInMinutes.value >= 90)
 
 const lectureHeight = computed(() => {
   return (totalDurationInMinutes.value / 60) * props.hourPixels

@@ -8,7 +8,7 @@
         class="hour"
         :style="{ height: hourPixels + 'px' }"
       >
-      <span class="hour-label">{{ readableTime(timings.earliestTime.getHours() + i - 1) }}:00</span>
+      <span class="hour-label">{{ readableTime(timings.earliestHour + i - 1) }}:00</span>
       </div>
     </div>
   </div>

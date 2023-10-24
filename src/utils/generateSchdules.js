@@ -1,5 +1,6 @@
 import { DAYS, MAX_GENERATED_SCHEDULES } from './constants'
 import cloneDeep from 'lodash/cloneDeep'
+import { getTimings, getTotalBreaks, getDaysOff } from '@/utils/scheduleHelpers'
 
 function initializeBlankSchedule() {
   let schedule = {}
@@ -47,9 +48,20 @@ function addCourseOptionToSchedule(option, schedule) {
   }
   return schedule
 }
+
+function addMetaToSchedule(schedule) {
+  schedule.meta = {
+    timings: getTimings(schedule),
+    totalbreaks: getTotalBreaks(schedule),
+    daysOff: getDaysOff(schedule)
+  }
+}
 // Generate all possible schedules
 export function theAlgorithm(courses, currentSchedule, currentIndex) {
   if (currentIndex === courses.length) {
+    // here is the final stage that each complete schedule go through
+    // meta data will be added here
+    addMetaToSchedule(currentSchedule)
     return [currentSchedule]
   }
 

@@ -1,4 +1,7 @@
 // import { getCourses } from "./courses.js";
+
+import { getTimings } from './src/utils/scheduleHelpers'
+
 // .html
 export const courses = {
   '104 سلم': [
@@ -974,6 +977,14 @@ export const courses = {
 }
 
 export const schedule = {
+  meta: {
+    timings: {
+      earliestTime: '1970-01-01T05:00:00.000Z',
+      latestTime: '1970-01-01T11:50:00.000Z',
+      earliestHour: 8,
+      timeDiff: 7
+    }
+  },
   sun: [
     //day component
     {
