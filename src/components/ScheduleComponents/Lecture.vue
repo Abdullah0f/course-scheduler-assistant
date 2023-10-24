@@ -1,8 +1,7 @@
 <template>
   <div
     class="lecture hide-scrollbar"
-    :style="{ top: lectureTop + 'px', height: lectureHeight + 'px' }"
-  >
+    :style="{ top: lectureTop + 'px', height: lectureHeight + 'px', backgroundColor: lectureColor }">
     <h3>{{ lectureData.title }}</h3>
 
     <div>
@@ -30,6 +29,7 @@
 import { computed } from 'vue'
 import { isMobileFunc } from '@/utils/helpers'
 import { useWindowSize } from '@vueuse/core'
+import { getColor } from '@/utils/getColor'
 const props = defineProps({
   lectureData: {
     type: Object,
@@ -44,26 +44,27 @@ const props = defineProps({
     required: true
   }
 })
+const lectureColor = computed(() => getColor(props.lectureData.title))
 const lectureTop = computed(() => {
   const hourDiff = props.lectureData.startTime.getHours() - props.timings.earliestTime.getHours()
   const totalMinutes = hourDiff * 60 + props.lectureData.startTime.getMinutes()
   return props.hourPixels * (totalMinutes / 60)
 })
 const windowSize = useWindowSize()
-const isMobile = computed(()=> isMobileFunc(windowSize.width.value))
 
-const totalDurationInMinutes = computed(()=>{
-const durationInMinutes = 
-  props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes();
+const isMobile = computed(() => isMobileFunc(windowSize.width.value))
+
+const totalDurationInMinutes = computed(() => {
+  const durationInMinutes =
+    props.lectureData.endTime.getMinutes() - props.lectureData.startTime.getMinutes()
   const durationInHours =
     props.lectureData.endTime.getHours() - props.lectureData.startTime.getHours()
   return durationInHours * 60 + durationInMinutes
-});
+})
 
 const showFullData = computed(() => totalDurationInMinutes.value > 90)
 
 const lectureHeight = computed(() => {
-  
   return (totalDurationInMinutes.value / 60) * props.hourPixels
 })
 const readableTime = (time) => {
@@ -74,7 +75,6 @@ const readableTime = (time) => {
 .lecture {
   border: 1px solid #ddd;
   padding: 5px;
-  background-color: #f4f4f4;
   position: absolute;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   overflow: scroll;
