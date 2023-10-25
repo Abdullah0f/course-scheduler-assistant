@@ -8,12 +8,17 @@
 
             <div>
                 <label for="daysOff" class="font-bold block mb-2">عدد الايام الاجازه</label>
-                <InputNumber v-model="localFilters.daysOff" dir="ltr"  mode="decimal" showButtons :min="0" :max="5" inputId="daysOff"  :pt="{input:'w-3rem'}" />
+                <InputNumber v-model="localFilters.daysOff" @update:model-value="onDaysOffChange" dir="ltr"  mode="decimal" showButtons :min="0" :max="5" inputId="daysOff"  :pt="{input:'w-3rem'}" />
             </div>
 
             <div>
                 <label class="font-bold block mb-2">تخصيص الايام</label>
                 <SelectButton v-model="localFilters.offInTheseDays" dir="ltr" :options="daysOptions" :optionDisabled="isDayOptionDisabled" optionLabel="name" multiple optionValue="value" />
+            </div>
+
+            <div>
+                <label for="breaksLimit" class="font-bold block mb-2">الحد الاقصى لفترات البريك</label>
+                <InputNumber v-model="localFilters.breaksLimit" dir="ltr"  suffix=" ساعة" mode="decimal" showButtons :min="0" :max="100" :step="10" inputId="breaksLimit"  :pt="{input:'w-7rem rtl'}" />
             </div>
 
         </div>
@@ -35,6 +40,11 @@ const emit = defineEmits(['filters-changed'])
 
 const localFilters = ref({...props.filters})
 
+const onDaysOffChange = (val)=> {
+    while(val < localFilters.value.offInTheseDays.length) {
+        localFilters.value.offInTheseDays.pop();
+    }
+}
 const isDayOptionDisabled = (day) => {
     const daysOff = localFilters.value.daysOff;
     const numOfOffDays = localFilters.value.offInTheseDays.length;
@@ -52,7 +62,6 @@ const daysOptions = ref([
     {name: "الثلاثاء", value: "tue"},
     {name: "الاثنين", value: "mon"},
     {name: "الاحد", value: "sun"},
-
 ])
 </script>
 

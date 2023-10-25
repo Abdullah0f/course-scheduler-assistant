@@ -58,7 +58,7 @@ const filters = ref({
   allowLocked: false,
   daysOff: 0,
   offInTheseDays: [],
-  breaksLimit: -1,
+  breaksLimit: 100,
 })
 const updateFilters = newFilters => filters.value = newFilters
 

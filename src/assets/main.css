@@ -15,3 +15,9 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.rtl{
+  direction: rtl;
+}
+.ltr{
+  direction: ltr;
+}
