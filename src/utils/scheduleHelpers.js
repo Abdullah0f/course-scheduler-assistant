@@ -1,7 +1,6 @@
 export function getTimings(schedule) {
   let earliestTime = new Date('1970-01-01T23:59:59')
   let latestTime = new Date('1970-01-01T00:00:00')
-
   for (const day in schedule) {
     schedule[day].forEach((item) => {
       earliestTime = item.startTime < earliestTime ? item.startTime : earliestTime
@@ -18,20 +17,35 @@ export function getTimings(schedule) {
 }
 
 export function getTotalBreaks(schedule) {
-  // TODO: implement this function
-  return 0
+  let totalBreaks = 0;
+  for (const day in schedule) {
+    const items = schedule[day];
+    if (items.length <= 1) {
+      continue; // skip days with only one lecture or no lectures
+    }
+    for (let i = 1; i < items.length; i++) {
+      const prevItem = items[i-1];
+      const currItem = items[i];
+
+      totalBreaks += currItem.startTime - prevItem.endTime;
+    }
+  }
+  return (totalBreaks/ (1000 * 60 ));
 }
 export function getDaysOff(schedule) {
-  // TODO: implement this function
-  return null
+  let daysOff = [];
+  for (const day in schedule) {
+    const items = schedule[day];
+    if (items.length == 0) {
+      daysOff.push(day);
+    }
+  }
+  return daysOff;
+  
 }
-
 
 function getTimeDiff(earliestTime, latestTime) {
   // find diff between hours and if there is a remainder, add 1
-  return (
-    latestTime.getHours() -
-    earliestTime.getHours() +
-    (latestTime.getMinutes() > 0 ? 1 : 0)
-  )
+  return latestTime.getHours() - earliestTime.getHours() + (latestTime.getMinutes() > 0 ? 1 : 0)
 }
+

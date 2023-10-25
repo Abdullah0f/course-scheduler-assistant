@@ -16,6 +16,8 @@ import { defineAsyncComponent, ref, watchEffect, computed } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
 import {SCHEDULES_PER_PAGE} from '@/utils/constants'
 
+
+// lazy loding the schedule component
 const ScheduleComponent = defineAsyncComponent(() => import('@/components/ScheduleComponents/ScheduleComponent.vue'))
 
 const props = defineProps({

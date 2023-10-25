@@ -42,8 +42,8 @@ function addCourseOptionToSchedule(option, schedule) {
         classType: period.classType,
         instructor: period.instructor
       }
-
       schedule[day].push(schedulePeriod)
+      schedule[day].sort((a, b) => a.startTime - b.startTime) // sort lecture by start time
     }
   }
   return schedule
@@ -67,8 +67,10 @@ export function theAlgorithm(courses, currentSchedule, currentIndex) {
     // here is the final stage that each complete schedule go through
     // meta data will be added here
     addMetaToSchedule(currentSchedule)
-    if (scheduleApplyFilters(currentSchedule)) return [currentSchedule]
-    return []
+    console.log(currentSchedule)
+    // if (scheduleApplyFilters(currentSchedule)) 
+    return [currentSchedule]
+    // return []
   }
 
   let possibleSchedules = []
