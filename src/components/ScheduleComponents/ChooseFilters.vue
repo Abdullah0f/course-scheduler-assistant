@@ -7,8 +7,8 @@
             </div>
 
             <div>
-                <label for="minmax-buttons" class="font-bold block mb-2">عدد الايام الاجازه</label>
-                <InputNumber v-model="localFilters.daysOff" dir="ltr"  mode="decimal" showButtons :min="0" :max="5" inputId="minmax-buttons"  :pt="{input:'w-3rem'}" />
+                <label for="daysOff" class="font-bold block mb-2">عدد الايام الاجازه</label>
+                <InputNumber v-model="localFilters.daysOff" dir="ltr"  mode="decimal" showButtons :min="0" :max="5" inputId="daysOff"  :pt="{input:'w-3rem'}" />
             </div>
 
             <div>

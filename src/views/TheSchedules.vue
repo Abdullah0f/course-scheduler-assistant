@@ -37,6 +37,7 @@
 import { schedule } from '../../schedule.js'
 import ScheduleComponent from '@/components/ScheduleComponents/ScheduleComponent.vue'
 import { generateSchedules } from '@/utils/generateSchdules.js'
+import { resetColors } from '@/utils/getColor.js'
 import ChooseCourses from '@/components/ScheduleComponents/chooseCourses.vue'
 import ChooseFilters from '@/components/ScheduleComponents/ChooseFilters.vue'
 import SchedulesList from '@/components/ScheduleComponents/SchedulesList.vue'
@@ -62,11 +63,13 @@ const filters = ref({
 const updateFilters = newFilters => filters.value = newFilters
 
 function handleCourses() {
+  if(!selectedCourses.value.length) return;
+  resetColors();
   const selectedCoursesObject = selectedCourses.value.reduce((acc, courseCode) => {
     acc[courseCode] = courses[courseCode]
     return acc
   }, {})
-  schedules.value = generateSchedules(selectedCoursesObject)
+  schedules.value = generateSchedules(selectedCoursesObject, filters.value)
 }
 </script>
 

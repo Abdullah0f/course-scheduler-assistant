@@ -56,13 +56,19 @@ function addMetaToSchedule(schedule) {
     daysOff: getDaysOff(schedule)
   }
 }
+
+function scheduleApplyFilters(schedule) {
+  // TODO: implement this function
+}
+
 // Generate all possible schedules
 export function theAlgorithm(courses, currentSchedule, currentIndex) {
   if (currentIndex === courses.length) {
     // here is the final stage that each complete schedule go through
     // meta data will be added here
     addMetaToSchedule(currentSchedule)
-    return [currentSchedule]
+    if (scheduleApplyFilters(currentSchedule)) return [currentSchedule]
+    return []
   }
 
   let possibleSchedules = []

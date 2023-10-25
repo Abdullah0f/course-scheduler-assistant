@@ -18,3 +18,8 @@ export const getColor = (title) => {
   }
   return titleToColorMapping.value[title];
 }
+
+export const resetColors = () => {
+  titleToColorMapping.value = {}
+  availableColors = [...LECTURES_COLORS]
+}

@@ -1084,4 +1084,10 @@ export const schedule = {
 // task12: schdule list comopnent (display schdule responsivly)
 // task13: any addition to home page
 
-
+// task1: add filters to chooseFilters (A)
+// task2: apply filters in algorithm (R) 
+// task3: complete functions in schduleHelpers (N)
+// task4: add sorting using meta data (A)
+// task5: display meta data somehow in each schdule (N)
+// task6: form validation (could use veevalidate) (A)
+// task7: make mobile responsive
