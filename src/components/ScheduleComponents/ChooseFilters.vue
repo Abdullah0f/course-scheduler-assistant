@@ -7,12 +7,12 @@
             </div>
 
             <div>
-                <label for="daysOff" class="font-bold block mb-2">عدد الايام الاجازه</label>
+                <label for="daysOff" class="font-bold block mb-2">عدد الايام الاوف</label>
                 <InputNumber v-model="localFilters.daysOff" @update:model-value="onDaysOffChange" dir="ltr"  mode="decimal" showButtons :min="0" :max="4" inputId="daysOff"  :pt="{input:'w-3rem'}" />
             </div>
 
             <div>
-                <label class="font-bold block mb-2">تخصيص الايام</label>
+                <label class="font-bold block mb-2">تخصيص الايام <span class="text-gray-500 text-xs">(اختياري)</span></label>
                 <SelectButton v-model="localFilters.offInTheseDays" dir="ltr" :options="daysOptions" :optionDisabled="isDayOptionDisabled" optionLabel="name" multiple optionValue="value" />
             </div>
 
