@@ -1075,18 +1075,18 @@ export const schedule = {
 // task3: create schedule component          => done
 // task4: create day component              => done
 // task5: create lecture component          => done
-// task6: create Courses from html
-// task7: create Schdules from courses
-// task8: make scdhule responsive
+// task6: create Courses from html          => done
+// task7: create Schdules from courses      => done
+// task8: make scdhule responsive           => done
 // task9: schdule style (1 hour lecture and 2 hour lecture)
-// task10: make navbar thru primevue
+// task10: make navbar thru primevue        => done
 // task11: make login route and view
-// task12: schdule list comopnent (display schdule responsivly)
+// task12: schdule list comopnent (display schdule responsivly) => done
 // task13: any addition to home page
 
 // task1: add filters to chooseFilters (A)
 // task2: apply filters in algorithm (R) 
-// task3: complete functions in schduleHelpers (N)
+// task3: complete functions in schduleHelpers (N)    = > Done
 // task4: add sorting using meta data (A)
 // task5: display meta data somehow in each schdule (N)
 // task6: form validation (could use veevalidate) (A)
