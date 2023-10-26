@@ -30,7 +30,7 @@ export function getTotalBreaks(schedule) {
       totalBreaks += currItem.startTime - prevItem.endTime;
     }
   }
-  return Math.round(totalBreaks/ (1000 * 60));
+  return totalBreaks/ (1000 * 60); // return total breaks in minutes
 }
 export function getDaysOff(schedule) {
   let daysOff = [];
