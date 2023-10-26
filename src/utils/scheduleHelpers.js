@@ -44,6 +44,35 @@ export function getDaysOff(schedule) {
   
 }
 
+export function sortSchedules(schedules, sort) {
+  if (!schedules || !sort) return schedules
+  const sortType = sort.split('-')[0]
+  const sortDirection = sort.split('-')[1]
+
+  const compareSchedules = (a, b) => {
+    let comparisonValue = 0
+
+    switch (sortType) {
+      case 'timeDiff':
+        comparisonValue = a.meta.timings.timeDiff - b.meta.timings.timeDiff
+        break
+      case 'daysOff':
+        comparisonValue = a.meta.daysOff.length - b.meta.daysOff.length
+        break
+      case 'breaks':
+        comparisonValue = a.meta.totalbreaks - b.meta.totalbreaks
+        break
+      default:
+        throw new Error(`Invalid sortType: ${sortType}`)
+    }
+
+    return sortDirection === 'desc' ? -comparisonValue : comparisonValue
+  }
+
+  return [...schedules].sort(compareSchedules)
+}
+
+
 function getTimeDiff(earliestTime, latestTime) {
   // find diff between hours and if there is a remainder, add 1
   return latestTime.getHours() - earliestTime.getHours() + (latestTime.getMinutes() > 0 ? 1 : 0)

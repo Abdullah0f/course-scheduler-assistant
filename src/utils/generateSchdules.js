@@ -67,7 +67,6 @@ export function theAlgorithm(courses, currentSchedule, currentIndex) {
     // here is the final stage that each complete schedule go through
     // meta data will be added here
     addMetaToSchedule(currentSchedule)
-    console.log(currentSchedule)
     // if (scheduleApplyFilters(currentSchedule)) 
     return [currentSchedule]
     // return []

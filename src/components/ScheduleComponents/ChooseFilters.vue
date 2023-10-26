@@ -8,7 +8,7 @@
 
             <div>
                 <label for="daysOff" class="font-bold block mb-2">عدد الايام الاجازه</label>
-                <InputNumber v-model="localFilters.daysOff" @update:model-value="onDaysOffChange" dir="ltr"  mode="decimal" showButtons :min="0" :max="5" inputId="daysOff"  :pt="{input:'w-3rem'}" />
+                <InputNumber v-model="localFilters.daysOff" @update:model-value="onDaysOffChange" dir="ltr"  mode="decimal" showButtons :min="0" :max="4" inputId="daysOff"  :pt="{input:'w-3rem'}" />
             </div>
 
             <div>

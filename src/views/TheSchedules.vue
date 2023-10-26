@@ -29,8 +29,10 @@
   <Button class="w-max mt-3" label="تاكيد" @click="handleCourses"></Button>
   </div>
 </div>
-
-  <SchedulesList v-if="schedules" :schedules="schedules" />
+  <div v-if="schedules">
+    <ChooseSort :sort="sort"  @sort-changed="updateSort" class="mr-5"/>
+    <SchedulesList :schedules="sortedSchedules" />
+  </div>
 </template>
 
 <script setup>
@@ -44,16 +46,20 @@ import SchedulesList from '@/components/ScheduleComponents/SchedulesList.vue'
 import { useCoursesStore } from '@/stores/courses'
 import Button from 'primevue/button'
 import { ref, computed } from 'vue'
-
+import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
+import { sortSchedules } from '@/utils/scheduleHelpers.js'
 const schedules = ref(null)
 const courses = useCoursesStore().courses
 const transformedCourses = computed(() => {
   return Object.keys(courses).map(key => ({ name: courses[key][0].code +" | "+courses[key][0].name, code: key }));
 })
+const sort = ref("timeDiff-asc")
 
 const selectedCourses = ref([])
 const updateSelectedCourses = courses => selectedCourses.value = courses
 
+
+const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
 const filters = ref({
   allowLocked: false,
   daysOff: 0,
@@ -61,6 +67,9 @@ const filters = ref({
   breaksLimit: 100,
 })
 const updateFilters = newFilters => filters.value = newFilters
+
+
+const updateSort = newSort => sort.value = newSort
 
 function handleCourses() {
   if(!selectedCourses.value.length) return;
