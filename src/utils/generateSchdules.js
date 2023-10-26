@@ -57,19 +57,23 @@ function addMetaToSchedule(schedule) {
   }
 }
 
-function scheduleApplyFilters(schedule) {
-  // TODO: implement this function
+function scheduleApplyFilters( schedule, filters ) {
+  const totalBreaksInHours = schedule.meta.totalbreaks / 60 
+  return totalBreaksInHours <= filters.breaksLimit && schedule.meta.daysOff.length >= filters.daysOff
 }
 
+
 // Generate all possible schedules
-export function theAlgorithm(courses, currentSchedule, currentIndex) {
+export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
+
   if (currentIndex === courses.length) {
     // here is the final stage that each complete schedule go through
     // meta data will be added here
     addMetaToSchedule(currentSchedule)
-    // if (scheduleApplyFilters(currentSchedule)) 
-    return [currentSchedule]
-    // return []
+    if (scheduleApplyFilters(currentSchedule, filters)) {
+      return [currentSchedule]
+    }
+    return []
   }
 
   let possibleSchedules = []
@@ -80,7 +84,7 @@ export function theAlgorithm(courses, currentSchedule, currentIndex) {
     if (canAddCourseOptionToSchedule(option, tempSchedule)) {
       tempSchedule = addCourseOptionToSchedule(option, tempSchedule)
       possibleSchedules = possibleSchedules.concat(
-        theAlgorithm(courses, tempSchedule, currentIndex + 1)
+        theAlgorithm(courses, tempSchedule, currentIndex + 1,filters)
       )
       if (possibleSchedules.length >= MAX_GENERATED_SCHEDULES) {
         break
@@ -91,11 +95,10 @@ export function theAlgorithm(courses, currentSchedule, currentIndex) {
   return possibleSchedules
 }
 
-export function generateSchedules(courses) {
+export function generateSchedules(courses, filters) {
   const coursesArray = Object.values(courses)
 
   // sort courses by number of options
   coursesArray.sort((course1, course2) => course1.length - course2.length)
-
-  return theAlgorithm(coursesArray, initializeBlankSchedule(), 0)
+  return theAlgorithm(coursesArray, initializeBlankSchedule(), 0, filters)
 }
