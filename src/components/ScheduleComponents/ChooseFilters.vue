@@ -8,7 +8,7 @@
 
             <div>
                 <label for="daysOff" class="font-bold block mb-2">عدد الايام الاوف</label>
-                <InputNumber v-model="localFilters.daysOff" @update:model-value="onDaysOffChange" dir="ltr"  mode="decimal" showButtons :min="0" :max="4" inputId="daysOff"  :pt="{input:'w-3rem'}" />
+                <InputNumber v-model="localFilters.daysOff" @update:model-value="onDaysOffChange" dir="ltr" locale="en-US"  mode="decimal" showButtons :min="0" :max="4" inputId="daysOff"  :pt="{input:'w-3rem'}" />
             </div>
 
             <div>
@@ -18,7 +18,7 @@
 
             <div>
                 <label for="breaksLimit" class="font-bold block mb-2">الحد الاقصى لفترات البريك</label>
-                <InputNumber v-model="localFilters.breaksLimit" dir="ltr"  suffix=" ساعة" mode="decimal" showButtons :min="0" :max="100" :step="10" inputId="breaksLimit"  :pt="{input:'w-7rem rtl'}" />
+                <InputNumber v-model="localFilters.breaksLimit" dir="ltr"  suffix=" ساعة" mode="decimal" showButtons locale="en-US" :min="0" :max="100" :step="10" inputId="breaksLimit"  :pt="{input:'w-7rem rtl'}" />
             </div>
 
         </div>
