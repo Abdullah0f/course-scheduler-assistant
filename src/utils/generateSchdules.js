@@ -10,11 +10,14 @@ function initializeBlankSchedule() {
   return schedule
 }
 
+function isLocked(section) {
+return section.open == 'مغلقة'
+}
+
 // Translate day number to string representation
 function dayToString(dayNumber) {
   return DAYS[dayNumber - 1]
 }
-
 // Check if two periods have a time conflict
 function hasConflict(period1, period2) {
   return period1.startTime < period2.endTime && period1.endTime > period2.startTime
@@ -59,7 +62,10 @@ function addMetaToSchedule(schedule) {
 
 function scheduleApplyFilters( schedule, filters ) {
   const totalBreaksInHours = schedule.meta.totalbreaks / 60 
-  return totalBreaksInHours <= filters.breaksLimit && schedule.meta.daysOff.length >= filters.daysOff
+  return totalBreaksInHours <= filters.breaksLimit 
+  && schedule.meta.daysOff.length >= filters.daysOff
+  && filters.offInTheseDays.every( day => schedule.meta.daysOff.includes(day) )
+
 }
 
 
@@ -78,23 +84,22 @@ export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
 
   let possibleSchedules = []
   const currentCourse = courses[currentIndex]
-
-  for (const option of currentCourse) {
+   
+  for (const section of currentCourse) { // Iterate through each section of the current course
     let tempSchedule = cloneDeep(currentSchedule)
-    if (canAddCourseOptionToSchedule(option, tempSchedule)) {
-      tempSchedule = addCourseOptionToSchedule(option, tempSchedule)
+
+    if ((filters.allowLocked || !isLocked(section)) && canAddCourseOptionToSchedule(section, tempSchedule)) {
+      tempSchedule = addCourseOptionToSchedule(section, tempSchedule)
       possibleSchedules = possibleSchedules.concat(
-        theAlgorithm(courses, tempSchedule, currentIndex + 1,filters)
+        theAlgorithm(courses, tempSchedule, currentIndex + 1, filters)
       )
       if (possibleSchedules.length >= MAX_GENERATED_SCHEDULES) {
         break
       }
     }
   }
-
   return possibleSchedules
 }
-
 export function generateSchedules(courses, filters) {
   const coursesArray = Object.values(courses)
 
