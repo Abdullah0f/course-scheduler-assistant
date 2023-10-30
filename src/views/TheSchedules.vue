@@ -16,17 +16,18 @@
     </div>
   </div>
   <div v-if="Object.keys(courses).length !== 0">
-  
-  <ChooseCourses
-  :courses="transformedCourses"
-  @courses-changed="updateSelectedCourses"
-  />
-
-  <ChooseFilters
-  @filters-changed="updateFilters"
-  :filters="filters"
-  />
-  <Button class="w-max mt-3" label="تاكيد" @click="handleCourses"></Button>
+  <form @submit.prevent="handleCourses" >
+    <ChooseCourses
+    :courses="transformedCourses"
+    @courses-changed="updateSelectedCourses"
+    />
+    
+    <ChooseFilters
+    @filters-changed="updateFilters"
+    :filters="filters"
+    />
+    <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
+  </form>
   </div>
 </div>
   <div v-if="schedules">
@@ -48,30 +49,34 @@ import Button from 'primevue/button'
 import { ref, computed } from 'vue'
 import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
 import { sortSchedules } from '@/utils/scheduleHelpers.js'
+import { useField, useForm } from 'vee-validate';
+
+const {handleSubmit} = useForm();
 const schedules = ref(null)
 const courses = useCoursesStore().courses
 const transformedCourses = computed(() => {
   return Object.keys(courses).map(key => ({ name: courses[key][0].code +" | "+courses[key][0].name, code: key }));
 })
+
+
 const sort = ref("timeDiff-asc")
-
-const selectedCourses = ref([])
-const updateSelectedCourses = courses => selectedCourses.value = courses
-
-
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
 const filters = ref({
-  allowLocked: false,
+  allowLocked: true,
   daysOff: 0,
   offInTheseDays: [],
   breaksLimit: 100,
 })
+const selectedCourses = ref([])
+// const { value: selectedCoursesValue, errorMessage } = useField('selectedCourses', (value) => value.length > 0);
+
+
+
+const updateSelectedCourses = courses => selectedCourses.value = courses
 const updateFilters = newFilters => filters.value = newFilters
-
-
 const updateSort = newSort => sort.value = newSort
-
-function handleCourses() {
+const handleCourses = handleSubmit((values) => {
+  console.log(values)
   if(!selectedCourses.value.length) return;
   resetColors();
   const selectedCoursesObject = selectedCourses.value.reduce((acc, courseCode) => {
@@ -79,7 +84,7 @@ function handleCourses() {
     return acc
   }, {})
   schedules.value = generateSchedules(selectedCoursesObject, filters.value)
-}
+})
 </script>
 
 <style scoped></style>
