@@ -33,6 +33,17 @@
     <ChooseSort :sort="sort"  @sort-changed="updateSort" class="mr-5"/>
     <SchedulesList :schedules="sortedSchedules" />
   </div>
+  <ScrollTop
+                target="window"
+                :threshold="1000"
+                icon="pi pi-arrow-up"
+                :pt="{
+                    root: 'w-2rem h-2rem border-round-sm bg-primary hover:bg-primary',
+                    icon: {
+                        class: 'text-base'
+                    }
+                }"
+            />
 </template>
 
 <script setup>
@@ -48,6 +59,11 @@ import Button from 'primevue/button'
 import { ref, computed } from 'vue'
 import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
 import { sortSchedules } from '@/utils/scheduleHelpers.js'
+<<<<<<< Updated upstream
+=======
+import ScrollTop from 'primevue/scrolltop';
+
+>>>>>>> Stashed changes
 const schedules = ref(null)
 const courses = useCoursesStore().courses
 const transformedCourses = computed(() => {
@@ -61,7 +77,11 @@ const updateSelectedCourses = courses => selectedCourses.value = courses
 
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
 const filters = ref({
+<<<<<<< Updated upstream
   allowLocked: false,
+=======
+  allowLocked: true,
+>>>>>>> Stashed changes
   daysOff: 0,
   offInTheseDays: [],
   breaksLimit: 100,
