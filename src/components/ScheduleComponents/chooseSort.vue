@@ -1,18 +1,16 @@
 <template>
     <div class="mt-3 flex align-items-center gap-3">
         <label for="sort">رتب حسب</label>
-        <Dropdown v-model="chosenSort" :options="sorts" optionValue="value" optionLabel="name" placeholder="رتب حسب" class="w-15rem" :pt="{input: 'font'}"/>
+        <Dropdown v-model="chosenSort" :options="sortingOptions" optionValue="value" optionLabel="name" placeholder="رتب حسب" class="w-15rem" :pt="{input: 'font'}"/>
         <div v-if="chosenSort">
             <Button
             @click="setOrder('asc')" 
             icon="pi pi-sort-amount-up" 
-            iconPos="right" 
             class="p-button-text" />
 
             <Button
             @click="setOrder('desc')" 
             icon="pi pi-sort-amount-down" 
-            iconPos="right" 
             class="p-button-text"/>
         </div>
         
@@ -22,11 +20,11 @@
 
 <script setup>
 import Dropdown from 'primevue/dropdown';
-import { ref } from 'vue'
+import { ref , watch} from 'vue'
 import Button  from 'primevue/button';
 
 const props = defineProps({
-    sortCriterion: {
+    sort: {
         type: String,
         required: true
     },
@@ -37,10 +35,10 @@ const props = defineProps({
 })
 const emit = defineEmits(['sort-changed'])
 
-const chosenSort = ref(props.sortCriterion);
+const chosenSort = ref(props.sort);
 const order = ref(props.sortOrder);
 
-const sorts = ref([
+const sortingOptions = ref([
     {name:"طول الجدول", value: "timeDiff"},
     {name:"عدد ايام الاوف", value: "daysOff"},
     {name:"عدد البريكات", value: "breaks"},
@@ -48,12 +46,12 @@ const sorts = ref([
 
 function setOrder(newOrder) {
     order.value = newOrder;
-    emitSortChange();
+    
 }
 
-function emitSortChange() {
+watch([chosenSort, order], () => {
     emit('sort-changed', `${chosenSort.value}-${order.value}`);
-}
+});
 
 </script>
 
