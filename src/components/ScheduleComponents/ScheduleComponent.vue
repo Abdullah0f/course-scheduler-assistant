@@ -6,6 +6,20 @@
           <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
         </div>
       </div>
+  <div ref="scheduleDiv" class="schedule" :class="props.size">
+    <HourColumn v-if="!isMobile"  :hourPixels="hourPixels" :timings="timings"/>
+    <div v-for="day in DAYS" :key="day" class="flex-1">
+      <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
+      <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
+    </div>
+    <Button  icon="co pi pi-info-circle" @click="toggle" text rounded aria-label="Bookmark" ></Button>
+    <!-- OverlayPanel definition -->
+    <OverlayPanel ref="op" class="small-overlay-panel" >
+        <!-- Custom information you want to display -->
+        <p>اجمالي البريكات {{ getTotalBreaks(schedule) }} دقيقة ({{ Math.round(getTotalBreaks(schedule)/60) }} ساعة)</p>
+        <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
+      </OverlayPanel>
+  </div>
       <SaveButton v-if="size=='default'" :targetRef="scheduleDiv" />
   </template>
   
@@ -19,6 +33,10 @@ import { computed, ref } from 'vue'
 import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '@/utils/constants'
 import {isMobileFunc} from '@/utils/helpers'
 import {useWindowSize} from '@vueuse/core'
+import { getTotalBreaks } from '../../utils/scheduleHelpers';
+import { getDaysOff } from '../../utils/scheduleHelpers';
+import Button  from 'primevue/button';
+import OverlayPanel from 'primevue/overlaypanel';
 const props = defineProps({
   schedule: {
     type: Object,
@@ -40,10 +58,17 @@ const isMobile = computed(()=> isMobileFunc(windowSize.width.value))
 const device = computed(() => isMobile.value? 'mobile' : 'other');
 const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
 
+const op = ref(null);
+
+    // Method to toggle the visibility of the OverlayPanel
+    const toggle = (event) => {
+      op.value.toggle(event);
+    };
+
 </script>
 
 
-<style lang="scss">
+<style lang="scss" >
 
 .schedule {
   border: 1px solid #aaa;
@@ -69,12 +94,36 @@ const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
   width: 30vw;
   min-width: 430px;
   max-width: 600px;
+  @media screen and (max-width: 600px) {
+    width: 90vw;
+    max-width: 600px;
+    min-width: 0px;
+    padding: 2px;
+    h2 {
+      font-size: 0.7rem;
+    }
+  }
 
   h2 {
     font-size: 1rem;
   }
 
 }
+.co{
+  
+  // // top: 60px;
+  // // left:-380px;
+  // // display: inline;
+  // margin-top: 100px ;
+  // padding: 0;
+  
+}
+.small-overlay-panel {
+    // width: 200px; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+    padding: 0px;
 
+    
+}
 </style>
 
