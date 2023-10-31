@@ -44,7 +44,8 @@ function addCourseOptionToSchedule(option, schedule) {
         location: period.location,
         classType: period.classType,
         instructor: period.instructor,
-        classCode: option.classCode
+        classCode: option.classCode,
+        isOpen: option.open
       }
       schedule[day].push(schedulePeriod)
       schedule[day].sort((a, b) => a.startTime - b.startTime) // sort lecture by start time

@@ -1,9 +1,15 @@
 <template>
   <div
     class="lecture hide-scrollbar"
+    :class="{'locked': lectureData.isOpen == 'مغلقة'}"
+    v-tooltip.top="'الشعبة مغلقة'"
     :style="{ top: lectureTop + 'px', height: lectureHeight + 'px', backgroundColor: lectureColor }">
-    <h3>{{ lectureData.title }}</h3>
+    
+    <i v-if="lectureData.isOpen == 'مغلقة'" class="pi tst pi-lock"></i>
 
+      <h3 class="text-center ">{{ lectureData.title }}</h3>
+
+    <p class="font-bold text-center">الشعبة: {{ lectureData.classCode }}</p>
     <div>
       <p v-if="!isMobile">
         الوقت: {{ readableTime(lectureData.startTime) }} - {{ readableTime(lectureData.endTime) }}
@@ -15,21 +21,23 @@
 
     <!-- Start Time (Mobile Only) -->
     <div class="top-0 right-0 absolute px-1 block" v-if="isMobile">
-      <p>{{ readableTime(lectureData.startTime) }}</p>
+      <p class="mt-1 z-5 font-bold  font-italic">{{ readableTime(lectureData.startTime) }}</p>
     </div>
 
     <!-- End Time (Mobile Only) -->
     <div class="bottom-0 left-0 absolute px-1 block" v-if="isMobile">
-      <p>{{ readableTime(lectureData.endTime) }}</p>
+      <p class="mb-1 z-5 font-bold  font-italic">{{ readableTime(lectureData.endTime) }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed , ref} from 'vue'
 import { isMobileFunc } from '@/utils/helpers'
 import { useWindowSize } from '@vueuse/core'
 import { getColor } from '@/utils/getColor'
+
+
 const props = defineProps({
   lectureData: {
     type: Object,
@@ -70,13 +78,15 @@ const lectureHeight = computed(() => {
 const readableTime = (time) => {
   return `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`
 }
+
 </script>
 <style scoped lang="scss">
 .lecture {
   border: 1px solid #ddd;
-  padding: 5px;
+  padding: 3px;
   position: absolute;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
   overflow: scroll;
   width: -webkit-fill-available;
   width: -moz-available;
@@ -96,6 +106,38 @@ const readableTime = (time) => {
   }
   p {
     font-size: 0.5rem;
+  }
+}
+.locked {
+  border: 2px solid #4b0707;
+  box-shadow: 3px 2px 2px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease-in-out;
+
+  .tst{
+    font-size: 9px;
+    position: absolute;
+    top: 3px;
+    left: 2px;
+    color: black;
+    font-weight: 800;
+    transition: all 0.3s ease-in-out;
+    // right: 0;
+  }
+  &:hover {
+    border: 2px solid #a11e1e;
+    
+    .tst{
+      color: red;
+
+    }
+  }
+  &:active {
+    border: 2px solid #a11e1e;
+    background-color: #f8d7da; /* add a background color to make it clear */
+    .tst{
+      color: red;
+
+    }
   }
 }
 </style>

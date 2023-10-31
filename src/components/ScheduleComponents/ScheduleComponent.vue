@@ -1,11 +1,4 @@
 <template>
-    <div ref="scheduleDiv" class="schedule" :class="props.size">
-      <HourColumn v-if="!isMobile"  :hourPixels="hourPixels" :timings="timings"/>
-        <div v-for="day in DAYS" :key="day" class="flex-1">
-          <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
-          <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
-        </div>
-      </div>
   <div ref="scheduleDiv" class="schedule" :class="props.size">
     <HourColumn v-if="!isMobile"  :hourPixels="hourPixels" :timings="timings"/>
     <div v-for="day in DAYS" :key="day" class="flex-1">
@@ -126,4 +119,5 @@ const op = ref(null);
     
 }
 </style>
+
 
