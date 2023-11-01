@@ -19,7 +19,8 @@
   <form @submit.prevent="handleCourses" >
     <ChooseCourses
     :courses="transformedCourses"
-    @courses-changed="updateSelectedCourses"
+    @courses-changed="onSelectedCoursesChange"
+    :errorMessage="selectedCoursesError"
     />
     
     <ChooseFilters
@@ -58,6 +59,10 @@ const transformedCourses = computed(() => {
   return Object.keys(courses).map(key => ({ name: courses[key][0].code +" | "+courses[key][0].name, code: key }));
 })
 
+function isNotEmpty(value) {
+  return (Array.isArray(value) && value.length > 0) || 'لا يمكن ان تكون المواد المختارة فارغة';
+}
+const { errorMessage: selectedCoursesError, handleChange: onSelectedCoursesChange } = useField('selectedCourses', isNotEmpty);
 
 const sort = ref("timeDiff-asc")
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
@@ -67,19 +72,14 @@ const filters = ref({
   offInTheseDays: [],
   breaksLimit: 100,
 })
-const selectedCourses = ref([])
-// const { value: selectedCoursesValue, errorMessage } = useField('selectedCourses', (value) => value.length > 0);
-
-
-
-const updateSelectedCourses = courses => selectedCourses.value = courses
 const updateFilters = newFilters => filters.value = newFilters
 const updateSort = newSort => sort.value = newSort
+
 const handleCourses = handleSubmit((values) => {
-  console.log(values)
-  if(!selectedCourses.value.length) return;
+  const {selectedCourses} = values
+  if(!selectedCourses.length) return;
   resetColors();
-  const selectedCoursesObject = selectedCourses.value.reduce((acc, courseCode) => {
+  const selectedCoursesObject = selectedCourses.reduce((acc, courseCode) => {
     acc[courseCode] = courses[courseCode]
     return acc
   }, {})
