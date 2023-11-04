@@ -16,17 +16,19 @@
     </div>
   </div>
   <div v-if="Object.keys(courses).length !== 0">
-  
-  <ChooseCourses
-  :courses="transformedCourses"
-  @courses-changed="updateSelectedCourses"
-  />
-
-  <ChooseFilters
-  @filters-changed="updateFilters"
-  :filters="filters"
-  />
-  <Button class="w-max mt-3" label="تاكيد" @click="handleCourses"></Button>
+  <form @submit.prevent="handleCourses" >
+    <ChooseCourses
+    :courses="transformedCourses"
+    @courses-changed="onSelectedCoursesChange"
+    :errorMessage="selectedCoursesError"
+    />
+    
+    <ChooseFilters
+    @filters-changed="updateFilters"
+    :filters="filters"
+    />
+    <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
+  </form>
   </div>
 </div>
   <div v-if="schedules">
@@ -59,6 +61,9 @@ import Button from 'primevue/button'
 import { ref, computed } from 'vue'
 import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
 import { sortSchedules } from '@/utils/scheduleHelpers.js'
+import { useField, useForm } from 'vee-validate';
+
+const {handleSubmit} = useForm();
 import ScrollTop from 'primevue/scrolltop';
 
 const schedules = ref(null)
@@ -66,12 +71,13 @@ const courses = useCoursesStore().courses
 const transformedCourses = computed(() => {
   return Object.keys(courses).map(key => ({ name: courses[key][0].code +" | "+courses[key][0].name, code: key }));
 })
+
+function isNotEmpty(value) {
+  return (Array.isArray(value) && value.length > 0) || 'لا يمكن ان تكون المواد المختارة فارغة';
+}
+const { errorMessage: selectedCoursesError, handleChange: onSelectedCoursesChange } = useField('selectedCourses', isNotEmpty);
+
 const sort = ref("timeDiff-asc")
-
-const selectedCourses = ref([])
-const updateSelectedCourses = courses => selectedCourses.value = courses
-
-
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
 const filters = ref({
   allowLocked: true,
@@ -80,19 +86,18 @@ const filters = ref({
   breaksLimit: 100,
 })
 const updateFilters = newFilters => filters.value = newFilters
-
-
 const updateSort = newSort => sort.value = newSort
 
-function handleCourses() {
-  if(!selectedCourses.value.length) return;
+const handleCourses = handleSubmit((values) => {
+  const {selectedCourses} = values
+  if(!selectedCourses.length) return;
   resetColors();
-  const selectedCoursesObject = selectedCourses.value.reduce((acc, courseCode) => {
+  const selectedCoursesObject = selectedCourses.reduce((acc, courseCode) => {
     acc[courseCode] = courses[courseCode]
     return acc
   }, {})
   schedules.value = generateSchedules(selectedCoursesObject, filters.value)
-}
+})
 </script>
 
 <style scoped></style>
