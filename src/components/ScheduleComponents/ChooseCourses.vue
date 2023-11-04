@@ -16,7 +16,6 @@ import {  ref } from 'vue'
         required: true
     },
     errorMessage: {
-        type: Boolean,
         required: true
     }
 })
