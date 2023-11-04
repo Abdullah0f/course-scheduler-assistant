@@ -27,7 +27,8 @@
     @filters-changed="updateFilters"
     :filters="filters"
     />
-    <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
+    <Button class="w-max mt-3" label="تاكيد" type="submit" :disabled="!hasSomthingChanged"></Button>
+    <small v-if="!hasSomthingChanged" class="p-error mr-1">قم بتغيير شي</small>
   </form>
   </div>
 </div>
@@ -66,6 +67,9 @@ import { useField, useForm } from 'vee-validate';
 const {handleSubmit} = useForm();
 import ScrollTop from 'primevue/scrolltop';
 
+const hasSomthingChanged = ref(true)
+const somethingChanged = () => hasSomthingChanged.value = true
+
 const schedules = ref(null)
 const courses = useCoursesStore().courses
 const transformedCourses = computed(() => {
@@ -75,7 +79,13 @@ const transformedCourses = computed(() => {
 function isNotEmpty(value) {
   return (Array.isArray(value) && value.length > 0) || 'لا يمكن ان تكون المواد المختارة فارغة';
 }
-const { errorMessage: selectedCoursesError, handleChange: onSelectedCoursesChange } = useField('selectedCourses', isNotEmpty);
+const { errorMessage: selectedCoursesError, value:selectedCourses, handleChange: onSelectedCoursesChangeValidator } = useField('selectedCourses', isNotEmpty);
+console.log(selectedCourses.value?.length)
+const onSelectedCoursesChange = (selectedCoursess) => {
+  onSelectedCoursesChangeValidator(selectedCoursess)
+  somethingChanged();
+}
+
 
 const sort = ref("timeDiff-asc")
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
@@ -85,10 +95,14 @@ const filters = ref({
   offInTheseDays: [],
   breaksLimit: 100,
 })
-const updateFilters = newFilters => filters.value = newFilters
+const updateFilters = newFilters => {
+  filters.value = newFilters
+  somethingChanged();
+}
 const updateSort = newSort => sort.value = newSort
 
 const handleCourses = handleSubmit((values) => {
+  if(!hasSomthingChanged.value) return console.log("nothing changed");
   const {selectedCourses} = values
   if(!selectedCourses.length) return;
   resetColors();
@@ -97,6 +111,8 @@ const handleCourses = handleSubmit((values) => {
     return acc
   }, {})
   schedules.value = generateSchedules(selectedCoursesObject, filters.value)
+
+  hasSomthingChanged.value = false;
 })
 </script>
 
