@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-column items-center">
-        <h2>
+        <h2 class="mr-5">
           عدد الجداول الممكنة <span class="text-blue-600 mr-2">{{ schedules.length }}</span>
         </h2>
         <div class="flex flex-wrap justify-content-center gap-2">
