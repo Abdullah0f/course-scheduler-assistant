@@ -80,14 +80,13 @@ function isNotEmpty(value) {
   return (Array.isArray(value) && value.length > 0) || 'لا يمكن ان تكون المواد المختارة فارغة';
 }
 const { errorMessage: selectedCoursesError, value:selectedCourses, handleChange: onSelectedCoursesChangeValidator } = useField('selectedCourses', isNotEmpty);
-console.log(selectedCourses.value?.length)
 const onSelectedCoursesChange = (selectedCoursess) => {
   onSelectedCoursesChangeValidator(selectedCoursess)
   somethingChanged();
 }
 
 
-const sort = ref("timeDiff-asc")
+const sort = ref("")
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
 const filters = ref({
   allowLocked: true,
@@ -99,10 +98,11 @@ const updateFilters = newFilters => {
   filters.value = newFilters
   somethingChanged();
 }
+
 const updateSort = newSort => sort.value = newSort
 
 const handleCourses = handleSubmit((values) => {
-  if(!hasSomthingChanged.value) return console.log("nothing changed");
+  if(!hasSomthingChanged.value) return;
   const {selectedCourses} = values
   if(!selectedCourses.length) return;
   resetColors();
