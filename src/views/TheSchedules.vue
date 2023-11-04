@@ -77,7 +77,7 @@ function isNotEmpty(value) {
 }
 const { errorMessage: selectedCoursesError, handleChange: onSelectedCoursesChange } = useField('selectedCourses', isNotEmpty);
 
-const sort = ref("timeDiff-asc")
+const sort = ref("")
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value));
 const filters = ref({
   allowLocked: true,
