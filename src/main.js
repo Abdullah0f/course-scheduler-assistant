@@ -6,6 +6,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import StyleClass from 'primevue/styleclass'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
+import Tooltip from 'primevue/tooltip'
 import App from './App.vue'
 import router from './router'
 import 'primevue/resources/themes/soho-light/theme.css'
@@ -19,6 +20,8 @@ app.use(pinia)
 app.use(router)
 app.use(ToastService)
 app.directive('styleclass', StyleClass)
+app.directive('tooltip', Tooltip)
+
 app.use(PrimeVue, {
   pt: {
     global: {
