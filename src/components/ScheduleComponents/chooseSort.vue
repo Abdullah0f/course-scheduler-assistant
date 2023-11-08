@@ -6,12 +6,17 @@
             <Button
             @click="setOrder('asc')" 
             icon="pi pi-sort-amount-up" 
-            class="p-button-text" />
+            class="p-button-text" 
+            v-tooltip.top="'تصاعدي'"
+            />
 
             <Button
             @click="setOrder('desc')" 
             icon="pi pi-sort-amount-down" 
-            class="p-button-text"/>
+            class="p-button-text"
+            v-tooltip.top="'تنازلي'"
+            />
+
         </div>
         
 
