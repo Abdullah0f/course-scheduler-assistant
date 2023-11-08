@@ -22,7 +22,10 @@
     @courses-changed="onSelectedCoursesChange"
     :errorMessage="selectedCoursesError"
     />
-    
+    <ChooseSectionCourse
+    :selectCourse="selectCourse"
+    @update-selectedSection="handleSelectedSectionUpdate"
+  />
     <ChooseFilters
     @filters-changed="updateFilters"
     :filters="filters"
@@ -67,7 +70,7 @@ import ScrollTop from 'primevue/scrolltop';
 
 const { handleSubmit } = useForm();
 
-const hasSomthingChanged = ref(false)
+const hasSomthingChanged = ref(true)
 const somethingChanged = () => hasSomthingChanged.value = true
 
 const schedules = ref(null)
@@ -91,9 +94,10 @@ const handleSelectedSectionUpdate = (newSelection) => {
 function isNotEmpty(value) {
   return (Array.isArray(value) && value.length > 0) || 'لا يمكن ان تكون المواد المختارة فارغة'
 }
-const { errorMessage: selectedCoursesError, handleChange: onSelectedCoursesChangeValidator } = useField('selectedCourses', isNotEmpty);
+const { errorMessage: selectedCoursesError, value:selectedCourses, handleChange: onSelectedCoursesChangeValidator } = useField('selectedCourses', isNotEmpty);
 const onSelectedCoursesChange = (selectedCourses) => {
   onSelectedCoursesChangeValidator(selectedCourses)
+  courseSection(selectedCourses)
   somethingChanged();
 }
 
@@ -135,8 +139,6 @@ const handleCourses = handleSubmit((values) => {
     return acc
   }, {})
   schedules.value = generateSchedules(selectedCoursesObject, filters.value)
-  console.log(selectCourse)
-  console.log(selectedSection,"selectedSection")
   hasSomthingChanged.value = false;
 })
 </script>
