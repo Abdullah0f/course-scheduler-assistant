@@ -31,7 +31,8 @@ import Button  from 'primevue/button';
 const props = defineProps({
     sort: {
         type: String,
-        required: true
+        required: true,
+        default: 'timeDiff'
     },
     sortOrder: {
         type: String,

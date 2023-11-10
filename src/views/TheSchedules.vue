@@ -114,7 +114,7 @@ const courseSection = (selectedCourses) => {
   return selectedCoursesObject
 }
 
-const sort = ref("timeDiff-asc")
+const sort = ref("timeDiff")
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value))
 const filters = ref({
   allowLocked: true,

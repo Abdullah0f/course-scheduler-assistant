@@ -5,8 +5,9 @@
       :model="items"
       :pt="{ action: 'focus:shadow-none', icon: 'mr-0 ml-2', label: 'white-space-nowrap' }"
       :activeIndex="activeIndex"
-      @update:activeIndex="changeTab"
+      @update:activeIndex="changeTab" 
     />
+    
     <Menubar
       v-else
       :model="items"
@@ -16,6 +17,7 @@
       //  label: 'white-space-nowrap' 
        }"
       />
+
       <!-- :activeIndex="activeIndex" -->
       <!-- @update:activeIndex="changeTab" -->
   </div>
@@ -24,15 +26,32 @@
 <script setup>
 import TabMenu from 'primevue/tabmenu'
 import Menubar from 'primevue/menubar'
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
+import getUser from '@/utils/auth/getUser'
+const items = ref([])
 
-const items = ref([
+const { user } = getUser()
+
+watchEffect(() => {
+  if (user.value) {
+    items.value = [
   { label: ' الرئيسية ', icon: 'pi pi-fw pi-home', to: '/' },
   { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },
   { label: ' الملف الشخصي ', icon: 'pi pi-fw pi-user', to: '/profile' },
   { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' }
-])
+  ]
+  } else  {
+    items.value = [
+  { label: ' الرئيسية ', icon: 'pi pi-fw pi-home', to: '/' },
+  { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },
+  { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' },
+  { label: ' تسجيل الدخول', icon: 'pi pi-fw pi-key', to: '/login' }
+  ]
+  }
+
+})
+
 
 const activeIndex = ref(0)
 const router = useRouter()
