@@ -11,7 +11,7 @@ function initializeBlankSchedule() {
 }
 
 function isLocked(section) {
-return section.open == 'مغلقة'
+  return section.open == 'مغلقة'
 }
 
 // Translate day number to string representation
@@ -62,18 +62,17 @@ function addMetaToSchedule(schedule) {
   }
 }
 
-function scheduleApplyFilters( schedule, filters ) {
-  const totalBreaksInHours = schedule.meta.totalbreaks / 60 
-  return totalBreaksInHours <= filters.breaksLimit 
-  && schedule.meta.daysOff.length >= filters.daysOff
-  && filters.offInTheseDays.every( day => schedule.meta.daysOff.includes(day) )
-
+function scheduleApplyFilters(schedule, filters) {
+  const totalBreaksInHours = schedule.meta.totalbreaks / 60
+  return (
+    totalBreaksInHours <= filters.breaksLimit &&
+    schedule.meta.daysOff.length >= filters.daysOff &&
+    filters.offInTheseDays.every((day) => schedule.meta.daysOff.includes(day))
+  )
 }
-
 
 // Generate all possible schedules
 export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
-
   if (currentIndex === courses.length) {
     // here is the final stage that each complete schedule go through
     // meta data will be added here
@@ -86,11 +85,15 @@ export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
 
   let possibleSchedules = []
   const currentCourse = courses[currentIndex]
-   
-  for (const section of currentCourse) { // Iterate through each section of the current course
+
+  for (const section of currentCourse) {
+    // Iterate through each section of the current course
     let tempSchedule = cloneDeep(currentSchedule)
 
-    if ((filters.allowLocked || !isLocked(section)) && canAddCourseOptionToSchedule(section, tempSchedule)) {
+    if (
+      (filters.allowLocked || !isLocked(section)) &&
+      canAddCourseOptionToSchedule(section, tempSchedule)
+    ) {
       tempSchedule = addCourseOptionToSchedule(section, tempSchedule)
       possibleSchedules = possibleSchedules.concat(
         theAlgorithm(courses, tempSchedule, currentIndex + 1, filters)
@@ -102,8 +105,30 @@ export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
   }
   return possibleSchedules
 }
-export function generateSchedules(courses, filters) {
-  const coursesArray = Object.values(courses)
+  function minimizeSectionCourses(coursesArray, section) {
+    for (const i of coursesArray) {
+      for (const j of section) {
+        const [, num, name] = j.split(' - ').map((str) => str.trim())
+        if (i[0].code == name) {
+          coursesArray = coursesArray.map((course) => {
+            if (course[0].code == name) {
+              return course.filter((section) => section.classCode == num)
+            } else {
+              return course;
+            }
+          })
+        }
+      }
+    }
+    return coursesArray
+  }
+export function generateSchedules(courses, section, filters) {
+  let coursesArray = Object.values(courses)
+  console.log(coursesArray)
+  if (section) {
+    coursesArray = minimizeSectionCourses(coursesArray, section)
+  }
+  console.log(coursesArray)
 
   // sort courses by number of options
   coursesArray.sort((course1, course2) => course1.length - course2.length)
