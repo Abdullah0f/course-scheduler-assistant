@@ -1,39 +1,35 @@
 <template>
   <div class="mr-5">
-
-  <div id="temp">
-    <h1>الجدول</h1>
-    <Button
-    rounded
-    outlined
-    severity="info"
-    size="small"
-    v-styleclass="{ selector: '@next', toggleClass: 'hidden' }"
-    icon="pi pi-circle"
-    ></Button>
-    <div class="hidden">
-      <ScheduleComponent :schedule="schedule" size="default" />
+    <div id="temp">
+      <h1>الجدول</h1>
+      <Button
+        rounded
+        outlined
+        severity="info"
+        size="small"
+        v-styleclass="{ selector: '@next', toggleClass: 'hidden' }"
+        icon="pi pi-circle"
+      ></Button>
+      <div class="hidden">
+        <ScheduleComponent :schedule="schedule" size="default" />
+      </div>
+    </div>
+    <div v-if="Object.keys(courses).length !== 0">
+      <form @submit.prevent="handleCourses">
+        <ChooseCourses
+          :courses="transformedCourses"
+          @courses-changed="onSelectedCoursesChange"
+          :errorMessage="selectedCoursesError"
+        />
+        <ChooseSectionCourse
+          :selectCourse="selectCourse"
+          @update-selectedSection="handleSelectedSectionUpdate"
+        />
+        <ChooseFilters @filters-changed="updateFilters" :filters="filters" />
+        <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
+      </form>
     </div>
   </div>
-  <div v-if="Object.keys(courses).length !== 0">
-  <form @submit.prevent="handleCourses" >
-    <ChooseCourses
-    :courses="transformedCourses"
-    @courses-changed="onSelectedCoursesChange"
-    :errorMessage="selectedCoursesError"
-    />
-    <ChooseSectionCourse
-    :selectCourse="selectCourse"
-    @update-selectedSection="handleSelectedSectionUpdate"
-  />
-    <ChooseFilters
-    @filters-changed="updateFilters"
-    :filters="filters"
-    />
-    <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
-  </form>
-  </div>
-</div>
   <div v-if="schedules">
     <ChooseSort :sort="sort" @sort-changed="updateSort" class="mr-5" />
     <SchedulesList :schedules="sortedSchedules" />
@@ -65,13 +61,13 @@ import Button from 'primevue/button'
 import { ref, computed } from 'vue'
 import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
 import { sortSchedules } from '@/utils/scheduleHelpers.js'
-import { useField, useForm } from 'vee-validate';
-import ScrollTop from 'primevue/scrolltop';
+import { useField, useForm } from 'vee-validate'
+import ScrollTop from 'primevue/scrolltop'
 
-const { handleSubmit } = useForm();
+const { handleSubmit } = useForm()
 
 const hasSomthingChanged = ref(true)
-const somethingChanged = () => hasSomthingChanged.value = true
+const somethingChanged = () => (hasSomthingChanged.value = true)
 
 const schedules = ref(null)
 const courses = useCoursesStore().courses
@@ -86,21 +82,24 @@ const selectedSection = ref([])
 
 // Method to handle the update-selectedSection event
 const handleSelectedSectionUpdate = (newSelection) => {
-  selectedSection.value = newSelection;
+  selectedSection.value = newSelection
   console.log(selectedSection.value)
-  somethingChanged();
-};
+  somethingChanged()
+}
 
 function isNotEmpty(value) {
   return (Array.isArray(value) && value.length > 0) || 'لا يمكن ان تكون المواد المختارة فارغة'
 }
-const { errorMessage: selectedCoursesError, value:selectedCourses, handleChange: onSelectedCoursesChangeValidator } = useField('selectedCourses', isNotEmpty);
+const {
+  errorMessage: selectedCoursesError,
+  value: selectedCourses,
+  handleChange: onSelectedCoursesChangeValidator
+} = useField('selectedCourses', isNotEmpty)
 const onSelectedCoursesChange = (selectedCourses) => {
   onSelectedCoursesChangeValidator(selectedCourses)
   courseSection(selectedCourses)
-  somethingChanged();
+  somethingChanged()
 }
-
 
 const courseSection = (selectedCourses) => {
   selectCourse.value = selectedCourses
@@ -114,32 +113,32 @@ const courseSection = (selectedCourses) => {
   return selectedCoursesObject
 }
 
-const sort = ref("timeDiff")
+const sort = ref('timeDiff')
 const sortedSchedules = computed(() => sortSchedules(schedules.value, sort.value))
 const filters = ref({
   allowLocked: true,
   daysOff: 0,
   offInTheseDays: [],
-  breaksLimit: 20,
+  breaksLimit: 20
 })
 const updateFilters = (newFilters) => {
   filters.value = newFilters
-  somethingChanged();
+  somethingChanged()
 }
 
-const updateSort = newSort => sort.value = newSort
-
+const updateSort = (newSort) => (sort.value = newSort)
 const handleCourses = handleSubmit((values) => {
-  if(!hasSomthingChanged.value) return;
-  const {selectedCourses} = values
-  if(!selectedCourses.length) return;
-  resetColors();
-  const selectedCoursesObject = selectedCourses.reduce((acc, courseCode) => {
+  if (!hasSomthingChanged.value) return
+  const { selectedCourses } = values
+  if (!selectedCourses.length) return
+  resetColors()
+  let selectedCoursesObject = selectedCourses.reduce((acc, courseCode) => {
     acc[courseCode] = courses[courseCode]
     return acc
   }, {})
-  schedules.value = generateSchedules(selectedCoursesObject, filters.value)
-  hasSomthingChanged.value = false;
+
+  schedules.value = generateSchedules(selectedCoursesObject, selectedSection.value ,filters.value)
+  hasSomthingChanged.value = false
 })
 </script>
 
