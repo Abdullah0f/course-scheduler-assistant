@@ -2,7 +2,7 @@ import { ref } from 'vue'
 
 import { auth } from '../../firebase/confing'
 import { signInWithEmailAndPassword } from 'firebase/auth'
-
+import { translateErrorCode } from '../msgs'
 const error = ref(null)
 
 const login = async (email,password) => {
@@ -14,11 +14,16 @@ const login = async (email,password) => {
             throw new Error('حدث خطأ ما أثناء تسجيل الدخول')
         }
 
+        if (!res.user.emailVerified) {
+            throw new Error('unverifiedEmail')
+        }
         error.value = null
     }
-    catch(err) {
-        console.log(err.message)
-        error.value = err.message
+    catch(err) { 
+        if (err.message === 'unverifiedEmail') 
+            error.value = translateErrorCode('auth/unverified-email')
+        else  
+        error.value = translateErrorCode(err.code)
     }
 
 }

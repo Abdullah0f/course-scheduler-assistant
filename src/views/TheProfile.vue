@@ -16,7 +16,7 @@ const { user } = getUser()
 
 const handleLogout = () => {
   signOut(auth)
-  router.push({ name: 'Login' })
+  router.push({ name: 'login' })
 }
 
 

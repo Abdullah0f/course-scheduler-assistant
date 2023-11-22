@@ -34,7 +34,7 @@ const items = ref([])
 const { user } = getUser()
 
 watchEffect(() => {
-  if (user.value) {
+  if (user.value && user.value.emailVerified) {
     items.value = [
   { label: ' الرئيسية ', icon: 'pi pi-fw pi-home', to: '/' },
   { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },

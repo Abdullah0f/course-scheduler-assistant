@@ -4,14 +4,14 @@ import Schedules from '../views/TheSchedules.vue'
 import Profile from '../views/TheProfile.vue'
 import LoginForm from '../views/LoginForm.vue'
 import SignupForm from '../views/SignupForm.vue'
-
-import { auth } from '../firebase/confing'
+import forgotPassword from '../views/forgotPassword.vue'
 import getUser from '../utils/auth/getUser'
+
+const { user } = getUser()
 
 // auth gurad to prevent unauthenticated users from accessing profile page
 const requireAuth = (to, from, next) => {
-  let user = auth.currentUser
-  if (!user) {
+  if (!user.value || !user.value.emailVerified) {
     next({ name: 'home' })
   } else {
     next()
@@ -20,8 +20,7 @@ const requireAuth = (to, from, next) => {
 
 // auth gurad to prevent authenticated users from accessing login and signup page
 const requireNoAuth = (to, from, next) => {
-  let user = auth.currentUser
-  if (user) {
+  if (user.value && user.value.emailVerified) {
     next({ name: 'home' })
   } else {
     next()
@@ -54,16 +53,23 @@ const router = createRouter({
     },
     {
       path:'/login',
-      name:'Login',
+      name:'login',
       component: LoginForm,
       beforeEnter: requireNoAuth 
     },
     {
       path:'/signup',
-      name:'Signup',
+      name:'signup',
       component: SignupForm,
       beforeEnter: requireNoAuth 
+    },
+    {
+      path:'/forgotPassword',
+      name:'forgotPassword',
+      component: forgotPassword,
+      beforeEnter: requireNoAuth
     }
+   
   ]
 })
 

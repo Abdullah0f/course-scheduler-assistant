@@ -10,3 +10,18 @@ export const FILE_MSGS = {
   FILE_TYPE: 'الرجاء رفع ملفات من نوع html',
   FILE_SIZE: 'الرجاء رفع ملفات أقل من 3 ميغابايت'
 }
+
+const errorCodeTranslations = {
+  'auth/email-already-in-use': 'البريد الإلكتروني المُدخل مُستخدم بالفعل من قِبل مُستخدم آخر',
+  'auth/invalid-display-name': 'اسم المستخدم المدخل غير صالح',
+  'auth/invalid-email': 'البريد الإلكتروني المُدخل غير صحيح. يجب أن يكون عبارة عن عنوان بريد إلكتروني صالح',
+  'auth/weak-password': 'كلمة المرور غير صالحة يجب أن تتكون من سلسلة أحرف أو أرقام لا تقل عن ست خانات',
+  'auth/invalid-login-credentials': 'البريد الإلكتروني أو كلمة المرور المُدخلة غير صحيحة',
+  'auth/unverified-email': 'لم تقم بعد بتأكيد بريدك الإلكتروني. يرجى التحقق من بريدك الوارد وتأكيد بريدك الإلكتروني',
+  'default': 'حدث خطأ. يرجى المحاولة مرة أخرى.'
+}
+
+export const translateErrorCode = (errorCode) => {
+  return errorCodeTranslations[errorCode] || errorCodeTranslations['default']
+}
+
