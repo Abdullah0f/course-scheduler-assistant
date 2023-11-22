@@ -1,7 +1,7 @@
 <template>
-  <div class="mb-2 flex flex-column">
+  <div class="mb- mlt">
     <MultiSelect
-      class="mb-2 w-29rem"
+      class="mb-2 w-10"
       v-model="selectedSection"
       display="chip"
       :options="transformedSelectCourses"
@@ -70,3 +70,10 @@ const transformedSelectCourses = computed(() => {
   })
 })
 </script>
+
+<style lang="scss" scoped>
+.mlt {
+   width: 60vw;
+
+}
+</style>

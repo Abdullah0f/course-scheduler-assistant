@@ -56,6 +56,7 @@ function addCourseOptionToSchedule(option, schedule) {
 
 function addMetaToSchedule(schedule) {
   schedule.meta = {
+    id:  Date.now().toString() + Math.floor(Math.random() * 1000).toString(),
     timings: getTimings(schedule),
     totalbreaks: getTotalBreaks(schedule),
     daysOff: getDaysOff(schedule)

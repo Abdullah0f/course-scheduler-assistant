@@ -2,8 +2,18 @@
   <div
     class="lecture hide-scrollbar"
     :class="{'locked': lectureData.isOpen == 'مغلقة'}"
-    v-tooltip.top="'الشعبة مغلقة'"
-    :style="{ top: lectureTop + 'px', height: lectureHeight + 'px', backgroundColor: lectureColor }">
+    v-tooltip.top="{
+        value: courseOpen ? 'الشعبة مغلقة' : '',
+        pt: {
+            arrow: {
+                style: {
+                    borderRightColor: 'var(--primary-color)'
+                }
+            },
+            text: 'bg-primary font-medium'
+        }
+    }"
+      :style="{ top: lectureTop + 'px', height: lectureHeight + 'px', backgroundColor: lectureColor }">
     
     <i v-if="lectureData.isOpen == 'مغلقة'" class="pi tst pi-lock"></i>
 
@@ -79,6 +89,7 @@ const readableTime = (time) => {
   return `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`
 }
 
+const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
 </script>
 <style scoped lang="scss">
 .lecture {

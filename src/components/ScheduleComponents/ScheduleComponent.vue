@@ -5,22 +5,38 @@
       <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
       <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
     </div>
-    <Button  icon="co pi pi-info-circle" class=" absolute info-btn" @click="toggle" text rounded></Button>
-    <OverlayPanel ref="op" class="small-overlay-panel" >
-        <p>اجمالي البريكات {{ getTotalBreaks(schedule) }} دقيقة ({{ Math.round(getTotalBreaks(schedule)/60) }} ساعة)</p>
-        <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
-      </OverlayPanel>
+    <Button
+      icon="co pi pi-info-circle"
+      class="absolute info-btn"
+      @click="toggle"
+      text
+      rounded
+    ></Button>
+    <OverlayPanel ref="op" class="small-overlay-panel">
+      <p>
+        اجمالي البريكات {{ getTotalBreaks(schedule) }} دقيقة ({{
+          Math.round(getTotalBreaks(schedule) / 60)
+        }}
+        ساعة)
+      </p>
+      <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
+    </OverlayPanel>
+    <Button
+    :icon="bookMarkButton ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"
+    class="absolute bookmark-btn"
+    @click="saveCurrentSchedule"
+    text
+    rounded
+  ></Button>
   </div>
-      <SaveButton v-if="size=='default'" :targetRef="scheduleDiv" />
-  </template>
-  
-
+  <SaveButton v-if="size=='default'" :targetRef="scheduleDiv" />
+</template>
 
 <script setup>
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
 import SaveButton from './SaveButton.vue';
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '@/utils/constants'
 import {isMobileFunc} from '@/utils/helpers'
 import {useWindowSize} from '@vueuse/core'
@@ -28,6 +44,7 @@ import { getTotalBreaks } from '../../utils/scheduleHelpers';
 import { getDaysOff } from '../../utils/scheduleHelpers';
 import Button  from 'primevue/button';
 import OverlayPanel from 'primevue/overlaypanel';
+import { useScheduleStore } from '@/stores/saveSchedule';
 const props = defineProps({
   schedule: {
     type: Object,
@@ -56,11 +73,24 @@ const op = ref(null);
       op.value.toggle(event);
     };
 
+    const bookMarkButton = ref(false);
+    const scheduleStore = useScheduleStore();
+// const currentSchedule = ref({}); // Replace with your schedule data source
+
+// Function to save the current schedule
+const saveCurrentSchedule = () => {
+  bookMarkButton.value = !bookMarkButton.value;
+  scheduleStore.saveSchedule(props.schedule);
+  console.log('saved');
+  console.log(scheduleStore.schedules);
+  // Optionally, show a message to the user
+};
+onMounted(() => {
+  scheduleStore.loadSchedules();
+});
 </script>
 
-
 <style lang="scss" >
-
 .schedule {
   border: 1px solid #aaa;
   padding: 10px;
@@ -98,20 +128,21 @@ const op = ref(null);
   h2 {
     font-size: 1rem;
   }
-
 }
 .info-btn{
-top: -10px;
-left: -10px;
-  
+  top: -10px;
+  left: -10px;
+}
+.bookmark-btn {
+  top: -12px;
+  right: -12px;
+}
+.bookmark-btn:active {
+  background-color: #f0f0f0;
 }
 .small-overlay-panel {
-    // width: 200px; /* Adjust the width as needed */
-    height: 100px; /* Adjust the height as needed */
-    padding: 0px;
-
-    
+  // width: 200px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+  padding: 0px;
 }
 </style>
-
-
