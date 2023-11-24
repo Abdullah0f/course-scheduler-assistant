@@ -46,7 +46,7 @@ watchEffect(() => {
   { label: ' الرئيسية ', icon: 'pi pi-fw pi-home', to: '/' },
   { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },
   { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' },
-  { label: ' تسجيل الدخول', icon: 'pi pi-fw pi-key', to: '/login' }
+  { label: ' تسجيل الدخول', icon: 'pi pi-sign-in', to: '/login' }
   ]
   }
 

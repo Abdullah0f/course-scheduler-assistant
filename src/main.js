@@ -6,6 +6,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import StyleClass from 'primevue/styleclass'
 import PrimeVue from 'primevue/config'
 import ToastService from 'primevue/toastservice'
+import ConfirmationService from 'primevue/confirmationservice'
 import Tooltip from 'primevue/tooltip'
 import App from './App.vue'
 import router from './router'
@@ -21,6 +22,7 @@ onAuthStateChanged(auth,() => {
       app = createApp(App)
       const pinia = createPinia()
       pinia.use(piniaPluginPersistedstate)
+      app.use(ConfirmationService)
       app.use(pinia)
       app.use(router)
       app.use(ToastService)

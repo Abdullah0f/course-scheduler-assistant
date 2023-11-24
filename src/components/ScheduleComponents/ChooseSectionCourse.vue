@@ -19,7 +19,7 @@
 
 <script setup>
 import MultiSelect from 'primevue/multiselect'
-import { ref, computed, defineProps, defineEmits, reactive, watch } from 'vue'
+import { ref, computed, reactive, watch } from 'vue'
 
 // Props passed from parent component
 const props = defineProps({
