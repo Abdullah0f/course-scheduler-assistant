@@ -1,25 +1,47 @@
 <template>
-  <div class="mb- mlt">
-    <MultiSelect
-      class="mb-2 w-10"
-      v-model="selectedSection"
-      display="chip"
-      :options="transformedSelectCourses"
-      optionLabel="name"
-      optionValue="code"
-      placeholder="الشعب المختارة"
-      :disabled="!transformedSelectCourses.length"
-      @change="$emit('update-selectedSection', selectedSection)"
-      :showToggleAll="false"
-      :pt="{ checkboxContainer: 'mr-0 ml-2', removeTokenIcon: 'ml-0 mr-2' }"
-      filter
-    />
+  <div class="mb-4 mlt">
+    <!-- modelValue="selectSect" -->
+  <MultiSelect
+    v-model="selectedSection"
+    :options="transformedSelectCourses"
+    optionLabel="label"
+    optionGroupLabel="label"
+    :optionGroupChildren="getChildrenVisibility"
+    placeholder=
+    "اختر الشعب (اختياري)"
+    :disabled="!transformedSelectCourses.length"
+    display="chip"
+    @change="$emit('update-selectedSection', selectedSection)"
+    :showToggleAll="false"
+    class="mb-2 w-10 p-1"
+    filter
+  >
+    <template #optiongroup="slotProps">
+      <div class="flex align-items-center justify-content-between">
+        <div>{{ slotProps.option.label }}</div>
+        <Button 
+          text 
+          rounded 
+          :icon="childrenVisibility[slotProps.option.label] ? 'pi pi-angle-down' : 'pi pi-angle-up'" 
+          @click="toggleVisibility(slotProps.option.label)" 
+          size="small"
+        />
+      </div>
+    </template>
+    <template #value="slotProps">
+      <div>
+        <div v-if="slotProps.value.length==0">{{ slotProps.placeholder  }}</div>
+        <div v-if="slotProps.value.length>0">{{ formatLabel(slotProps.value) }}</div>
+      </div>
+    </template>
+  </MultiSelect>
   </div>
 </template>
 
 <script setup>
 import MultiSelect from 'primevue/multiselect'
-import { ref, computed, reactive, watch } from 'vue'
+import Button from 'primevue/button'
+import { ref, computed,reactive, watch } from 'vue'
 
 // Props passed from parent component
 const props = defineProps({
@@ -58,22 +80,56 @@ defineEmits(['update-selectedSection'])
 // Local state for selected section
 const selectedSection = ref([])
 
+// Visibility state for each group
+const childrenVisibility = reactive({});
+
 // Computed property to transform courses for selection
+
 const transformedSelectCourses = computed(() => {
-  return Object.keys(localSelectCourse).flatMap((key) => {
-    return localSelectCourse[key].map((course, i) => {
-      return {
-        name: course.code + ' -' + course.classCode + '',
-        code: i+" - "+course.classCode+" - "+course.code,
-      }
-    })
-  })
-})
+  const groups = {};
+  Object.keys(localSelectCourse).forEach((key) => {
+    const groupLabel = 'شعب: ' + key; // or any other way to define your group label
+    groups[groupLabel] = localSelectCourse[key].map((course, i) => ({
+      label: course.code + ' - ' + course.classCode,
+      code: i + ' - ' + course.classCode + ' - ' + course.code
+    }));
+    childrenVisibility[groupLabel] = true;
+
+  });
+  
+  return Object.keys(groups).map((groupLabel) => ({
+    label: groupLabel,
+    items: groups[groupLabel],
+  }));
+  
+});
+const toggleVisibility = (label) => {
+  if (childrenVisibility[label] === undefined) {
+    childrenVisibility[label] = true; // Initialize if not already set
+  } else {
+    childrenVisibility[label] = !childrenVisibility[label];
+  }
+};
+const getChildrenVisibility = (option) => {
+  // This method now only checks visibility, does not modify the data structure
+  return childrenVisibility[option.label] ? option.items : [];
+};
+const formatLabel = (items) => {
+  return items.map(item => {
+    // Split the code into parts
+    const parts = item.code.split(' - ');
+    // Check if there are three parts
+    if (parts.length === 3) {
+      // Return the formatted string (second and third parts)
+      return `${parts[2]} - ${parts[1]}`;
+    }
+  }).join(' , ');
+};
+
 </script>
 
 <style lang="scss" scoped>
 .mlt {
-   width: 60vw;
-
+  width: 60vw;
 }
 </style>

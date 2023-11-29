@@ -1,6 +1,6 @@
 import { DAYS, MAX_GENERATED_SCHEDULES } from './constants'
 import cloneDeep from 'lodash/cloneDeep'
-import { getTimings, getTotalBreaks, getDaysOff } from '@/utils/scheduleHelpers'
+import { getTimings, getTotalBreaks, getDaysOff , getID } from '@/utils/scheduleHelpers'
 
 function initializeBlankSchedule() {
   let schedule = {}
@@ -56,7 +56,7 @@ function addCourseOptionToSchedule(option, schedule) {
 
 function addMetaToSchedule(schedule) {
   schedule.meta = {
-    id:  Date.now().toString() + Math.floor(Math.random() * 1000).toString(),
+    id:  getID(schedule),
     timings: getTimings(schedule),
     totalbreaks: getTotalBreaks(schedule),
     daysOff: getDaysOff(schedule)
@@ -109,7 +109,8 @@ export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
   function minimizeSectionCourses(coursesArray, section) {
     for (const i of coursesArray) {
       for (const j of section) {
-        const [, num, name] = j.split(' - ').map((str) => str.trim())
+        console.log(j.code)
+        const [, num, name] = j.code.split(' - ').map((str) => str.trim())
         if (i[0].code == name) {
           coursesArray = coursesArray.map((course) => {
             if (course[0].code == name) {

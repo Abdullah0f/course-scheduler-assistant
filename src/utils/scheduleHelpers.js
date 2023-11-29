@@ -43,6 +43,22 @@ export function getDaysOff(schedule) {
   return daysOff;
   
 }
+export function getID(schedule) {
+  let totalClassCodeSumAndtime = 0;
+  ['sun', 'mon', 'tue', 'wed', 'thu'].forEach(day => {
+    if (schedule[day].length>0) {
+        // Iterate through each class
+        schedule[day].forEach(course => {
+            // Convert classCode to integer and add to the total sum
+            totalClassCodeSumAndtime += parseInt(course.classCode+course.startTime, 10);
+            // add startTime and endTime to total sum to make id more unique
+            totalClassCodeSumAndtime += course.startTime.getTime()+course.endTime.getTime();
+
+        });
+    }
+});
+  return totalClassCodeSumAndtime;
+}
 
 export function sortSchedules(schedules, sort) {
   if (!schedules || !sort) return schedules

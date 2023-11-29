@@ -36,7 +36,7 @@
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
 import SaveButton from './SaveButton.vue';
-import { computed, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import {DAYS_MAP, DAYS, SIZE_PIXELS_MAP} from '@/utils/constants'
 import {isMobileFunc} from '@/utils/helpers'
 import {useWindowSize} from '@vueuse/core'
@@ -73,21 +73,16 @@ const op = ref(null);
       op.value.toggle(event);
     };
 
-    const bookMarkButton = ref(false);
     const scheduleStore = useScheduleStore();
+    const bookMarkButton = ref(scheduleStore.isBooked(props.schedule));
 // const currentSchedule = ref({}); // Replace with your schedule data source
 
 // Function to save the current schedule
 const saveCurrentSchedule = () => {
   bookMarkButton.value = !bookMarkButton.value;
   scheduleStore.saveSchedule(props.schedule);
-  console.log('saved');
-  console.log(scheduleStore.schedules);
-  // Optionally, show a message to the user
 };
-onMounted(() => {
-  scheduleStore.loadSchedules();
-});
+
 </script>
 
 <style lang="scss" >

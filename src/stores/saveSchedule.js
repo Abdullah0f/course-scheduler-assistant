@@ -2,14 +2,11 @@ import { defineStore } from 'pinia'
 
 export const useScheduleStore = defineStore('schedule', {
   state: () => ({
-    schedules: [] // Now an array
+    schedules: [] 
   }),
   actions: {
     saveSchedule(newSchedule) {
-      // console.log(newSchedule);
-
-      const existingIndex = this.schedules.findIndex((s) => s.meta.id === newSchedule.meta.id) // Assuming each schedule has a unique 'id'
-      console.log(existingIndex)
+      const existingIndex = this.schedules.findIndex((s) => s.meta.id === newSchedule.meta.id) 
       if (existingIndex === -1) {
         // Schedule not found, add it
         this.schedules.push(newSchedule)
@@ -17,15 +14,17 @@ export const useScheduleStore = defineStore('schedule', {
         // Schedule found, remove it
         this.schedules.splice(existingIndex, 1)
       }
-
-      // Update local storage
-      localStorage.setItem('schedules', JSON.stringify(this.schedules))
     },
-    loadSchedules() {
-      const savedSchedules = localStorage.getItem('schedules')
-      if (savedSchedules) {
-        this.schedules = JSON.parse(savedSchedules)
+    isBooked(newSchedule) {
+      return this.schedules.findIndex((s) => s.meta.id === newSchedule.meta.id)  != -1
+      },
+      loadSchedules() {
+        const schedules = JSON.parse(localStorage.getItem('schedules'))
+        if (schedules) {
+          this.schedules = schedules
+        }
       }
-    }
-  }
+  },
+  persist: true
+
 })
