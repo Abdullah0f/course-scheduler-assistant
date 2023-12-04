@@ -17,19 +17,19 @@
           <ConfirmPopup></ConfirmPopup>
           <Toast />
         </div>       
-        
       </div>
+      <Button severity="danger" rounded label="تسجيل الخروج" icon="pi pi-sign-out ml-2 mr-0"  @click="handleLogout"   />  
 
     <Divider type="solid" class="w-11">
       <b class="text-2xl">الجداول المفضلة</b>
     </Divider>
-    <div v-if="favSchedules">
-      <div v-for="schedule in favSchedules" :key="schedule.id" class="mb-4">
-        <ScheduleComponent :schedule="schedule" size="default" />
-      </div>
+
+    <div v-if="favSchedules.length > 0">
+      <Paginator class="ltr" v-model:first="currentPage" :rows="1" :totalRecords="favSchedules.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" />
+      
+        <ScheduleComponent :schedule="favSchedules[currentPage]" size="default" />
     </div>
     <p  v-else class="text-lg">لا يوجد لديك جداول مفضلة حالياً</p>
-    <Button severity="danger" rounded label="تسجيل الخروج" icon="pi pi-sign-out ml-2 mr-0"  @click="handleLogout"   />
   </div>
 </template>
 
@@ -40,7 +40,7 @@ import { signOut } from 'firebase/auth'
 import getUser from '@/utils/auth/getUser'
 import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext';
-import { ref, computed,onBeforeMount, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import Password from 'primevue/password';
 import Divider from 'primevue/divider';
 import ConfirmPopup from 'primevue/confirmpopup';
@@ -52,7 +52,7 @@ import getCollection from '../utils/database/getCollection';
 import ScheduleComponent from '../components/ScheduleComponents/ScheduleComponent.vue';
 import { timifySchedule } from '../utils/timifySchedule';
 import { useScheduleStore } from '@/stores/saveSchedule';
-
+import Paginator from 'primevue/paginator';
 const confirm = useConfirm();
 const toast = useToast();
 const {error, resetPassword } = useResetPasword()
@@ -61,12 +61,12 @@ const dummyPassword = "********"
 const router = useRouter()
 const { user } = getUser()
 const email = ref(user.value.email)
-
+const currentPage = ref(0)
 const scheduleStore = useScheduleStore()
  
 const {documents} =  getCollection(
   'favourite_schedules',
-  ['userID', '==', user.value.uid]
+  ['userID', '==', user.value.uid],
 )
 
 const favSchedules = computed(() => {
