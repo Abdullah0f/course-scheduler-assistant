@@ -1,41 +1,45 @@
 <template>
   <div class="mb-4 mlt">
-    <MultiSelect
-      v-model="selectedSection"
-      :options="transformedSelectCourses"
-      :optionDisabled="(option) => isOtherSectionFromCourseSelected(option)"
-      optionLabel="label"
-      optionGroupLabel="label"
-      :optionGroupChildren="getChildrenVisibility"
-      placeholder="اختر الشعب (اختياري)"
-      :disabled="!transformedSelectCourses.length"
-      display="chip"
-      @change="$emit('update-selectedSection', selectedSection)"
-      :showToggleAll="false"
-      class="mb-2 w-10 p-1"
-      filter
-    >
-      <template #optiongroup="slotProps">
-        <div class="flex align-items-center justify-content-between">
-          <div>{{ slotProps.option.label }}</div>
-          <Button
-            text
-            rounded
-            :icon="
-              childrenVisibility[slotProps.option.label] ? 'pi pi-angle-down' : 'pi pi-angle-up'
-            "
-            @click="toggleVisibility(slotProps.option.label)"
-            size="small"
-          />
-        </div>
-      </template>
-      <template #value="slotProps">
-        <div>
-          <div v-if="slotProps.value.length == 0">{{ slotProps.placeholder }}</div>
-          <div v-if="slotProps.value.length > 0">{{ formatLabel(slotProps.value) }}</div>
-        </div>
-      </template>
-    </MultiSelect>
+    <span class="p-float-label">
+      <MultiSelect
+        id="multiselect"
+        v-model="selectedSection"
+        :options="transformedSelectCourses"
+        :optionDisabled="(option) => isOtherSectionFromCourseSelected(option)"
+        optionLabel="label"
+        optionGroupLabel="label"
+        :optionGroupChildren="getChildrenVisibility"
+        :disabled="!transformedSelectCourses.length"
+        display="chip"
+        @change="$emit('update-selectedSection', selectedSection)"
+        :showToggleAll="false"
+        class=" p-2  w-full md:w-20rem"
+        filter
+      >
+        <template #optiongroup="slotProps">
+          <div class="flex align-items-center justify-content-between">
+            <div>{{ slotProps.option.label }}</div>
+            <Button
+              text
+              rounded
+              :icon="
+                childrenVisibility[slotProps.option.label] ? 'pi pi-angle-down' : 'pi pi-angle-up'
+              "
+              @click="toggleVisibility(slotProps.option.label)"
+              size="small"
+            />
+          </div>
+        </template>
+        <template #value="slotProps">
+          <div>
+            <div class="" v-if="slotProps.value.length > 0">
+              {{ formatLabel(slotProps.value) }}
+            </div>
+          </div>
+        </template>
+      </MultiSelect>
+      <label for="multiselect" class="text-500"> اختر الشعب (اختياري) </label>
+    </span>
   </div>
 </template>
 
@@ -51,27 +55,34 @@ const props = defineProps({
 // Create a local copy of selectCourse
 const localSelectCourse = reactive({ ...props.selectCourse })
 
-watch(
-  () => props.selectCourse,
-  (newSelectCourse, oldSelectCourse) => {
-    // Copy newSelectCourse to localSelectCourse
-    Object.assign(localSelectCourse, newSelectCourse)
-    // Get the keys of localSelectCourse and newSelectCourse
-    const localKeys = Object.keys(localSelectCourse)
-    const newKeys = Object.keys(newSelectCourse)
+// Watch for changes in selectCourse
+    watch(
+      () => props.selectCourse,
+      (newSelectCourse) => {
+        // Copy newSelectCourse to localSelectCourse
+        Object.assign(localSelectCourse, newSelectCourse)
+        // Get the keys of localSelectCourse and newSelectCourse
+        const localKeys = Object.keys(localSelectCourse)
+        const newKeys = Object.keys(newSelectCourse)
 
-    // Find the keys that are in localSelectCourse but not in newSelectCourse
-    const keysToRemove = localKeys.filter((key) => !newKeys.includes(key))
+        // Find the keys that are in localSelectCourse but not in newSelectCourse
+        const keysToRemove = localKeys.filter((key) => !newKeys.includes(key))
 
-    // Remove the courses with the keysToRemove from localSelectCourse
-    keysToRemove.forEach((key) => delete localSelectCourse[key])
+        // Remove the courses with the keysToRemove from localSelectCourse
+        keysToRemove.forEach((key) => delete localSelectCourse[key])
 
-    // If a course was unselected, clear selectedSection
-    if (Object.keys(oldSelectCourse).length > Object.keys(newSelectCourse).length) {
-      selectedSection.value = []
-    }
-  }
-)
+        // If a course was unselected, remove it from selectedSection
+        selectedSection.value = selectedSection.value.filter((selected) => {
+          // Ensure selected has a code property
+          if (selected && selected.code) {
+            const selectedParts = selected.code.split(' - ')
+            console.log(newKeys)
+            return selectedParts.length === 3 && newKeys.includes(selectedParts[2].trim())
+          }
+          return false
+        })
+      }
+    )
 
 // // difine emits
 // defineEmits(['update-selectedSection'])
@@ -149,6 +160,7 @@ const formatLabel = (items) => {
 
 <style lang="scss" scoped>
 .mlt {
-  width: 60vw;
+  // min-width: 300px;
+  max-width: 60vw;
 }
 </style>
