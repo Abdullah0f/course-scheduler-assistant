@@ -45,6 +45,9 @@ import { getDaysOff } from '../../utils/scheduleHelpers';
 import Button  from 'primevue/button';
 import OverlayPanel from 'primevue/overlaypanel';
 import { useScheduleStore } from '@/stores/saveSchedule';
+import { addDoc, collection, serverTimestamp, deleteDoc, query, where, getDocs } from 'firebase/firestore';
+import { db } from '@/firebase/confing'
+import getUser from '@/utils/auth/getUser'
 const props = defineProps({
   schedule: {
     type: Object,
@@ -59,6 +62,7 @@ const props = defineProps({
     }
   }
 })
+const { user } = getUser()
 const scheduleDiv = ref();
 const windowSize = useWindowSize()
 const timings = computed(()=> (props.schedule.meta.timings));
@@ -78,10 +82,36 @@ const op = ref(null);
 // const currentSchedule = ref({}); // Replace with your schedule data source
 
 // Function to save the current schedule
-const saveCurrentSchedule = () => {
+const saveCurrentSchedule = async () => {
   bookMarkButton.value = !bookMarkButton.value;
+  console.log("Schudele", props.schedule)
   scheduleStore.saveSchedule(props.schedule);
-};
+  const colRef = collection(db, 'favourite_schedules')
+  if (bookMarkButton.value) {
+    await addDoc(colRef, {
+      schedule: JSON.stringify(props.schedule),
+      userID: user.value.uid,
+      scheduleID : props.schedule.meta.id,
+      createdAt: serverTimestamp()
+      
+    })
+  } else {
+    const q = query(
+      collection(db, 'favourite_schedules'),
+      where('userID', '==', user.value.uid),
+      where('scheduleID', '==', props.schedule.meta.id)
+    )
+
+    const querySnapshot = await getDocs(q)
+
+    if (!querySnapshot.empty) {
+      await deleteDoc(querySnapshot.docs[0].ref)
+      console.log('Deleted schedule with ID:', props.schedule.meta.id)
+    } else {
+      console.log('No document found to delete.')
+    }
+  }
+}
 
 </script>
 

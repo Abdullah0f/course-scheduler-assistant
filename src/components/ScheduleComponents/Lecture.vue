@@ -16,27 +16,31 @@
       :style="{ top: lectureTop + 'px', height: lectureHeight + 'px', backgroundColor: lectureColor }">
     
     <i v-if="lectureData.isOpen == 'مغلقة'" class="pi tst pi-lock"></i>
-
-      <h3 class="text-center ">{{ lectureData.title }}</h3>
-
-    <p class="font-bold text-center">الشعبة: {{ lectureData.classCode }}</p>
-    <div>
-      <p v-if="!isMobile">
-        الوقت: {{ readableTime(lectureData.startTime) }} - {{ readableTime(lectureData.endTime) }}
-      </p>
-      <p v-if="showFullData">القاعة: {{ lectureData.location }}</p>
-      <p v-if="!isMobile && showFullData">النوع: {{ lectureData.classType }}</p>
-      <p v-if="showFullData">المحاضر: {{ lectureData.instructor }}</p>
-    </div>
-
+    
     <!-- Start Time (Mobile Only) -->
-    <div class="top-0 right-0 absolute px-1 block" v-if="isMobile">
-      <p class="mt-1 z-5 font-bold  font-italic">{{ readableTime(lectureData.startTime) }}</p>
+    <div class=" m-0" v-if="isMobile">
+      <p class=" z-5 font-bold  font-italic">{{ readableTime(lectureData.startTime) }}</p>
+    </div>
+    
+      <h3 class="text-center mb-0">{{ lectureData.title }}</h3>
+
+    <p class="font-bold text-center ">الشعبة: {{ lectureData.classCode }} <i :class="classTypeIcon"></i></p>
+    <div>
+      <p v-if="!isMobile" class="-mb-1">
+        <i class="pi pi-stopwatch" style="font-size: inherit;"> </i> {{ readableTime(lectureData.startTime) }} - {{ readableTime(lectureData.endTime) }}
+      </p>
+      <p v-if="showFullData" class="-mb-1">
+        <i class="pi pi-map-marker" style="font-size:inherit"></i> {{ lectureData.location }}
+      </p>
+      <!-- <p v-if="!isMobile && showFullData">النوع: {{ lectureData.classType }}</p> -->
+      <p v-if="showFullData">
+        <i class="fa-solid fa-user-tie" style="font-size:inherit"></i> {{ lectureData.instructor }}
+      </p>
     </div>
 
     <!-- End Time (Mobile Only) -->
-    <div class="bottom-0 left-0 absolute px-1 block" v-if="isMobile">
-      <p class="mb-1 z-5 font-bold  font-italic">{{ readableTime(lectureData.endTime) }}</p>
+    <div :class="endTimePosition" v-if="isMobile">
+      <p class=" z-5 font-bold  font-italic">{{ readableTime(lectureData.endTime) }}</p>
     </div>
   </div>
 </template>
@@ -62,6 +66,19 @@ const props = defineProps({
     required: true
   }
 })
+const endTimePosition = computed(() => {
+  if (showFullData.value == true) return 'bottom-0 left-0 absolute px-1 block  m-0'
+  else return 'm-0 text-left'
+})
+const classTypeIcon = computed(() => {
+   if (props.lectureData.classType == 'عملي')
+    return 'fa-solid fa-microscope'
+  else if (props.lectureData.classType == 'تمارين')
+  return 'fa-solid fa-file-pen'
+  else 
+    return 'fa-solid fa-person-chalkboard'
+})
+
 const lectureColor = computed(() => getColor(props.lectureData.title))
 const lectureTop = computed(() => {
   const hourDiff = props.lectureData.startTime.getHours() - props.timings.earliestHour
@@ -94,7 +111,9 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
 <style scoped lang="scss">
 .lecture {
   border: 1px solid #ddd;
+  text-align: right;
   padding: 3px;
+  padding-top: 0;
   position: absolute;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;

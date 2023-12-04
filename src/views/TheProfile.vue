@@ -23,8 +23,12 @@
     <Divider type="solid" class="w-11">
       <b class="text-2xl">الجداول المفضلة</b>
     </Divider>
-    <div ></div>
-    <p  class="text-lg">لا يوجد لديك جداول مفضلة حالياً</p>
+    <div v-if="favSchedules">
+      <div v-for="schedule in favSchedules" :key="schedule.id" class="mb-4">
+        <ScheduleComponent :schedule="schedule" size="default" />
+      </div>
+    </div>
+    <p  v-else class="text-lg">لا يوجد لديك جداول مفضلة حالياً</p>
     <Button severity="danger" rounded label="تسجيل الخروج" icon="pi pi-sign-out ml-2 mr-0"  @click="handleLogout"   />
   </div>
 </template>
@@ -36,7 +40,7 @@ import { signOut } from 'firebase/auth'
 import getUser from '@/utils/auth/getUser'
 import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext';
-import { ref } from 'vue';
+import { ref, computed,onBeforeMount, onMounted } from 'vue';
 import Password from 'primevue/password';
 import Divider from 'primevue/divider';
 import ConfirmPopup from 'primevue/confirmpopup';
@@ -44,6 +48,10 @@ import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
 import useResetPasword from '../utils/auth/useResetPassword';
+import getCollection from '../utils/database/getCollection';
+import ScheduleComponent from '../components/ScheduleComponents/ScheduleComponent.vue';
+import { timifySchedule } from '../utils/timifySchedule';
+import { useScheduleStore } from '@/stores/saveSchedule';
 
 const confirm = useConfirm();
 const toast = useToast();
@@ -53,6 +61,27 @@ const dummyPassword = "********"
 const router = useRouter()
 const { user } = getUser()
 const email = ref(user.value.email)
+
+const scheduleStore = useScheduleStore()
+ 
+const {documents} =  getCollection(
+  'favourite_schedules',
+  ['userID', '==', user.value.uid]
+)
+
+const favSchedules = computed(() => {
+  return documents.value
+    .filter(doc => doc.schedule)
+    .map(doc => timifySchedule(doc.schedule))
+})
+
+onMounted(() => {
+  scheduleStore.loadSchedules()
+
+}) 
+
+
+
 
 const handleLogout = () => {
   signOut(auth)
@@ -115,11 +144,15 @@ const confirmResetPassword =  (event) => {
   .text-2xl {
     font-size: 1.25rem !important;
   }
+  .form-container {
+    max-width: 100% !important;
+  }
 }
 
 
 .form-container {
   text-align: center;
+  max-width: 60vw;
 }
 
 
@@ -128,7 +161,7 @@ const confirmResetPassword =  (event) => {
   grid-template-columns: 150px 1fr;
   gap: 1rem; 
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .h3 {
