@@ -25,7 +25,13 @@
     </Divider>
 
     <div v-if="favSchedules.length > 0">
-      <Paginator class="ltr" v-model:first="currentPage" :rows="1" :totalRecords="favSchedules.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" />
+      <Paginator class="ltr" v-model:first="currentPage" :rows="1" :totalRecords="favSchedules.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" currentPageReportTemplate= ' ( {currentPage} من {totalPages} )'
+      :pt="{
+        current: ({global}) => ({
+        class: 'rtl'
+      })
+      }"
+       />
       
         <ScheduleComponent :schedule="favSchedules[currentPage]" size="default" />
     </div>
