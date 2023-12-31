@@ -65,7 +65,7 @@ const props = defineProps({
   }
 })
 const toast = useToast();
-
+const emit = defineEmits(['unBooked']);
 const scheduleDiv = ref();
 const windowSize = useWindowSize()
 const timings = computed(()=> (props.schedule.meta.timings));
@@ -88,6 +88,7 @@ const saveCurrentSchedule = async () => {
   {
   if (bookMarkButton.value) {
     await scheduleStore.unbookSchedule(props.schedule)
+    emit('unBooked')
   } else {  
     if (scheduleStore.schedules.length === 10) {
     toast.removeAllGroups()
