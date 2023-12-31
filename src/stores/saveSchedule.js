@@ -1,30 +1,71 @@
 import { defineStore } from 'pinia'
+import { collection, addDoc, query, where, getDocs, deleteDoc, serverTimestamp } from 'firebase/firestore'
+import { db } from '@/firebase/confing'
+import getUser from '@/utils/auth/getUser'
+import getCollection from '@/utils/database/getCollection'
+import { timifySchedule } from '../utils/timifySchedule';
 
-export const useScheduleStore = defineStore('schedule', {
+const { user } = getUser()
+export const useScheduleStore = defineStore({
+  id: 'schedulesStore',
   state: () => ({
-    schedules: [] 
+    schedules: [],
   }),
   actions: {
-    saveSchedule(newSchedule) {
-      const existingIndex = this.schedules.findIndex((s) => s.meta.id === newSchedule.meta.id) 
-      if (existingIndex === -1) {
-        // Schedule not found, add it
-        this.schedules.push(newSchedule)
-      } else {
-        // Schedule found, remove it
-        this.schedules.splice(existingIndex, 1)
+    async loadUserSchedules() {
+      try {
+          const documents = await getCollection(
+              'favourite_schedules',
+              ['userID', '==', user.value.uid],
+          )
+            if (documents && documents.value) {
+              console.log(documents.value.filter(doc => doc.schedule), "before timify")
+              this.schedules = documents.value.map(doc => doc.schedule)
+              console.log(this.schedules, "after timify")
+          }
+      } catch (error) {
+          console.error("Error loading user schedules:", error);
+      }
+  },
+    async bookSchedule(schedule) {
+      this.schedules.push(schedule);
+      const colRef = collection(db, 'favourite_schedules')
+      await addDoc(colRef, {
+        schedule: JSON.stringify(schedule),
+        userID: user.value.uid,
+        scheduleID : schedule.meta.id,
+        createdAt: serverTimestamp()
+      })
+    },
+    async unbookSchedule(schedule) {
+      try {
+        const q = query(
+          collection(db, 'favourite_schedules'),
+          where('userID', '==', user.value.uid),
+          where('scheduleID', '==', schedule.meta.id)
+        );
+        const querySnapshot = await getDocs(q);
+    
+        if (!querySnapshot.empty) {
+          await deleteDoc(querySnapshot.docs[0].ref);
+        } else {
+          // Handle case where no matching document is found
+          console.log("No matching document found");
+        }
+    
+        const index = this.schedules.findIndex(s => s.meta.id === schedule.meta.id);
+        if (index !== -1) {
+          this.schedules.splice(index, 1);
+        }
+      } catch (error) {
+        console.error("Error in unbooking schedule: ", error);
       }
     },
-    isBooked(newSchedule) {
-      return this.schedules.findIndex((s) => s.meta.id === newSchedule.meta.id)  != -1
-      },
-      loadSchedules() {
-        const schedules = JSON.parse(localStorage.getItem('schedules'))
-        if (schedules) {
-          this.schedules = schedules
-        }
-      }
+    isBooked(schedule) {
+      return this.schedules.some(s => s.meta.id === schedule.meta.id)
+    }
   },
   persist: true
 
 })
+

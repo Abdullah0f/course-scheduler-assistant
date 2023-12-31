@@ -18,11 +18,11 @@
     <i v-if="lectureData.isOpen == 'مغلقة'" class="pi tst pi-lock"></i>
     
     <!-- Start Time (Mobile Only) -->
-    <div class=" m-0" v-if="isMobile">
+    <div class=" -mb-1 " v-if="isMobile">
       <p class=" z-5 font-bold  font-italic">{{ readableTime(lectureData.startTime) }}</p>
     </div>
      <!-- End Time (Mobile Only) -->
-     <div class="top-0 left-0 absolute px-1 block  m-0" v-if="isMobile">
+     <div class="top-0 left-0 absolute px-1 block " v-if="isMobile">
       <p class=" z-5 font-bold  font-italic">{{ readableTime(lectureData.endTime) }}</p>
     </div>
     
@@ -113,7 +113,7 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
       font-size: 0.5rem;
     }
     p {
-      font-size: 0.3rem;
+      font-size: 0.39rem;
     }
   }
 }
@@ -126,6 +126,14 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
   }
   .info-button {
     font-size: 0.7rem;
+  }
+  @media screen and (max-width: 600px) {
+    h3 {
+      font-size: 0.5rem;
+    }
+    p , .info-button{
+      font-size: 0.39rem;
+    }
   }
 }
 .locked {

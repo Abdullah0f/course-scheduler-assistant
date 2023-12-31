@@ -54,11 +54,10 @@ import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
 import useResetPasword from '../utils/auth/useResetPassword';
-import getCollection from '../utils/database/getCollection';
 import ScheduleComponent from '../components/ScheduleComponents/ScheduleComponent.vue';
-import { timifySchedule } from '../utils/timifySchedule';
 import { useScheduleStore } from '@/stores/saveSchedule';
 import Paginator from 'primevue/paginator';
+import { timifySchedule } from '../utils/timifySchedule';
 const confirm = useConfirm();
 const toast = useToast();
 const {error, resetPassword } = useResetPasword()
@@ -70,21 +69,12 @@ const email = ref(user.value.email)
 const currentPage = ref(0)
 const scheduleStore = useScheduleStore()
  
-const {documents} =  getCollection(
-  'favourite_schedules',
-  ['userID', '==', user.value.uid],
-)
-
 const favSchedules = computed(() => {
-  return documents.value
-    .filter(doc => doc.schedule)
-    .map(doc => timifySchedule(doc.schedule))
+  return scheduleStore.schedules.map(schedule => timifySchedule(schedule))
+  
 })
 
-onMounted(() => {
-  scheduleStore.loadSchedules()
 
-}) 
 
 
 
@@ -151,7 +141,7 @@ const confirmResetPassword =  (event) => {
     font-size: 1.25rem !important;
   }
   .form-container {
-    max-width: 100% !important;
+    min-width: 100% !important;
   }
 }
 

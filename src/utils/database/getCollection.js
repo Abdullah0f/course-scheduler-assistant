@@ -1,43 +1,34 @@
-import { ref, watchEffect } from 'vue'
-import { db } from '../../firebase/confing'
-import { collection, onSnapshot, query, where } from 'firebase/firestore'
+import { ref } from 'vue';
+import { db } from '../../firebase/confing';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
-const getCollection = (c, q) => {
-    const documents = ref(null)
+const getCollection = async (collectionName, queryConstraints) => {
+    const documents = ref([]);
 
-    let colRef = collection(db, c)
+    let collectionRef = collection(db, collectionName);
 
-    if (q) {
-        colRef = query(colRef, where(...q));
+    if (queryConstraints) {
+        collectionRef = query(collectionRef, where(...queryConstraints));
     }
 
-    const unsub = onSnapshot(colRef, snapshot => {
-        let results = [];
+    try {
+        const snapshot = await getDocs(collectionRef);
         snapshot.docs.forEach(doc => {
-
-            let docData = { ...doc.data(), id: doc.id }
-            
-            // Parse the 'schedule' field if it exists and we're in the 'favourite_schedules' collection
-            if (c === 'favourite_schedules' && docData.schedule) {
+            let docData = { ...doc.data(), id: doc.id };
+            if (collectionName === 'favourite_schedules' && docData.schedule) {
                 try {
-                    docData.schedule = JSON.parse(docData.schedule)
+                    docData.schedule = JSON.parse(docData.schedule);
                 } catch (error) {
-                    console.error('Error parsing schedule JSON for document', doc.id, error)
+                    console.error('Error parsing schedule JSON for document', doc.id, error);
                 }
             }
+            documents.value.push(docData);
+        });
+    } catch (error) {
+        console.error('Error fetching documents:', error);
+    }
 
-            results.push(docData)
-        })
+    return documents;
+};
 
-        documents.value = results
-    })
-
-    // Unsubscribe from real-time listener when no longer in use
-    watchEffect((onInvalidate) => {
-        onInvalidate(() => unsub())
-    })
-
-    return { documents }
-}
-
-export default getCollection
+export default getCollection;
