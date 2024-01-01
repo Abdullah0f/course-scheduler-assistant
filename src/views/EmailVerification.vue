@@ -2,7 +2,7 @@
    <div class="form-container">
 
    <div class="text-center p-2 px-4 line-height-4	">
-      <h3 v-if="message"> </h3>
+      <h3 v-if="message"> {{ message }} </h3>
         <Button label="تسجيل الدخول" @click="goToSigninPage" />
     </div>
 
@@ -10,7 +10,7 @@
   </template>
   
 <script setup>
-import { applyActionCode, verifyBeforeUpdateEmail } from 'firebase/auth';
+import { applyActionCode, signOut, verifyBeforeUpdateEmail } from 'firebase/auth';
 import Button from 'primevue/button';
 import { ref,onMounted } from 'vue';
 import { useRouter } from 'vue-router';
@@ -26,6 +26,7 @@ const verifyEmail = async () => {
   try {
     await applyActionCode(auth, actionCode)
     message.value = 'تمت عملية التحقق من حسابك بنجاح ! يمكنك الآن تسجيل الدخول'
+    signOut(auth)
   } catch (error) {
     message.value = 'حدث خطأ ما، الرجاء المحاولة مرة أخرى'
   }

@@ -60,7 +60,7 @@ const router = useRouter()
 }
 
 .success-msg {
-  color: #ff3f80;
+  color: #28a745;
   font-size: 14px;
   margin-top: -0.5rem;
   margin-bottom: 0.5rem;
