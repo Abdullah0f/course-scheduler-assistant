@@ -23,7 +23,6 @@ const requireActionHandler = (to, from, next) => {
 const actionHandlerGuard = async (to, from, next) => {
   const auth = getAuth()
   const oobCode = to.query.oobCode
-  console.log('oobCode', oobCode)
   if (!oobCode) {
     next({ name: 'home' })
     return
@@ -31,19 +30,14 @@ const actionHandlerGuard = async (to, from, next) => {
 
   try {
     const info = await checkActionCode(auth, oobCode)
-    console.log('info', info)
-    console.log('info.operation', info.operation)
     switch (info.operation) {
       case 'PASSWORD_RESET':
         next({ name: 'resetPassword', query: { ...to.query, fromActionHandler: true } })
         break
       case 'VERIFY_EMAIL':
-        console.log('verify email')
         next({ name: 'emailVerification', query: { ...to.query, fromActionHandler: true } })
-        console.log('verify email')
         break
       default:
-        console.log('default')
         next({ name: 'home' })
     }
   } catch (error) {
