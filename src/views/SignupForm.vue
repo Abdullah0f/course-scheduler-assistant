@@ -64,7 +64,7 @@ const { user } = getUser()
 const { error, signup , sendVerificationEmail} = useSignup() 
 
 const handleSubmit = async () => {
-  await signup(email.value,password.value)
+  await signup(email.value,password.value,username.value)
   if (!error.value) {
     emailSent.value = true
     disableButton.value = true

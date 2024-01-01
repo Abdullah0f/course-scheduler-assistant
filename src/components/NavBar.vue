@@ -1,5 +1,11 @@
 <template>
   <div>
+    <div v-if="showDiv" ref="par" class="flex justify-content-between align-items-center bg-gray-200 shadow-8 m-0 h-2rem">
+        <div class="flex-grow-1 flex justify-content-center">
+            <h5>نرجو منكم تعبئة الاستبيان <a href="https://docs.google.com/forms/d/1bS8rbYvnHFRq6rGYNRFM8qDVXRexek5oYqg0-smhi5M" target="_blank" rel="noopener noreferrer" class="link">من هنا</a></h5>
+        </div>
+        <Button icon="pi pi-times" severity="danger" text rounded aria-label="Cancel" @click="removeDiv" />
+    </div>
     <TabMenu
     v-if="windowWidth >= 768"
       :model="items"
@@ -12,19 +18,15 @@
       v-else
       :model="items"
       :pt="{ 
-        // action: 'focus:shadow-none', 
       icon: 'mr-0 ml-2',
-      //  label: 'white-space-nowrap' 
        }"
       />
-
-      <!-- :activeIndex="activeIndex" -->
-      <!-- @update:activeIndex="changeTab" -->
   </div>
 </template>
 
 <script setup>
 import TabMenu from 'primevue/tabmenu'
+import Button from 'primevue/button';
 import Menubar from 'primevue/menubar'
 import { ref, onMounted, onUnmounted, watchEffect } from 'vue'
 import { useRouter } from 'vue-router'
@@ -51,8 +53,15 @@ watchEffect(() => {
   }
 
 })
+const showDiv = ref(true);
+const par = ref(null);
 
-
+const removeDiv = () => {
+    par.value.classList.add('fadeOut'); // Add your animation class here
+    setTimeout(() => {
+        showDiv.value = false;
+    }, 500); // Set timeout duration to match your animation duration
+};
 const activeIndex = ref(0)
 const router = useRouter()
 
@@ -74,3 +83,18 @@ onUnmounted(() => {
   })
 })
 </script>
+<style scoped>
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+.fadeOut {
+    animation: fadeOut 0.1s ease-out forwards;
+}
+.link{
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+</style>

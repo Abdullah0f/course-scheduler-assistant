@@ -15,29 +15,31 @@
     }"
       :style="{ top: lectureTop + 'px', height: lectureHeight + 'px', backgroundColor: lectureColor }">
     
-    <i v-if="lectureData.isOpen == 'مغلقة'" class="pi tst pi-lock"></i>
-
-      <h3 class="text-center ">{{ lectureData.title }}</h3>
-
-    <p class="font-bold text-center">الشعبة: {{ lectureData.classCode }}</p>
-    <div>
-      <p v-if="!isMobile">
-        الوقت: {{ readableTime(lectureData.startTime) }} - {{ readableTime(lectureData.endTime) }}
-      </p>
-      <p v-if="showFullData">القاعة: {{ lectureData.location }}</p>
-      <p v-if="!isMobile && showFullData">النوع: {{ lectureData.classType }}</p>
-      <p v-if="showFullData">المحاضر: {{ lectureData.instructor }}</p>
-    </div>
-
+    <i v-if="lectureData.isOpen == 'مغلقة'" class="pi  pi-lock lock-pos"></i>
+    
     <!-- Start Time (Mobile Only) -->
-    <div class="top-0 right-0 absolute px-1 block" v-if="isMobile">
-      <p class="mt-1 z-5 font-bold  font-italic">{{ readableTime(lectureData.startTime) }}</p>
+    <div class=" m-0" v-if="isMobile">
+      <p class=" z-5 font-bold  font-italic m-1">{{ readableTime(lectureData.startTime) }}</p>
+    </div>
+     <!-- End Time (Mobile Only) -->
+     <div class="top-0 left-0 absolute px-1 block  m-0" v-if="isMobile">
+      <p class=" z-5 font-bold  font-italic mt-1">{{ readableTime(lectureData.endTime) }}</p>
+    </div>
+    
+    <h3 class="text-center  ">{{ lectureData.title }} <br>
+      <p v-if="!showFullData && size=='small'" class=" pi pi-info-circle mr-1 cursor-pointer info-button text-center" @click="toggle"> </p>
+    </h3>
+    <div>
+      <LectureInfo v-if="size=='default'" :lectureData=lectureData />
+    </div>
+    <OverlayPanel v-if=" size=='small'" ref="op" class="overlay-panel" :style="{backgroundColor:lectureColor}">
+      <LectureInfo :lectureData=lectureData />
+    </OverlayPanel> 
+
+    <div v-if="showFullData && size=='small'" >
+      <LectureInfo :lectureData=lectureData />
     </div>
 
-    <!-- End Time (Mobile Only) -->
-    <div class="bottom-0 left-0 absolute px-1 block" v-if="isMobile">
-      <p class="mb-1 z-5 font-bold  font-italic">{{ readableTime(lectureData.endTime) }}</p>
-    </div>
   </div>
 </template>
 
@@ -46,8 +48,8 @@ import { computed , ref} from 'vue'
 import { isMobileFunc } from '@/utils/helpers'
 import { useWindowSize } from '@vueuse/core'
 import { getColor } from '@/utils/getColor'
-
-
+import OverlayPanel from 'primevue/overlaypanel'
+import LectureInfo from './LectureInfo.vue'
 const props = defineProps({
   lectureData: {
     type: Object,
@@ -60,8 +62,17 @@ const props = defineProps({
   timings: {
     type: Object,
     required: true
+  },
+  size:{
+    type: String,
+    required: true,
   }
 })
+const op = ref()
+const toggle = (event) => {
+    op.value.toggle(event)
+}
+
 const lectureColor = computed(() => getColor(props.lectureData.title))
 const lectureTop = computed(() => {
   const hourDiff = props.lectureData.startTime.getHours() - props.timings.earliestHour
@@ -91,10 +102,12 @@ const readableTime = (time) => {
 
 const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
 </script>
-<style scoped lang="scss">
+<style  lang="scss">
 .lecture {
   border: 1px solid #ddd;
+  text-align: right;
   padding: 3px;
+  padding-top: 0;
   position: absolute;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
@@ -107,7 +120,7 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
       font-size: 0.5rem;
     }
     p {
-      font-size: 0.3rem;
+      font-size: 0.39rem;
     }
   }
 }
@@ -118,22 +131,39 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
   p {
     font-size: 0.5rem;
   }
+  .info-button {
+    font-size: 0.7rem;
+  }
+  @media screen and (max-width: 600px) {
+    h3 {
+      font-size: 0.5rem;
+    }
+    p , .info-button{
+      font-size: 0.39rem;
+    }
+  }
 }
 .locked {
   border: 2px solid #4b0707;
   box-shadow: 3px 2px 2px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
 
-  .tst{
+  .lock-pos{
     font-size: 9px;
     position: absolute;
     top: 3px;
     left: 2px;
     color: black;
     font-weight: 800;
-    transition: all 0.3s ease-in-out;
-    // right: 0;
-  }
+    transition: all 0.5s ;
+    color: #f02121;
+
+    @media screen and (max-width: 600px) {
+      font-size: 9px;
+      top: 3px;
+      left: 1.9rem;
+      color: #f02121;
+      }}
   &:hover {
     border: 2px solid #a11e1e;
     
@@ -150,5 +180,14 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
 
     }
   }
+}
+
+
+
+</style>
+
+<style>
+.p-overlaypanel .p-overlaypanel-content {
+  padding: 0.25rem 0.8rem;
 }
 </style>

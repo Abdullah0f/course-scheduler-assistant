@@ -25,6 +25,7 @@ import Button from 'primevue/button';
 import { ref, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router';
 import useLogin from '../utils/auth/useLogin';
+import { useScheduleStore } from '../stores/saveSchedule';
 
 const email = ref('')
 const password = ref('')
@@ -36,6 +37,8 @@ const handleSubmit = async () => {
   await login(email.value, password.value)
   if (!error.value) {
     router.push({ name: 'home' })
+    const scheduleStore = useScheduleStore()
+    await scheduleStore.loadUserSchedules()
   }
 }
 const goToSignupPage = () => {

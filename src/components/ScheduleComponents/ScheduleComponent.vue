@@ -3,9 +3,10 @@
     <HourColumn v-if="!isMobile"  :hourPixels="hourPixels" :timings="timings"/>
     <div v-for="day in DAYS" :key="day" class="flex-1">
       <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
-      <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
+      <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" :size="size"/>
     </div>
     <Button
+    v-show="!isCapturing"
       icon="co pi pi-info-circle"
       class="absolute info-btn"
       @click="toggle"
@@ -22,6 +23,7 @@
       <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
     </OverlayPanel>
     <Button
+    v-show="!isCapturing"
     :icon="bookMarkButton ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"
     class="absolute bookmark-btn"
     @click="saveCurrentSchedule"
@@ -29,7 +31,9 @@
     rounded
   ></Button>
   </div>
-  <SaveButton v-if="size=='default'" :targetRef="scheduleDiv" />
+  <SaveButton v-if="size=='default'" :targetRef="scheduleDiv" @captureChange="isCapturing = $event" />
+  <Toast />
+
 </template>
 
 <script setup>
@@ -43,8 +47,11 @@ import {useWindowSize} from '@vueuse/core'
 import { getTotalBreaks } from '../../utils/scheduleHelpers';
 import { getDaysOff } from '../../utils/scheduleHelpers';
 import Button  from 'primevue/button';
+import { useToast } from "primevue/usetoast";
+import Toast from 'primevue/toast';
 import OverlayPanel from 'primevue/overlaypanel';
 import { useScheduleStore } from '@/stores/saveSchedule';
+import getUser from '../../utils/auth/getUser';
 const props = defineProps({
   schedule: {
     type: Object,
@@ -59,13 +66,16 @@ const props = defineProps({
     }
   }
 })
+const isCapturing = ref(false);
+const toast = useToast();
+const emit = defineEmits(['unBooked']);
 const scheduleDiv = ref();
 const windowSize = useWindowSize()
 const timings = computed(()=> (props.schedule.meta.timings));
 const isMobile = computed(()=> isMobileFunc(windowSize.width.value))
 const device = computed(() => isMobile.value? 'mobile' : 'other');
 const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);
-
+const { user } = getUser()
 const op = ref(null);
 
     // Method to toggle the visibility of the OverlayPanel
@@ -74,14 +84,33 @@ const op = ref(null);
     };
 
     const scheduleStore = useScheduleStore();
-    const bookMarkButton = ref(scheduleStore.isBooked(props.schedule));
-// const currentSchedule = ref({}); // Replace with your schedule data source
+    const bookMarkButton = computed(() => scheduleStore.isBooked(props.schedule))
 
-// Function to save the current schedule
-const saveCurrentSchedule = () => {
-  bookMarkButton.value = !bookMarkButton.value;
-  scheduleStore.saveSchedule(props.schedule);
-};
+const saveCurrentSchedule = async () => {
+  if (user.value)
+  {
+  if (bookMarkButton.value) {
+    await scheduleStore.unbookSchedule(props.schedule)
+    emit('unBooked')
+  } else {  
+    if (scheduleStore.schedules.length === 10) {
+    toast.removeAllGroups()
+    toast.add({
+      severity: "warn",
+      summary: "لا يمكنك حفظ أكثر من 10 جداول",
+      life: 3000,
+    }) } else 
+    await scheduleStore.bookSchedule(props.schedule)
+  }
+  } else {
+    toast.removeAllGroups()
+    toast.add({
+      severity: "info",
+      summary: "خاصية الحفظ متاحة للمستخدمين المسجلين فقط",
+      life: 3000,
+    })
+  }
+}
 
 </script>
 
@@ -94,11 +123,11 @@ const saveCurrentSchedule = () => {
   flex-direction: row;
   width: 80vw;
   max-width: 1100px;
-  min-width: 800px;
+  min-width: 740px;
   // for phones
   @media screen and (max-width: 600px) {
     width: 100vw;
-    max-width: 600px;
+    max-width: 430px;
     min-width: 0px;
     padding: 2px;
     h2 {

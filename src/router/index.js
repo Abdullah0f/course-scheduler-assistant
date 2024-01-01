@@ -5,9 +5,45 @@ import Profile from '../views/TheProfile.vue'
 import LoginForm from '../views/LoginForm.vue'
 import SignupForm from '../views/SignupForm.vue'
 import forgotPassword from '../views/forgotPassword.vue'
+import EmailVerification from '../views/EmailVerification.vue'
 import getUser from '../utils/auth/getUser'
+import ResetPassword from '../views/ResetPassword.vue'
+import { getAuth, checkActionCode, } from 'firebase/auth';
 
 const { user } = getUser()
+
+const requireActionHandler = (to, from, next) => {
+  if (from.name !== 'actionHandler') {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+}
+
+const actionHandlerGuard= async(to, from, next) => {
+  const auth = getAuth()
+  const oobCode = to.query.oobCode
+  if (!oobCode) {
+    next({ name: 'home' })
+    return
+  }
+
+  try {
+    const info = await checkActionCode(auth, oobCode)
+    switch (info.operation) {
+      case 'PASSWORD_RESET':
+        next({ name: 'resetPassword', query: to.query })
+        break;
+      case 'VERIFY_EMAIL':
+        next({ name: 'emailVerification', query: to.query })
+        break
+      default:
+        next({ name: 'home' })
+    }
+  } catch (error) {
+    next({ name: 'home' })
+  }
+}
 
 // auth gurad to prevent unauthenticated users from accessing profile page
 const requireAuth = (to, from, next) => {
@@ -68,8 +104,24 @@ const router = createRouter({
       name:'forgotPassword',
       component: forgotPassword,
       beforeEnter: requireNoAuth
-    }
-   
+    },
+    {
+      path: '/emailVerification',
+      name: 'emailVerification',
+      component: EmailVerification,
+      beforeEnter: requireActionHandler
+    },
+    {
+      path: '/resetPassword',
+      name: 'resetPassword',
+      component: ResetPassword,
+      beforeEnter: requireActionHandler
+    },
+    {
+      path: '/actionHandler',
+      name: 'actionHandler',
+      beforeEnter: actionHandlerGuard
+    },
   ]
 })
 
