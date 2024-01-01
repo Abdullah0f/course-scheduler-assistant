@@ -119,6 +119,7 @@ const router = createRouter({
     },
     {
       path: '/actionHandler',
+      name: 'actionHandler',
       beforeEnter: actionHandlerGuard
     },
   ]
