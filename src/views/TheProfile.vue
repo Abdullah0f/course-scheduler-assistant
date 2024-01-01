@@ -49,7 +49,7 @@
       }"
        />
       
-        <ScheduleComponent :schedule="favSchedules[currentPage]" size="default" @unBooked="currentPage=0" />
+        <ScheduleComponent :schedule="favSchedules[currentPage]" size="default" @unBooked="currentPage--;currentPage++" />
     </div>
     <p  v-else class="text-lg">لا يوجد لديك جداول مفضلة حالياً</p>
   </div>
