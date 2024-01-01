@@ -6,6 +6,7 @@
       <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
     </div>
     <Button
+    v-show="!isCapturing"
       icon="co pi pi-info-circle"
       class="absolute info-btn"
       @click="toggle"
@@ -22,6 +23,7 @@
       <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
     </OverlayPanel>
     <Button
+    v-show="!isCapturing"
     :icon="bookMarkButton ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"
     class="absolute bookmark-btn"
     @click="saveCurrentSchedule"
@@ -29,7 +31,7 @@
     rounded
   ></Button>
   </div>
-  <SaveButton v-if="size=='default'" :targetRef="scheduleDiv" />
+  <SaveButton v-if="size=='default'" :targetRef="scheduleDiv" @captureChange="isCapturing = $event" />
   <Toast />
 
 </template>
@@ -64,6 +66,7 @@ const props = defineProps({
     }
   }
 })
+const isCapturing = ref(false);
 const toast = useToast();
 const emit = defineEmits(['unBooked']);
 const scheduleDiv = ref();
