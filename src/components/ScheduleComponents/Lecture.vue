@@ -149,20 +149,20 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
   transition: all 0.3s ease-in-out;
 
   .lock-pos{
-    font-size: 14px;
+    font-size: 9px;
     position: absolute;
     top: 3px;
     left: 2px;
     color: black;
     font-weight: 800;
     transition: all 0.5s ;
-    color: #4b0707;
+    color: #f02121;
 
     @media screen and (max-width: 600px) {
       font-size: 9px;
       top: 3px;
       left: 1.9rem;
-      color: #4b0707;
+      color: #f02121;
       }}
   &:hover {
     border: 2px solid #a11e1e;
