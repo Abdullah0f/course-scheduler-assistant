@@ -8,21 +8,22 @@ import forgotPassword from '../views/forgotPassword.vue'
 import EmailVerification from '../views/EmailVerification.vue'
 import getUser from '../utils/auth/getUser'
 import ResetPassword from '../views/ResetPassword.vue'
-import { getAuth, checkActionCode, } from 'firebase/auth';
+import { getAuth, checkActionCode } from 'firebase/auth'
 
 const { user } = getUser()
 
 const requireActionHandler = (to, from, next) => {
-  if (from.name !== 'actionHandler') {
-    next({ name: 'home' })
-  } else {
+  if (to.query.fromActionHandler) {
     next()
+  } else {
+    next({ name: 'home' })
   }
 }
 
-const actionHandlerGuard= async(to, from, next) => {
+const actionHandlerGuard = async (to, from, next) => {
   const auth = getAuth()
   const oobCode = to.query.oobCode
+  console.log('oobCode', oobCode)
   if (!oobCode) {
     next({ name: 'home' })
     return
@@ -30,14 +31,19 @@ const actionHandlerGuard= async(to, from, next) => {
 
   try {
     const info = await checkActionCode(auth, oobCode)
+    console.log('info', info)
+    console.log('info.operation', info.operation)
     switch (info.operation) {
       case 'PASSWORD_RESET':
-        next({ name: 'resetPassword', query: to.query })
-        break;
+        next({ name: 'resetPassword', query: { ...to.query, fromActionHandler: true } })
+        break
       case 'VERIFY_EMAIL':
-        next({ name: 'emailVerification', query: to.query })
+        console.log('verify email')
+        next({ name: 'emailVerification', query: { ...to.query, fromActionHandler: true } })
+        console.log('verify email')
         break
       default:
+        console.log('default')
         next({ name: 'home' })
     }
   } catch (error) {
@@ -88,20 +94,20 @@ const router = createRouter({
       component: () => import('../views/uploadData.vue')
     },
     {
-      path:'/login',
-      name:'login',
+      path: '/login',
+      name: 'login',
       component: LoginForm,
-      beforeEnter: requireNoAuth 
+      beforeEnter: requireNoAuth
     },
     {
-      path:'/signup',
-      name:'signup',
+      path: '/signup',
+      name: 'signup',
       component: SignupForm,
-      beforeEnter: requireNoAuth 
+      beforeEnter: requireNoAuth
     },
     {
-      path:'/forgotPassword',
-      name:'forgotPassword',
+      path: '/forgotPassword',
+      name: 'forgotPassword',
       component: forgotPassword,
       beforeEnter: requireNoAuth
     },
@@ -121,7 +127,7 @@ const router = createRouter({
       path: '/actionHandler',
       name: 'actionHandler',
       beforeEnter: actionHandlerGuard
-    },
+    }
   ]
 })
 
