@@ -18,7 +18,8 @@
       </span>
       <p class="forgot-password" @click="handleForgot">نسيت كلمة المرور</p>
       <div class="error-msg">{{ error }}</div>
-      <Button class="submit-button" label="تسجيل الدخول" @click="handleSubmit" />
+      <Button v-if="!isLoading" :disabled="isLoading" class="submit-button" label="تسجيل الدخول" @click="handleSubmit" />
+      <Button v-else :disabled="true" class="submit-button" icon="pi pi-spin pi-spinner" />
     </form>
     <p>ليس لديك حساب؟ <span class="sign-up" @click="goToSignupPage">إنشاء حساب جديد</span></p>
   </div>
@@ -37,7 +38,7 @@ const email = ref('')
 const password = ref('')
 const router = useRouter()
 
-const { error, login } = useLogin()
+const { error, login, isLoading } = useLogin()
 
 const handleSubmit = async () => {
   await login(email.value, password.value)
