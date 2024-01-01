@@ -25,11 +25,27 @@
     </Divider>
 
     <div v-if="favSchedules.length > 0">
-      <Paginator class="ltr" v-model:first="currentPage" :rows="1" :totalRecords="favSchedules.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink" currentPageReportTemplate= ' ( {currentPage} من {totalPages} )'
+      <Paginator class="ltr" v-model:first="currentPage" :rows="1" :totalRecords="favSchedules.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
       :pt="{
-        current: ({global}) => ({
-        class: 'rtl'
-      })
+        'FirstPageLink': {
+            'class': 'p-button-rounded p-button-outlined',
+            'icon': 'pi pi-angle-double-left'
+        },
+        'PrevPageLink': {
+            'class': 'p-button-rounded p-button-outlined',
+            'icon': 'pi pi-angle-left'
+        },
+        'NextPageLink': {
+            'class': 'p-button-rounded p-button-outlined',
+            'icon': 'pi pi-angle-right'
+        },
+        'LastPageLink': {
+            'class': 'p-button-rounded p-button-outlined',
+            'icon': 'pi pi-angle-double-right'
+        },
+        'CurrentPageReport': {
+            'class': 'p-button-rounded p-button-outlined'
+        },
       }"
        />
       
@@ -69,6 +85,8 @@ const email = ref(user.value.email)
 const currentPage = ref(0)
 const scheduleStore = useScheduleStore()
  
+onMounted
+
 const favSchedules = computed(() => {
   return scheduleStore.schedules.map(schedule => timifySchedule(schedule))
   
@@ -150,7 +168,11 @@ const confirmResetPassword =  (event) => {
   text-align: center;
   max-width: 60vw;
 }
-
+@media screen and (max-width: 1300px) {
+  .form-container {
+    max-width: 90vw;
+  }
+}
 
 .info-container {
   display: grid;
@@ -159,7 +181,6 @@ const confirmResetPassword =  (event) => {
   align-items: center;
   margin-bottom: 2rem;
 }
-
 .h3 {
   justify-self: end; 
 }
@@ -168,10 +189,6 @@ const confirmResetPassword =  (event) => {
   justify-self: start; 
 }
 
-
-</style>
-
-<style>
 .p-toast .p-toast-message .p-toast-message-content .p-toast-message-icon.p-icon {
   margin-left: 1rem ;
   }

@@ -1,6 +1,6 @@
 <template>
     <div class="day" :style="{height: height+'px'}">
-          <Lecture class="mx-1" v-for="lecture in dayData" :key="lecture.startTime" :lectureData="lecture" :hourPixels="hourPixels" :timings="timings"/>
+      <Lecture class="mx-1" v-for="lecture in dayData" :key="lecture.startTime" :lectureData="lecture" :hourPixels="hourPixels" :timings="timings" :size="size"/>
     </div>
   </template>
   
@@ -20,6 +20,10 @@
     },
     timings: {
       type: Object,
+      required: true,
+    },
+    size:{
+      type: String,
       required: true,
     }
   })

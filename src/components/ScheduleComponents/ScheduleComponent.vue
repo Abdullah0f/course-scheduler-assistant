@@ -3,7 +3,7 @@
     <HourColumn v-if="!isMobile"  :hourPixels="hourPixels" :timings="timings"/>
     <div v-for="day in DAYS" :key="day" class="flex-1">
       <h2 class="text-center">{{ DAYS_MAP[day] }}</h2>
-      <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" />
+      <Day :dayData="schedule[day]" :hourPixels="hourPixels" :timings="timings" :size="size"/>
     </div>
     <Button
       icon="co pi pi-info-circle"
@@ -120,11 +120,11 @@ const saveCurrentSchedule = async () => {
   flex-direction: row;
   width: 80vw;
   max-width: 1100px;
-  min-width: 800px;
+  min-width: 740px;
   // for phones
   @media screen and (max-width: 600px) {
     width: 100vw;
-    max-width: 600px;
+    max-width: 430px;
     min-width: 0px;
     padding: 2px;
     h2 {

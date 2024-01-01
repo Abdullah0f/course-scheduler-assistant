@@ -15,25 +15,28 @@
     }"
       :style="{ top: lectureTop + 'px', height: lectureHeight + 'px', backgroundColor: lectureColor }">
     
-    <i v-if="lectureData.isOpen == 'مغلقة'" class="pi tst pi-lock"></i>
+    <i v-if="lectureData.isOpen == 'مغلقة'" class="pi  pi-lock lock-pos"></i>
     
     <!-- Start Time (Mobile Only) -->
-    <div class=" -mb-1 " v-if="isMobile">
-      <p class=" z-5 font-bold  font-italic">{{ readableTime(lectureData.startTime) }}</p>
+    <div class=" m-0" v-if="isMobile">
+      <p class=" z-5 font-bold  font-italic m-1">{{ readableTime(lectureData.startTime) }}</p>
     </div>
      <!-- End Time (Mobile Only) -->
-     <div class="top-0 left-0 absolute px-1 block " v-if="isMobile">
-      <p class=" z-5 font-bold  font-italic">{{ readableTime(lectureData.endTime) }}</p>
+     <div class="top-0 left-0 absolute px-1 block  m-0" v-if="isMobile">
+      <p class=" z-5 font-bold  font-italic mt-1">{{ readableTime(lectureData.endTime) }}</p>
     </div>
     
-    <h3 class="text-center mb-0">{{ lectureData.title }}
-    <p v-if="!showFullData" class=" pi pi-info-circle mr-1 cursor-pointer info-button " @click="toggle"> </p>
+    <h3 class="text-center  ">{{ lectureData.title }} <br>
+      <p v-if="!showFullData && size=='small'" class=" pi pi-info-circle mr-1 cursor-pointer info-button text-center" @click="toggle"> </p>
     </h3>
-    <OverlayPanel ref="op" class="overlay-panel" :style="{backgroundColor:lectureColor}">
+    <div>
+      <LectureInfo v-if="size=='default'" :lectureData=lectureData />
+    </div>
+    <OverlayPanel v-if=" size=='small'" ref="op" class="overlay-panel" :style="{backgroundColor:lectureColor}">
       <LectureInfo :lectureData=lectureData />
     </OverlayPanel> 
 
-    <div v-if="showFullData" >
+    <div v-if="showFullData && size=='small'" >
       <LectureInfo :lectureData=lectureData />
     </div>
 
@@ -59,6 +62,10 @@ const props = defineProps({
   timings: {
     type: Object,
     required: true
+  },
+  size:{
+    type: String,
+    required: true,
   }
 })
 const op = ref()
@@ -141,16 +148,22 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
   box-shadow: 3px 2px 2px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease-in-out;
 
-  .tst{
-    font-size: 9px;
+  .lock-pos{
+    font-size: 14px;
     position: absolute;
     top: 3px;
     left: 2px;
     color: black;
     font-weight: 800;
-    transition: all 0.3s ease-in-out;
-    // right: 0;
-  }
+    transition: all 0.5s ;
+    color: #4b0707;
+
+    @media screen and (max-width: 600px) {
+      font-size: 9px;
+      top: 3px;
+      left: 1.9rem;
+      color: #4b0707;
+      }}
   &:hover {
     border: 2px solid #a11e1e;
     
@@ -168,6 +181,8 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
     }
   }
 }
+
+
 
 </style>
 
