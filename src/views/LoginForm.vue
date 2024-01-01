@@ -4,28 +4,34 @@
     <form>
       <span class="p-float-label">
         <InputText id="email" v-model="email" class="input-field" />
-        <label for="email">االبريد الإلكتروني</label>
+        <label for="email">البريد الإلكتروني</label>
       </span>
       <span class="p-float-label">
-        <Password v-model="password" id="password" toggleMask :feedback="false" class="input-field" />
+        <Password
+          v-model="password"
+          id="password"
+          toggleMask
+          :feedback="false"
+          class="input-field"
+        />
         <label for="password">كلمة المرور</label>
       </span>
       <p class="forgot-password" @click="handleForgot">نسيت كلمة المرور</p>
-      <div class="error-msg"> {{ error }}</div>
+      <div class="error-msg">{{ error }}</div>
       <Button class="submit-button" label="تسجيل الدخول" @click="handleSubmit" />
     </form>
-    <p>ليس لديك حساب؟ <span class="sign-up" @click="goToSignupPage">إنشاء حساب جديد</span> </p>
+    <p>ليس لديك حساب؟ <span class="sign-up" @click="goToSignupPage">إنشاء حساب جديد</span></p>
   </div>
 </template>
 
 <script setup>
-import InputText from 'primevue/inputtext';
-import Password from 'primevue/password';
-import Button from 'primevue/button';
-import { ref, onBeforeUnmount } from 'vue';
-import { useRouter } from 'vue-router';
-import useLogin from '../utils/auth/useLogin';
-import { useScheduleStore } from '../stores/saveSchedule';
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import Button from 'primevue/button'
+import { ref, onBeforeUnmount } from 'vue'
+import { useRouter } from 'vue-router'
+import useLogin from '../utils/auth/useLogin'
+import { useScheduleStore } from '../stores/saveSchedule'
 
 const email = ref('')
 const password = ref('')
@@ -52,7 +58,6 @@ const handleForgot = () => {
 onBeforeUnmount(() => {
   error.value = '' // Reset the error message when leaving the signin page
 })
-
 </script>
 
 <style>
@@ -84,7 +89,7 @@ onBeforeUnmount(() => {
   display: inline;
 }
 
-.p-float-label>label {
+.p-float-label > label {
   right: 0.75rem;
 }
 
@@ -106,8 +111,8 @@ onBeforeUnmount(() => {
 }
 
 /* for the eye icon of the password  */
-.form-container .p-input-icon-right>svg:last-of-type,
-.p-input-icon-right>i:last-of-type {
+.form-container .p-input-icon-right > svg:last-of-type,
+.p-input-icon-right > i:last-of-type {
   right: auto;
   left: 0.75rem;
   display: inline-block;
