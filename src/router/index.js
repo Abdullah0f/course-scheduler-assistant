@@ -7,37 +7,43 @@ import SignupForm from '../views/SignupForm.vue'
 import forgotPassword from '../views/forgotPassword.vue'
 import EmailVerification from '../views/EmailVerification.vue'
 import getUser from '../utils/auth/getUser'
-import ResetPassowrd from '../views/ResetPassword.vue'
-import { getAuth, verifyPasswordResetCode, checkActionCode, applyActionCode } from 'firebase/auth';
+import ResetPassword from '../views/ResetPassword.vue'
+import { getAuth, checkActionCode, } from 'firebase/auth';
 
 const { user } = getUser()
 
-const requireValidOobCode = async (to, from, next) => {
-  const auth = getAuth();
-  const oobCode = to.query.oobCode;
+const requireActionHandler = (to, from, next) => {
+  if (from.name !== 'actionHandler') {
+    next({ name: 'home' })
+  } else {
+    next()
+  }
+}
 
+const actionHandlerGuard= async(to, from, next) => {
+  const auth = getAuth()
+  const oobCode = to.query.oobCode
   if (!oobCode) {
-    next({ name: 'home' }); // Redirect if no oobCode
-    return;
+    next({ name: 'home' })
+    return
   }
 
   try {
-    // Check the type of operation and verify accordingly
-    const info = await checkActionCode(auth, oobCode);
-
-    if (info.operation === 'PASSWORD_RESET') {
-      await verifyPasswordResetCode(auth, oobCode);
-      next(); // Valid oobCode for password reset, proceed to the route
-    } else if (info.operation === 'VERIFY_EMAIL') {
-      await applyActionCode(auth, oobCode);
-      next(); // Valid oobCode for email verification, proceed to the route
-    } else {
-      next({ name: 'home' }); // Redirect if the operation is neither
+    const info = await checkActionCode(auth, oobCode)
+    switch (info.operation) {
+      case 'PASSWORD_RESET':
+        next({ name: 'resetPassword', query: to.query })
+        break;
+      case 'VERIFY_EMAIL':
+        next({ name: 'emailVerification', query: to.query })
+        break
+      default:
+        next({ name: 'home' })
     }
   } catch (error) {
-    next({ name: 'home' }); // Redirect if invalid oobCode
+    next({ name: 'home' })
   }
-};
+}
 
 // auth gurad to prevent unauthenticated users from accessing profile page
 const requireAuth = (to, from, next) => {
@@ -100,18 +106,21 @@ const router = createRouter({
       beforeEnter: requireNoAuth
     },
     {
-      path:'/emailVerification',
-      name:'emailVerification',
+      path: '/emailVerification',
+      name: 'emailVerification',
       component: EmailVerification,
-      beforeEnter: requireValidOobCode
+      beforeEnter: requireActionHandler
     },
     {
-      path:'/resetPassword',
-      name:'resetPassword',
-      component: ResetPassowrd,
-      beforeEnter: requireValidOobCode
-
-    }
+      path: '/resetPassword',
+      name: 'resetPassword',
+      component: ResetPassword,
+      beforeEnter: requireActionHandler
+    },
+    {
+      path: '/actionHandler',
+      beforeEnter: actionHandlerGuard
+    },
   ]
 })
 
