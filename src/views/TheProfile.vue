@@ -46,7 +46,7 @@ import { signOut } from 'firebase/auth'
 import getUser from '@/utils/auth/getUser'
 import { useRouter } from 'vue-router'
 import InputText from 'primevue/inputtext';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, nextTick } from 'vue';
 import Password from 'primevue/password';
 import Divider from 'primevue/divider';
 import ConfirmPopup from 'primevue/confirmpopup';
@@ -61,10 +61,10 @@ import { timifySchedule } from '../utils/timifySchedule';
 const confirm = useConfirm();
 const toast = useToast();
 const {error, resetPassword } = useResetPasword()
-const username = ref('')
 const dummyPassword = "********"
 const router = useRouter()
 const { user } = getUser()
+const username = ref(user.value.displayName)
 const email = ref(user.value.email)
 const currentPage = ref(0)
 const scheduleStore = useScheduleStore()
