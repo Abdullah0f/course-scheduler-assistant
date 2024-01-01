@@ -1,19 +1,5 @@
 <template>
   <div class="mr-5">
-    <div id="temp">
-      <h1>الجدول</h1>
-      <Button
-        rounded
-        outlined
-        severity="info"
-        size="small"
-        v-styleclass="{ selector: '@next', toggleClass: 'hidden' }"
-        icon="pi pi-circle"
-      ></Button>
-      <div class="hidden">
-        <ScheduleComponent :schedule="schedule" size="default" />
-      </div>
-    </div>
     <div v-if="Object.keys(courses).length !== 0">
       <form @submit.prevent="handleCourses">
         <ChooseCourses
@@ -28,6 +14,14 @@
         <ChooseFilters @filters-changed="updateFilters" :filters="filters" />
         <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
       </form>
+    </div>
+    <div v-else class="text-lg">
+      <p>لا يوجد مواد مضافة حالياً</p>
+      <p>بامكانك اضافة المواد الخاصة بك من صفحة رفع ملف او من هنا</p>
+      <UploadData :center="false" />
+
+      <p>او اذا اردت تجربة الموقع بدون رفع بيانات حقيقية</p>
+      <LoadExampleCourses />
     </div>
   </div>
   <div v-if="schedules">
@@ -56,6 +50,7 @@ import ChooseCourses from '@/components/ScheduleComponents/chooseCourses.vue'
 import ChooseSectionCourse from '@/components/ScheduleComponents/ChooseSectionCourse.vue'
 import ChooseFilters from '@/components/ScheduleComponents/ChooseFilters.vue'
 import SchedulesList from '@/components/ScheduleComponents/SchedulesList.vue'
+import LoadExampleCourses from '@/components/misc/LoadExampleCourses.vue'
 import { useCoursesStore } from '@/stores/courses'
 import Button from 'primevue/button'
 import { ref, computed } from 'vue'
@@ -63,6 +58,7 @@ import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
 import { sortSchedules } from '@/utils/scheduleHelpers.js'
 import { useField, useForm } from 'vee-validate'
 import ScrollTop from 'primevue/scrolltop'
+import UploadData from './UploadData.vue'
 
 const { handleSubmit } = useForm()
 
@@ -70,10 +66,10 @@ const hasSomthingChanged = ref(true)
 const somethingChanged = () => (hasSomthingChanged.value = true)
 
 const schedules = ref(null)
-const courses = useCoursesStore().courses
+const courses = computed(() => useCoursesStore().courses)
 const transformedCourses = computed(() => {
-  return Object.keys(courses).map((key) => ({
-    name: courses[key][0].code + ' | ' + courses[key][0].name,
+  return Object.keys(courses.value).map((key) => ({
+    name: courses.value[key][0].code + ' | ' + courses.value[key][0].name,
     code: key
   }))
 })
@@ -104,7 +100,7 @@ const onSelectedCoursesChange = (selectedCourses) => {
 const courseSection = (selectedCourses) => {
   selectCourse.value = selectedCourses
   const selectedCoursesObject = selectCourse.value.reduce((acc, courseCode) => {
-    acc[courseCode] = courses[courseCode]
+    acc[courseCode] = courses.value[courseCode]
     return acc
   }, {})
 
@@ -133,11 +129,11 @@ const handleCourses = handleSubmit((values) => {
   if (!selectedCourses.length) return
   resetColors()
   let selectedCoursesObject = selectedCourses.reduce((acc, courseCode) => {
-    acc[courseCode] = courses[courseCode]
+    acc[courseCode] = courses.value[courseCode]
     return acc
   }, {})
 
-  schedules.value = generateSchedules(selectedCoursesObject, selectedSection.value ,filters.value)
+  schedules.value = generateSchedules(selectedCoursesObject, selectedSection.value, filters.value)
   hasSomthingChanged.value = false
 })
 </script>
