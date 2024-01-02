@@ -156,13 +156,12 @@ const courseOpen = ref(props.lectureData.isOpen == 'مغلقة'? true : false)
     color: black;
     font-weight: 800;
     transition: all 0.5s ;
-    color: #f02121;
+    color: #c42424;
 
     @media screen and (max-width: 600px) {
       font-size: 9px;
       top: 3px;
       left: 1.9rem;
-      color: #f02121;
       }}
   &:hover {
     border: 2px solid #a11e1e;

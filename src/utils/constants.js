@@ -28,5 +28,10 @@ export const LECTURES_COLORS = [
   '#64B5F6',  // Light Blue
   '#BA68C8',  // Light Purple
   '#4DB6AC',  // Turquoise Green
-  '#FF8A65'   // Burnt Coral
+  '#FF8A65',  // Burnt Coral
+  '#AED581',  // Light Lime
+  '#FFD54F',  // Golden Yellow
+  '#4FC3F7',  // Sky Blue
+  '#7986CB',  // Lavender Blue
+  '#90A4AE'   // Light Grey Blue
 ];

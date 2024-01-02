@@ -16,17 +16,29 @@
 
   
   const captureAndModify = async () => {
-    try {
-      emit('captureChange', true)
-      await nextTick()
-      const canvas = await html2canvas(props.targetRef)
-      const link = document.createElement('a')
-      link.download = 'schedule.png'
-      link.href = canvas.toDataURL('image/png')
-      link.click()
-      emit('captureChange', false)
-    } catch (error) {
-      console.error("Error generating image:", error)
-    }
-  };
+  try {
+    // Emit capture change event
+    emit('captureChange', true)
+    await nextTick()
+    // Clone the target element to avoid mutating the prop directly
+    const cloneTarget = props.targetRef.cloneNode(true)
+    // Apply styles to the cloned element
+    cloneTarget.style.width = '100vw'
+    document.body.appendChild(cloneTarget);
+    // Capture the cloned element as a canvas
+    const canvas = await html2canvas(cloneTarget)
+
+    // Remove the cloned element from the body
+    document.body.removeChild(cloneTarget)
+
+    // Create link and trigger download
+    const link = document.createElement('a')
+    link.download = 'schedule.png'
+    link.href = canvas.toDataURL('image/png')
+    link.click()
+    emit('captureChange', false)
+  } catch (error) {
+    console.error("Error generating image:", error)
+  }
+};
   </script>

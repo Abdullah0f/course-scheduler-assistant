@@ -27,25 +27,6 @@
     <div v-if="favSchedules.length > 0">
       <Paginator class="ltr" v-model:first="currentPage" :rows="1" :totalRecords="favSchedules.length" template="FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
       :pt="{
-        'FirstPageLink': {
-            'class': 'p-button-rounded p-button-outlined',
-            'icon': 'pi pi-angle-double-left'
-        },
-        'PrevPageLink': {
-            'class': 'p-button-rounded p-button-outlined',
-            'icon': 'pi pi-angle-left'
-        },
-        'NextPageLink': {
-            'class': 'p-button-rounded p-button-outlined',
-            'icon': 'pi pi-angle-right'
-        },
-        'LastPageLink': {
-            'class': 'p-button-rounded p-button-outlined',
-            'icon': 'pi pi-angle-double-right'
-        },
-        'CurrentPageReport': {
-            'class': 'p-button-rounded p-button-outlined'
-        },
       }"
        />
       
