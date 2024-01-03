@@ -1,16 +1,19 @@
 <template>
-  <NavBar/>
+  <NavBar />
 
   <div class="container">
-    <RouterView />
+    <RouterView v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </RouterView>
   </div>
 </template>
 
 <script>
-import NavBar from "./components/NavBar.vue"
+import NavBar from './components/NavBar.vue'
 export default {
   components: { NavBar }
 }
 </script>
-<style scoped>
-</style>
+<style scoped></style>

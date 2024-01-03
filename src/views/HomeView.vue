@@ -37,7 +37,10 @@
             <Image src="src\assets\selectCourse.png" width="250" preview />
           </div>
           <h4>الخطوة الرابعة</h4>
-          <p>بعد ماتختار المواد الي تبغاها، تقدر تختار شعبة معينة اذا بغيت من هنا</p>
+          <p>
+            بعد ماتختار المواد الي تبغاها، تقدر تختار شعبة معينة -تكون ثابتة في جميع الجداول المنشأة
+            ولا يتم النظر لغيرها من الشعب لنفس المادة- اذا بغيت من هنا
+          </p>
           <div>
             <Image src="src\assets\selectSection.png" width="250" preview />
           </div>
@@ -61,7 +64,8 @@
           <p class="line-height-3">
             وبالنسبة لساعات البريك المقصود فيها البريكات الي بين المحاضرات للجدول كامل,
             <br />
-            .مثلا تقدر تختار عدد ساعات البريك تكون ساعة فقط وراح يكون مجموع البريكات ساعة فقط للجدول كامل 
+            .مثلا تقدر تختار عدد ساعات البريك تكون ساعة فقط وراح يكون مجموع البريكات ساعة فقط للجدول
+            كامل
           </p>
           <div>
             <Image src="src\assets\open.png" width="250" preview />
@@ -85,7 +89,7 @@
                 هذا هو شكل الجدول الذي سيظهر لك. في أعلى الجدول، يوجد زران: الزر الأول
                 <i class="pi pi-bookmark mr-1 ml-1 text-purple-300"></i>
                 هو زر الحفظ، وهو متاح فقط للمستخدمين المسجلين في الموقع. يتيح لك هذا الزر الرجوع إلى
-                الجداول التي أنت مهتم بها في صفحة             
+                الجداول التي أنت مهتم بها في صفحة
                 <router-link class="link" to="/profile">الملف الشخصي</router-link>
                 في أي وقت وحفظها كصورة.
               </p>
@@ -127,12 +131,11 @@
             <Image src="src\assets\closeLecture.png" alt="lab" width="100" />
           </div>
           <p class="line-height-3">
-            اما محاضرات التي مدتها ساعة او اقل شكلها مختلف قليلا,
-            إذا ضغطت على هذا الزر
-            <i class="pi pi-info-circle mr-1  "></i>
+            اما محاضرات التي مدتها ساعة او اقل شكلها مختلف قليلا, إذا ضغطت على هذا الزر
+            <i class="pi pi-info-circle mr-1"></i>
             ستظهر لك معلومات عن المحاضرة.
           </p>
-          <div  class="flex align-content-center gap-8">
+          <div class="flex align-content-center gap-8">
             <Image src="src\assets\oneH.png" alt="lecture" width="130" />
             <Image src="src\assets\oneHour.png" alt="lecture" width="150" />
           </div>
