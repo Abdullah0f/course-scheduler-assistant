@@ -19,9 +19,7 @@ export const useScheduleStore = defineStore({
               ['userID', '==', user.value.uid],
           )
             if (documents && documents.value) {
-              console.log(documents.value.filter(doc => doc.schedule), "before timify")
               this.schedules = documents.value.map(doc => doc.schedule)
-              console.log(this.schedules, "after timify")
           }
       } catch (error) {
           console.error("Error loading user schedules:", error);
@@ -48,9 +46,6 @@ export const useScheduleStore = defineStore({
     
         if (!querySnapshot.empty) {
           await deleteDoc(querySnapshot.docs[0].ref);
-        } else {
-          // Handle case where no matching document is found
-          console.log("No matching document found");
         }
     
         const index = this.schedules.findIndex(s => s.meta.id === schedule.meta.id);

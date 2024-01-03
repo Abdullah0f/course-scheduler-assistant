@@ -11,7 +11,6 @@ const resetPassword = async (email) => {
         await sendPasswordResetEmail(auth,email)
         
     } catch (err) {
-        console.log(err.message)
         error.value = err.message
     }
 

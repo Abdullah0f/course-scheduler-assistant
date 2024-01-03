@@ -79,7 +79,6 @@ const selectedSection = ref([])
 // Method to handle the update-selectedSection event
 const handleSelectedSectionUpdate = (newSelection) => {
   selectedSection.value = newSelection
-  console.log(selectedSection.value)
   somethingChanged()
 }
 

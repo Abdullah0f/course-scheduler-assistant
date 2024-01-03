@@ -9,7 +9,6 @@ const updateUserEmail = async (user,newEmail) => {
     try {
         await updateEmail(user, newEmail)
     } catch (err) {
-        console.log(err.message)
         error.value = translateErrorCode(err.code)
     }
 

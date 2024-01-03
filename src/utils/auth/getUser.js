@@ -7,7 +7,6 @@ const user = ref(auth.currentUser)
 
 // auth changes
 onAuthStateChanged(auth, (_user) => {
-    console.log("user state changed , current User is : ", _user)
     user.value = _user
 
 })

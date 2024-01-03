@@ -109,7 +109,6 @@ export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
   function minimizeSectionCourses(coursesArray, section) {
     for (const i of coursesArray) {
       for (const j of section) {
-        console.log(j.code)
         const [, num, name] = j.code.split(' - ').map((str) => str.trim())
         if (i[0].code == name) {
           coursesArray = coursesArray.map((course) => {
@@ -126,11 +125,9 @@ export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
   }
 export function generateSchedules(courses, section, filters) {
   let coursesArray = Object.values(courses)
-  console.log(coursesArray)
   if (section) {
     coursesArray = minimizeSectionCourses(coursesArray, section)
   }
-  console.log(coursesArray)
 
   // sort courses by number of options
   coursesArray.sort((course1, course2) => course1.length - course2.length)

@@ -40,7 +40,6 @@ const handleFileUpload = (event) => {
       try {
         const content = e.target.result
         const courses = getCourses(content)
-        console.log(courses)
         useCoursesStore().setCourses(courses)
         toast.add({
           severity: 'success',
@@ -49,7 +48,6 @@ const handleFileUpload = (event) => {
           life: 3000
         })
       } catch (e) {
-        console.log(e)
         toast.add({
           severity: 'error',
           summary: FILE_MSGS.SUMMARY.ERROR,
@@ -59,7 +57,6 @@ const handleFileUpload = (event) => {
       }
     }
     reader.onerror = (e) => {
-      console.log(e)
       toast.add({
         severity: 'error',
         summary: FILE_MSGS.SUMMARY.ERROR,

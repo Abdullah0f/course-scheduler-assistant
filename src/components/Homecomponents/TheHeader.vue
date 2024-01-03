@@ -20,12 +20,10 @@ const userData = useUserStore()
 // const selectedGender = userData.selectedGender;
 
 const handleGenderSelected = (gender) => {
-  console.log(gender)
   userData.setSelectedGender(gender)
 }
 
 const handleCiCoSelected = (info) => {
-  console.log(info)
   userData.setSelectedCity(info.city)
   userData.setSelectedCollege(info.college)
 }

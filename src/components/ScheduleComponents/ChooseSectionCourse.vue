@@ -78,7 +78,6 @@ const localSelectCourse = reactive({ ...props.selectCourse })
           // Ensure selected has a code property
           if (selected && selected.code) {
             const selectedParts = selected.code.split(' - ')
-            console.log(newKeys)
             return selectedParts.length === 3 && newKeys.includes(selectedParts[2].trim())
           }
           return false
