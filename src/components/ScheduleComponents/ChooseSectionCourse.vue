@@ -10,11 +10,13 @@
         optionGroupLabel="label"
         :optionGroupChildren="getChildrenVisibility"
         :disabled="!transformedSelectCourses.length"
+        scrollHeight="300px"
         display="chip"
         @change="$emit('update-selectedSection', selectedSection)"
         :showToggleAll="false"
         class=" p-2  w-full md:w-20rem"
         filter
+        :pt="{checkboxContainer:'mr-0 ml-2',removeTokenIcon:'ml-0 mr-2'}"
       >
         <template #optiongroup="slotProps">
           <div class="flex align-items-center justify-content-between">
