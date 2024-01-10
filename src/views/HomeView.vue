@@ -1,10 +1,10 @@
 <template>
   <div class="">
-    <h1 class="text-center mt-5 mb-8">شرح استخدام الموقع</h1>
+    <h1 class="text-center mt-5 mb-8">طريقة إستخدام الموقع</h1>
     <div class="flex flex-col md:flex-row align-content-around gap-4 justify-content-center">
       <Accordion class="w-9 md:w-1/2 rtl" :activeIndex="0">
         <AccordionTab
-          header="شرح"
+          header="شرح الموقع"
           :pt="{
             headerTitle: ' font-bold mr-1'
           }"
@@ -48,8 +48,8 @@
           <h4>الخطوة الخامسة</h4>
           <p class="line-height-3">بعد ماتختار المواد والشعب، تقدر تغير في الفلاتر زي مايعجبك</p>
           <div>
-            <Image src="src\assets\filters.png" width="700" preview v-if="width >= 768" />
-            <Image src="src\assets\filters.png" width="300" preview v-else />
+            <Image src="src\assets\filters.png" width="500" preview v-if="width >= 768" />
+            <Image src="src\assets\filters.png" width="280" preview v-else />
           </div>
           <p class="line-height-3">
             في البداية تقدر تختار عدد ايام الاوف الي تبغاها تكون في الجدول وأيضا تقدر تخصصها اذا
@@ -82,7 +82,10 @@
             <span class="text-purple-400 font-bold">تأكيد</span> وينشأ لك جميع الجداول الممكنة.
           </p>
         </AccordionTab>
-        <AccordionTab header="الجدول">
+        <AccordionTab header="شرح الجدول"
+        :pt="{
+            headerTitle: ' font-bold mr-1'
+          }">
           <div class="text-center">
             <div class="text-right">
               <p class="line-height-3">
@@ -106,7 +109,7 @@
               preview
               v-if="width > 700"
             />
-            <Image src="src\assets\schedule.png" alt="schedule" width="300" preview v-else />
+            <Image src="src\assets\schedule.png" alt="schedule" width="270" preview v-else />
           </div>
           <p class="line-height-3">
             هذا هو شكل المحاضرة. بجوار رقم الشعبة، ستجد أيقونات مختلفة تعبر عن نوع المحاضرة. كل
@@ -135,14 +138,19 @@
             <i class="pi pi-info-circle mr-1"></i>
             ستظهر لك معلومات عن المحاضرة.
           </p>
-          <div class="flex align-content-center gap-8">
-            <Image src="src\assets\oneH.png" alt="lecture" width="130" />
+          <div v-if="width>500" class="flex align-content-center gap-6 ">
+            <Image src="src\assets\oneH.png" alt="lecture" width="150" />
             <Image src="src\assets\oneHour.png" alt="lecture" width="150" />
+          </div>
+          <div class="flex align-content-center gap-6">
+            <Image src="src\assets\oneH.png" alt="lecture" width="100" />
+            <Image src="src\assets\oneHour.png" alt="lecture" width="100" />
           </div>
         </AccordionTab>
       </Accordion>
     </div>
   </div>
+  <div class="p-4"></div>
 </template>
 
 <script setup>
