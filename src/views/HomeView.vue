@@ -34,7 +34,7 @@
           <h4>الخطوة الثالثة</h4>
           <p class="line-height-3">بعد ماترفع الملف تقدر تختار المواد الي تبغاها من هنا</p>
           <div>
-            <Image src="src\assets\selectCourse.png" width="250" preview />
+            <Image src="/selectCourse.png" width="250" preview />
           </div>
           <h4>الخطوة الرابعة</h4>
           <p>
@@ -42,14 +42,14 @@
             ولا يتم النظر لغيرها من الشعب لنفس المادة- اذا بغيت من هنا
           </p>
           <div>
-            <Image src="src\assets\selectSection.png" width="250" preview />
+            <Image src="/selectSection.png" width="250" preview />
           </div>
           <p>ملاحظة* كل مادة تقدر تختار لها شعبة واحدة فقط</p>
           <h4>الخطوة الخامسة</h4>
           <p class="line-height-3">بعد ماتختار المواد والشعب، تقدر تغير في الفلاتر زي مايعجبك</p>
           <div>
-            <Image src="src\assets\filters.png" width="700" preview v-if="width >= 768" />
-            <Image src="src\assets\filters.png" width="300" preview v-else />
+            <Image src="/filters.png" width="700" preview v-if="width >= 768" />
+            <Image src="/filters.png" width="300" preview v-else />
           </div>
           <p class="line-height-3">
             في البداية تقدر تختار عدد ايام الاوف الي تبغاها تكون في الجدول وأيضا تقدر تخصصها اذا
@@ -59,7 +59,7 @@
             وتخليهم يوم الاحد والاثنين وهكذا.
           </p>
           <div>
-            <Image src="src\assets\breakHours.png" width="250" preview />
+            <Image src="/breakHours.png" width="250" preview />
           </div>
           <p class="line-height-3">
             وبالنسبة لساعات البريك المقصود فيها البريكات الي بين المحاضرات للجدول كامل,
@@ -68,7 +68,7 @@
             كامل
           </p>
           <div>
-            <Image src="src\assets\open.png" width="250" preview />
+            <Image src="/open.png" width="250" preview />
           </div>
           <p class="line-height-3">
             بالنسبة للفلتر هذا، إذا ألغيته فلن يتم إنشاء إلا جداول تكون الشعب فيها مفتوحة.
@@ -99,14 +99,8 @@
                 فهو زر المعلومات، وهو متاح للجميع. يقدم لك هذا الزر معلومات عن الجدول.
               </p>
             </div>
-            <Image
-              src="src\assets\schedule.png"
-              alt="schedule"
-              width="500"
-              preview
-              v-if="width > 700"
-            />
-            <Image src="src\assets\schedule.png" alt="schedule" width="300" preview v-else />
+            <Image src="/schedule.png" alt="schedule" width="500" preview v-if="width > 700" />
+            <Image src="/schedule.png" alt="schedule" width="300" preview v-else />
           </div>
           <p class="line-height-3">
             هذا هو شكل المحاضرة. بجوار رقم الشعبة، ستجد أيقونات مختلفة تعبر عن نوع المحاضرة. كل
@@ -123,12 +117,12 @@
             القفل يعني ان الشعبة مغلقة.
           </p>
           <div class="flex align-content-center gap-8" v-if="width > 700">
-            <Image src="src\assets\lecture.png" alt="lecture" width="150" />
-            <Image src="src\assets\closeLecture.png" alt="lab" width="150" />
+            <Image src="/lecture.png" alt="lecture" width="150" />
+            <Image src="/closeLecture.png" alt="lab" width="150" />
           </div>
           <div class="flex align-content-center gap-8" v-else>
-            <Image src="src\assets\lecture.png" alt="lecture" width="100" />
-            <Image src="src\assets\closeLecture.png" alt="lab" width="100" />
+            <Image src="/lecture.png" alt="lecture" width="100" />
+            <Image src="/closeLecture.png" alt="lab" width="100" />
           </div>
           <p class="line-height-3">
             اما محاضرات التي مدتها ساعة او اقل شكلها مختلف قليلا, إذا ضغطت على هذا الزر
@@ -136,8 +130,8 @@
             ستظهر لك معلومات عن المحاضرة.
           </p>
           <div class="flex align-content-center gap-8">
-            <Image src="src\assets\oneH.png" alt="lecture" width="130" />
-            <Image src="src\assets\oneHour.png" alt="lecture" width="150" />
+            <Image src="/oneH.png" alt="lecture" width="130" />
+            <Image src="/oneHour.png" alt="lecture" width="150" />
           </div>
         </AccordionTab>
       </Accordion>
