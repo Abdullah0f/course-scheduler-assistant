@@ -39,6 +39,27 @@
       }
     }"
   />
+  <Dialog
+    v-model:visible="isModalVisible"
+    modal
+    header="رسالة"
+    :style="{ width: '50rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+  >
+    <div class="flex-grow-1 flex justify-content-center">
+      <h3>
+        نرجو منكم تعبئة الاستبيان
+        <a
+          href="https://docs.google.com/forms/d/1bS8rbYvnHFRq6rGYNRFM8qDVXRexek5oYqg0-smhi5M"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link"
+          @click="onModalClick"
+          >من هنا</a
+        >
+      </h3>
+    </div>
+  </Dialog>
 </template>
 
 <script setup>
@@ -53,15 +74,16 @@ import SchedulesList from '@/components/ScheduleComponents/SchedulesList.vue'
 import LoadExampleCourses from '@/components/misc/LoadExampleCourses.vue'
 import { useCoursesStore } from '@/stores/courses'
 import Button from 'primevue/button'
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
 import { sortSchedules } from '@/utils/scheduleHelpers.js'
 import { useField, useForm } from 'vee-validate'
 import ScrollTop from 'primevue/scrolltop'
 import UploadData from './UploadData.vue'
-
+import Dialog from 'primevue/dialog'
+import { useReviewFormStore } from '@/stores/reviewForm'
 const { handleSubmit } = useForm()
-
+const reviewFormStore = useReviewFormStore()
 const hasSomthingChanged = ref(true)
 const somethingChanged = () => (hasSomthingChanged.value = true)
 
@@ -75,6 +97,16 @@ const transformedCourses = computed(() => {
 })
 const selectCourse = ref([])
 const selectedSection = ref([])
+
+const isModalVisible = ref(false)
+const submitCount = ref(0)
+
+const showModalAfterDelay = () => {
+  if (reviewFormStore.userHasReviewed) return
+  setTimeout(() => {
+    isModalVisible.value = true
+  }, 5000)
+}
 
 // Method to handle the update-selectedSection event
 const handleSelectedSectionUpdate = (newSelection) => {
@@ -134,7 +166,23 @@ const handleCourses = handleSubmit((values) => {
 
   schedules.value = generateSchedules(selectedCoursesObject, selectedSection.value, filters.value)
   hasSomthingChanged.value = false
+  submitCount.value++
+})
+
+const onModalClick = () => {
+  reviewFormStore.userReviewd()
+  isModalVisible.value = false
+}
+
+watch(submitCount, () => {
+  if (submitCount.value % 3 === 0) showModalAfterDelay()
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.link {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+</style>
