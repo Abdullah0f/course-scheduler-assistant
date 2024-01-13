@@ -20,14 +20,25 @@
       <p class="">اختر ملف من القائمة التالية</p>
       <p class="">آخر تحديث: {{ lastUpdated }}</p>
     </div>
-    <template v-for="file in supportedFiles">
-      <Button
-        class="my-3 gap-2 shadow-4 hover:bg-primary-reverse animation-duration-300 z-5"
-        :class="center ? 'fadeinup' : ''"
-        :label="file.name"
-        @click="fetchAndProcessFile(file.file)"
-      />
-    </template>
+
+    <RadioButton v-model="gender" inputId="m" name="gender" value="m" />
+    <label for="m" class="ml-2">طلاب</label>
+
+    <RadioButton v-model="gender" inputId="f" name="gender" value="f" />
+    <label for="f" class="ml-2">طالبات</label>
+
+    <br />
+
+    <div class="flex gap-2">
+      <template v-for="file in supportedFiles">
+        <Button
+          class="my-3 gap-2 shadow-4 fadein hover:bg-primary-reverse animation-duration-300 z-5"
+          :label="file.name"
+          @click="fetchAndProcessFile(file.file)"
+          v-if="file.gender === gender"
+        />
+      </template>
+    </div>
   </div>
 </template>
 
@@ -38,7 +49,9 @@ import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 import { FILE_MSGS } from '../utils/msgs'
 import { useCoursesStore } from '../stores/courses'
+import { ref } from 'vue'
 import Button from 'primevue/button'
+import RadioButton from 'primevue/radiobutton'
 const props = defineProps({
   center: {
     type: Boolean,
@@ -46,13 +59,27 @@ const props = defineProps({
     default: true
   }
 })
+
+const gender = ref('m')
 const supportedFiles = [
   {
-    file: 'CS.html',
+    gender: 'm',
+    file: 'M_CS.html',
     name: 'علوم الحاسب'
   },
   {
-    file: 'IS.html',
+    gender: 'm',
+    file: 'M_IS.html',
+    name: 'نظم المعلومات'
+  },
+  {
+    gender: 'f',
+    file: 'F_CS.html',
+    name: 'علوم الحاسب'
+  },
+  {
+    gender: 'f',
+    file: 'F_IS.html',
     name: 'نظم المعلومات'
   }
 ]
