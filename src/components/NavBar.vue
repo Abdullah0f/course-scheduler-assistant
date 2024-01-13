@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      v-if="showDiv && !useReviewFormStore().userHasReviewed"
+      v-if="showDiv"
       ref="par"
       class="flex justify-content-between align-items-center bg-gray-200 shadow-8 m-0 h-2rem"
     >
