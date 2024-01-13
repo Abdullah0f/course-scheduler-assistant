@@ -138,7 +138,7 @@
             <Image src="/oneH.png" alt="lecture" width="150" />
             <Image src="/oneHour.png" alt="lecture" width="150" />
           </div>
-          <div class="flex align-content-center gap-6">
+          <div v-else class="flex align-content-center gap-6">
             <Image src="/oneH.png" alt="lecture" width="100" />
             <Image src="/oneHour.png" alt="lecture" width="100" />
           </div>
