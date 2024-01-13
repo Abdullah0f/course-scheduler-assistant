@@ -9,6 +9,16 @@
             headerTitle: ' font-bold mr-1'
           }"
         >
+          <p class="line-height-3 font-semibold">
+            يوجد بيانات جاهزة لبعض التخصصات في صفحة
+            <router-link class="link" to="/schedules">الجدول</router-link>
+            أو
+            <router-link class="link" to="/uploadData">رفع الملف</router-link>
+            <br />
+            وإذا أردت رفع أحدث البيانات، يمكنك اتباع الخطوات القادمة.
+          </p>
+
+          <Divider type="solid"></Divider>
           <h4>الخطوة الاولى</h4>
           <p class="line-height-3">
             من الكمبيوتر أو اللابتوب، تتوجه إلى الخدمات الأكاديمية
@@ -153,6 +163,7 @@
 import Accordion from 'primevue/accordion'
 import AccordionTab from 'primevue/accordiontab'
 import Image from 'primevue/image'
+import Divider from 'primevue/divider'
 import { useWindowSize } from '@vueuse/core'
 
 const { width, height } = useWindowSize()

@@ -20,8 +20,6 @@
       <p>بامكانك اضافة المواد الخاصة بك من صفحة رفع ملف او من هنا</p>
       <UploadData :center="false" />
 
-      <p>او اذا اردت تجربة الموقع بدون رفع بيانات حقيقية</p>
-      <LoadExampleCourses />
     </div>
   </div>
   <div v-if="schedules">
