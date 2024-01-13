@@ -1,0 +1,545 @@
+
+   <!--  -------------------------------------Dialog PrimeUI---------------------------------------    -->
+    var timeDilaogOnLoad;
+    function  showDilaogOnLoadPrimeUI(dialogId, width, height){
+        timeDilaogOnLoad = window.setTimeout("myTimerDialogOnLoad('"+dialogId+"','"+width+"','"+height+"')", 1000);
+    }
+    
+    function myTimerDialogOnLoad(dialogId,width,height){
+        try{
+            showDilaogPrimeUI(dialogId,width,height);
+            window.clearTimeout(timeDilaogOnLoad);
+        }
+        catch(e){}
+    }
+    
+    function showDilaogPrimeUI(dialogId, width, height){
+        document.getElementById(dialogId).style.display = '';
+        $(document.getElementById(dialogId)).puidialog({
+                       showEffect: 'fade',  hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                       location: 'center', resizable: false, width: width, height:height, modal: true
+        });  
+        $(document.getElementById(dialogId)).puidialog('show');
+    }
+    
+    function showDilaogMRCPrimeUI(dialogId, width, height, minimizable,maximizable,resizable,closable){
+        document.getElementById(dialogId).style.display = '';
+        $(document.getElementById(dialogId)).puidialog({
+                       showEffect: 'fade',  hideEffect: 'fade',  minimizable: minimizable,  maximizable: maximizable, 
+                       location: 'center', resizable: resizable, width: width, height:height, modal: true,closable:closable
+        });  
+        $(document.getElementById(dialogId)).puidialog('show');
+    }
+    
+    function hideDilaogPrimeUI(dialogId){
+        $(document.getElementById(dialogId)).puidialog('hide');
+    }
+    
+    
+   <!--  ------------------------------------DialogFrame PrimeUI--------------------------------------    -->
+   
+    function showDilaogFramePrimeUI(dialogId, frameId, url,frameWidth, frameHeight){
+        document.getElementById(dialogId).style.display = '';
+        $(document.getElementById(dialogId)).puidialog({
+                       showEffect: 'fade',  hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                       location: 'center', resizable: false, width: frameWidth, height:frameHeight, modal: true
+        });  
+        $(document.getElementById(dialogId)).puidialog('show');  
+        
+        document.getElementById(frameId).width=frameWidth - 30;
+        document.getElementById(frameId).height=frameHeight - 10;
+        document.getElementById(frameId).src = url;
+    }
+    
+    
+   <!--  ------------------------------------DialogPrint PrimeUI--------------------------------------    -->
+    
+    var timeIDOnLoad;
+    var timeoutID;
+    var urlPrint;
+
+     function  showDilaogPrintOnLoadPrimeUI(url,isPDF){
+        urlPrint = url;
+        timeIDOnLoad = window.setTimeout('myTimerOnLoad('+isPDF+')', 1000);
+    }
+    
+    function myTimerOnLoad(isPDF){
+        try{
+            showDilaogPrintPrimeUI(urlPrint,isPDF);
+            window.clearTimeout(timeIDOnLoad);
+        }
+        catch(e){}
+    }
+    
+    
+    function  showDilaogPrintPrimeUI(url,isPDF){
+    
+        if(isPDF){
+            document.getElementById('dlgPrintPDF').style.display = '';
+            $(document.getElementById('dlgPrintPDF')).puidialog({
+                           showEffect: 'fade',  hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                           location: 'center', resizable: false, width: 750, height:550, modal: true
+            });  
+            $(document.getElementById('dlgPrintPDF')).puidialog('show');
+    
+            document.getElementById('framePrintPDF').width=720;
+            document.getElementById('framePrintPDF').height=510;
+            document.getElementById('framePrintPDF').src = url;
+        }
+        else{
+            document.getElementById('dlgPrint').style.display = '';
+            $(document.getElementById('dlgPrint')).puidialog({
+                           showEffect: 'fade',  hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                           location: 'center', resizable: false, width: 750, height:550, modal: true
+            });  
+            $(document.getElementById('dlgPrint')).puidialog('show');
+    
+            document.getElementById('framePrint').width=720;
+            document.getElementById('framePrint').height=510;
+            document.getElementById('framePrint').src = url;
+        }
+    }
+    
+    
+    function  printFrame(frameId){
+        try{
+            window.parent.frames[frameId].focus();
+            window.parent.frames[frameId].print();
+        }
+        catch(e){
+            window.parent.frames[frameId].contentWindow.focus();
+            window.parent.frames[frameId].contentWindow.print();
+        }
+    }
+    
+   <!--  ------------------------------------Select PrimeUI--------------------------------------    -->   
+ 
+    function selectPrimeUI(selectId, filters){
+        $(function() {
+            $(document.getElementById(selectId)).puidropdown({  
+                filter: filters ,
+                filterMatchMode: 'contains'
+            });  
+        });
+    }
+    
+    function  selectPrimeUIWithSubmit(selectId, formId, filters){
+        $(function() {
+            $(document.getElementById(selectId)).puidropdown({  
+                filter: filters ,
+                filterMatchMode: 'contains',
+                change: function(event) {  
+                    document.getElementById(formId).submit();
+                }  
+            });  
+        });
+    }
+ 
+ 
+   <!--  ------------------------------------InputText PrimeUI--------------------------------------    -->  
+   
+    function inputTextPrimeUI(inputTextId){
+        $(function() {
+           $(document.getElementById(inputTextId)).puiinputtext();
+        });
+    }
+    
+    <!--  ------------------------------------Text Area PrimeUI--------------------------------------    -->  
+   
+    function textAreaPrimeUI(inputTextId){
+        $(function() {
+           $(document.getElementById(inputTextId)).puiinputtextarea();
+        });
+    }   
+        
+   <!--  ------------------------------------Password PrimeUI--------------------------------------    -->  
+
+    function passwordPrimeUI(passwordId,inline){
+        $(function() {
+            $(document.getElementById(passwordId)).puipassword({inline:inline,promptLabel:''});   
+        });
+    }
+ 
+   <!--  ------------------------------------CheckBox PrimeUI--------------------------------------    -->  
+   
+    function checkBoxPrimeUI(checkBoxId){
+        $(function() {
+           $(document.getElementById(checkBoxId)).puicheckbox();
+        });
+    }
+
+   <!--  ------------------------------------ListBox PrimeUI--------------------------------------    -->  
+   
+    function listBoxPrimeUI(checkBoxId){
+        $(function() {
+           $(document.getElementById(checkBoxId)).puilistbox();
+        });
+    }
+    
+   <!--  ------------------------------------Paginator PrimeUI--------------------------------------    -->  
+   
+     function paginatorPrimeUI(paginatorId, tableId){
+        $(function() {
+            try{
+                $(document.getElementById(paginatorId)).puipaginator({
+                    totalRecords: document.getElementById(tableId).getElementsByTagName("tbody")[0].
+                                  getElementsByTagName("tr").length,
+                    rows: length  
+                });  
+                
+                $(document.getElementById(paginatorId)).puipaginator({  
+                    paginate: function(event, state) { 
+                        startMoveTimer(event,'no',state.first/15 + 1);
+                    }  
+                });  
+            }catch(e){}
+        });  
+    }
+    
+   <!--  ------------------------------------GrowlMsg PrimeUI--------------------------------------    -->  
+   
+    var timeoutGrowlMsg;
+    var timeoutGrowlMsgCount = 0;
+     
+    
+    function showGrowlMsgOnLoadPrimeUI(type,title,msg){
+        timeoutGrowlMsgCount = 0;
+        timeoutGrowlMsg = window.setTimeout("myTimerGrowlMsg('msgGrowl','"+type+"','"+title+"','"+msg+"')", 1000);
+    }
+    
+    function showGrowlMsgOnLoadGPrimeUI(growlId,type,title,msg){
+        timeoutGrowlMsgCount = 0;
+        timeoutGrowlMsg = window.setTimeout("myTimerGrowlMsg('"+growlId+"','"+type+"','"+title+"','"+msg+"')", 1000);
+    }
+    
+    function showGrowlMsgPrimeUI(growlId,type,title,msg){
+        $(function() {  
+            $(document.getElementById(growlId)).puigrowl({showEffect: 'fade',  hideEffect: 'fade'});                  
+        });  
+        $(document.getElementById(growlId)).puigrowl('show',[{severity: type, summary: title, detail: msg, sticky: true}]);  
+    }
+    
+    function myTimerGrowlMsg(growlId,type,title,msg){
+        try{
+            showGrowlMsgPrimeUI(growlId,type,title,msg);
+            window.clearTimeout(timeoutGrowlMsg);
+        }
+        catch(e){
+            if(timeoutGrowlMsgCount < 7){
+                timeoutGrowlMsgCount = timeoutGrowlMsgCount + 1;
+                timeoutGrowlMsg = window.setTimeout("myTimerGrowlMsg('"+growlId+"','"+type+"','"+title+"','"+msg+"')", 1000);
+            }
+        }
+    }
+        
+    <!--  -------------------------------------ToolTip PrimeUI-------------------------------------    -->
+   
+    function showToolTipPrimeUI(id, divsData){
+         $(document.getElementById(id)).puitooltip({showEvent: 'click', content: document.getElementById(divsData).innerHTML});
+    } 
+    
+    function showToolTipByIdPrimeUI(id, divsData){
+         $(id).puitooltip({showEvent: 'click', content: document.getElementById(divsData).innerHTML});
+    } 
+    
+
+   <!--  ------------------------------------ToolTipDiv PrimeUI--------------------------------------    -->
+   
+    var toolDivId = null;
+    var oldToolDivId = null;
+    function showToolTipDivPrimeUI(id,divId){
+        try{
+            toolDivId = id;
+            hideToolTipDivPrimeUI(oldToolDivId);
+            $(document.getElementById(id + 'Div')).puitooltip({showEvent: 'click', hideEvent: 'mouseout', showEffect: 'fade', content: document.getElementById(divId).innerHTML}); 
+            $(document.getElementById(id + 'Div')).puitooltip('show');
+            oldToolDivId = toolDivId;
+        }catch(e){}
+    }
+    
+    function hideToolTipDivPrimeUI(){
+        try{
+            if(oldToolDivId != toolDivId && oldToolDivId != null){
+               $(document.getElementById(oldToolDivId + 'Div')).puitooltip('hide');
+            }
+        }catch(e){}
+        try{
+            $(document.getElementById(toolDivId + 'Div')).puitooltip('hide');
+        }catch(e){}
+    }
+    
+   <!--  ------------------------------------ToolTipMsg PrimeUI--------------------------------------    -->    
+
+    function showToolTipMsgPrimeUI(msgDiv,msg){
+        try{
+            document.getElementById('msgLabel').innerHTML='<font color=red>'+msg+'<//font>';
+            $(document.getElementById(msgDiv)).puitooltip({showEvent: 'click', hideEvent: 'mouseout', showEffect: 'fade', content: document.getElementById('msgBar').innerHTML}); 
+            $(document.getElementById(msgDiv)).puitooltip('show');
+        }catch(e){}
+    }
+    
+    function showToolTipMsgIDPrimeUI(id,msg){
+        try{
+            document.getElementById('msgLabel').innerHTML='<font color=red>'+msg+'<//font>';
+            $(id).puitooltip({showEvent: 'click', hideEvent: 'mouseout', showEffect: 'fade', content: document.getElementById('msgBar').innerHTML}); 
+            $(id).puitooltip('show');
+        }catch(e){}
+    }
+        
+    function showToolTipMsgBLPrimeUI(msgDiv,msgBar,msgLabel, msg, color){
+        try{
+            document.getElementById(msgLabel).innerHTML='<font color='+color+'>'+msg+'<//font>';
+            $(document.getElementById(msgDiv)).puitooltip({showEvent: 'click', hideEvent: 'mouseout', showEffect: 'fade', content: document.getElementById(msgBar).innerHTML}); 
+            $(document.getElementById(msgDiv)).puitooltip('show');
+        }catch(e){}
+    }
+
+    function hideToolTipMsgIDPrimeUI(id){
+        try{
+            $(id).puitooltip('hide');
+        }catch(e){}
+    }
+    
+    function hideToolTipMsgPrimeUI(msgDiv){
+        try{
+            $(document.getElementById(msgDiv)).puitooltip('hide');
+        }catch(e){}
+    }
+    
+    function hideToolTipMoreMsgPrimeUI(msgDiv){
+        for(i=0;i<msgDiv.length;i++){
+            try{
+                $(document.getElementById(msgDiv[i])).puitooltip('hide');
+            }catch(e){}
+        }
+    }
+
+   <!--  ------------------------------------DialogMsg PrimeUI--------------------------------------    -->    
+
+    function showDialogMsgPrimeUI(msg){
+        document.getElementById('msgDialog').style.display = '';
+        $(function() {  
+            $(document.getElementById('msgDialog')).puidialog({  
+                showEffect: 'fade',   hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                location: 'center',resizable: false,width: 'auto',height: 'auto',modal: true 
+            });  
+        });
+        document.getElementById('msgDialogLabel').innerHTML='<font color=red>'+msg+'<//font>';
+        $(document.getElementById('msgDialog')).puidialog('show');  
+    }
+        
+    function showDialogMsgWHPrimeUI(msg,width,height){
+        document.getElementById('msgDialog').style.display = '';
+        $(function() {  
+            $(document.getElementById('msgDialog')).puidialog({  
+                showEffect: 'fade',   hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                location: 'center',resizable: false,width: width,height: height,modal: true 
+            });  
+        });
+        document.getElementById('msgDialogLabel').innerHTML='<font color=red>'+msg+'<//font>';
+        $(document.getElementById('msgDialog')).puidialog('show');  
+    }
+    
+    function showDialogMsgLWHPrimeUI(msgDialog,msgLabel,msg,width,height){
+        document.getElementById(msgDialog).style.display = '';
+        $(function() {  
+            $(document.getElementById(msgDialog)).puidialog({  
+                showEffect: 'fade',   hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                location: 'center',resizable: false,width: width,height: height,modal: true 
+            });  
+        });
+        document.getElementById(msgLabel).innerHTML='<font color=red>'+msg+'<//font>';
+        $(document.getElementById(msgDialog)).puidialog('show');  
+    }
+    
+    function showDoneDialogMsgPrimeUI(msg){
+        document.getElementById('doneMsgDialog').style.display = '';
+        $(function() {  
+            $(document.getElementById('doneMsgDialog')).puidialog({  
+                showEffect: 'fade',   hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                location: 'center',resizable: false,width: 'auto',height: 'auto',modal: true 
+            });  
+        });
+        document.getElementById('doneMsgDialogLabel').innerHTML='<font color=green>'+msg+'<//font>';
+        $(document.getElementById('doneMsgDialog')).puidialog('show');  
+    }
+    
+    function showDoneDialogMsgWHPrimeUI(msg,width,height){
+        document.getElementById('doneMsgDialog').style.display = '';
+        $(function() {  
+            $(document.getElementById('doneMsgDialog')).puidialog({  
+                showEffect: 'fade',   hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                location: 'center',resizable: false,width: width,height: height,modal: true 
+            });  
+        });
+        document.getElementById('doneMsgDialogLabel').innerHTML='<font color=green>'+msg+'<//font>';
+        $(document.getElementById('doneMsgDialog')).puidialog('show');  
+    }
+    
+     function showDoneDialogMsgTitleWHPrimeUI(msg, title, width,height){
+        document.getElementById('doneMsgDialog').style.display = '';
+        document.getElementById('doneMsgDialog').title =title;
+        $(function() {  
+            $(document.getElementById('doneMsgDialog')).puidialog({  
+                showEffect: 'fade',   hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                location: 'center',resizable: false,width: width,height: height,modal: true 
+            });  
+        });
+        document.getElementById('doneMsgDialogLabel').innerHTML='<font color=green>'+msg+'<//font>';
+        $(document.getElementById('doneMsgDialog')).puidialog('show');  
+    }
+    
+    function showDoneDialogMsgLWHPrimeUI(msgDialog,msgLabel,msg,width,height){
+        document.getElementById(msgDialog).style.display = '';
+        $(function() {  
+            $(document.getElementById(msgDialog)).puidialog({  
+                showEffect: 'fade',   hideEffect: 'fade',  minimizable: false,  maximizable: false, 
+                location: 'center',resizable: false,width: width,height: height,modal: true 
+            });  
+        });
+        document.getElementById(msgLabel).innerHTML='<font color=green>'+msg+'<//font>';
+        $(document.getElementById(msgDialog)).puidialog('show');  
+    }
+
+   <!--  ------------------------------------Galleria PrimeUI--------------------------------------    -->  
+   
+    function showGalleriaPrimeUI(imagesId,width,height,autoPlay){
+        $(function() {
+           $(document.getElementById(imagesId)).puigalleria({ panelWidth: width,  panelHeight: height, autoPlay: autoPlay  });  
+        });
+    }
+
+   <!--  ------------------------------------ PrimeUI--------------------------------------    -->  
+   
+    function showAccordionPrimeUI(accordionId,multiple){
+        $(function() {
+           $(document.getElementById(accordionId)).puiaccordion({multiple:multiple});  
+        });
+    }
+    
+   <!--  ------------------------------------splitTime PrimeUI--------------------------------------    -->
+
+    function splitTimePrimeUI(timeString, dayLabel, timeLable, roomLabel, noSectionTime){
+        var time = timeString;
+        var element = "<table class='table table-striped table-bordered' width='100%' border='0' cellspacing='1' cellpadding='1'> ";
+        
+        var arraysTime = new Array();
+        var arraysDay = new Array();
+        var arraysRoms = new Array();
+
+        arraysTime = time.split("@n");
+        if(time != ""){
+            element = element + '<tr><td align="center" class="HEADING">' + dayLabel + '<//td>';
+            element = element + '<td align="center" class="HEADING">' + timeLable + '<//td>';
+            element = element + '<td align="center" class="HEADING">' + roomLabel + '<//td><//tr>';
+        
+            for( i=0 ; i <arraysTime.length ;i++){
+                element = element + "<tr>";
+                
+                arraysRoms = arraysTime[i].split("@r");
+                arraysDay = arraysRoms[0].split("@t"); 
+                element = element + "<td align='center' width='40' class='ROW"+(i%2 + 1)+"'><NOBR>" + arraysDay[0] + "<//NOBR><//td>";
+                element = element + "<td align='center' width='140' class='ROW"+(i%2 + 1)+"'><NOBR>&nbsp;" + arraysDay[1] + "<//NOBR><//td>";
+                
+                
+                if(arraysRoms.length == 1)
+                  arraysRoms[1] = "";  
+                element = element + "<td dir='LTR' align='center' width='110' class='ROW"+(i%2 + 1)+"'><NOBR>&nbsp;" + arraysRoms[1] + "<//NOBR><//td>";
+                element = element + "<//tr>";
+            }
+        }
+        else{
+            element = element + "<tr>";
+            element = element + '<td align="center" class="ROW1" colspan="3" ><font color=red>' + noSectionTime + '<//font><//td>';
+            element = element + "<//tr>";
+        }
+        element = element + "<//table>";
+        return element;
+    }
+    
+    
+     function splitTimeRoomBiludingPrimeUI(timeString, dayLabel, timeLable, roomLabel,bildingLabel ,noSectionTime){
+        var time = timeString;
+        
+        var element = "<table width='100%' border='0' cellspacing='1' cellpadding='1'> ";
+        
+        var arraysTime = new Array();
+        var arraysDay = new Array();
+        var arraysRoms = new Array();
+        var arraysBildings = new Array();
+        
+        arraysTime = time.split("@n");
+        if(time != ""){
+            element = element + '<tr><td align="center" class="HEADING">' + dayLabel + '<//td>';
+            element = element + '<td align="center" class="HEADING">' + timeLable + '<//td>';
+            element = element + '<td align="center" class="HEADING">' + roomLabel + '<//td>';
+            element = element + '<td align="center" class="HEADING">' + bildingLabel + '<//td><//tr>';
+        
+            for( i=0 ; i <arraysTime.length ;i++){
+                element = element + "<tr>";
+
+                arraysBildings = arraysTime[i].split("@b");
+                arraysRoms = arraysBildings[0].split("@r");
+                arraysDay  = arraysRoms[0].split("@t");
+                
+                element = element + "<td align='center' width='40' class='ROW"+(i%2 + 1)+"'><NOBR>" + arraysDay[0] + "<//NOBR><//td>";
+                element = element + "<td align='center' width='140' class='ROW"+(i%2 + 1)+"'><NOBR>&nbsp;" + arraysDay[1] + "<//NOBR><//td>";
+                
+                if(arraysRoms.length == 1){
+                    arraysRoms[1] = "";  
+                }
+                
+                 element = element + "<td align='center' width='140' class='ROW"+(i%2 + 1)+"'><NOBR>&nbsp;" + arraysRoms[1] + "<//NOBR><//td>";
+                
+                if (arraysBildings.length == 1){
+                     arraysBildings[1] = "";  
+                }
+
+                element = element + "<td dir='LTR' align='center' width='110' class='ROW"+(i%2 + 1)+"'><NOBR>&nbsp;" + arraysBildings[1] + "<//NOBR><//td>";
+                element = element + "<//tr>";
+            }
+        }
+        else{
+            element = element + "<tr>";
+            element = element + '<td align="center" class="ROW1" colspan="3" ><font color=red>' + noSectionTime + '<//font><//td>';
+            element = element + "<//tr>";
+        }
+        element = element + "<//table>";
+        return element;
+    }
+    
+    
+      <!--  ------------------------------------Conf Dilog -------------------------------->
+    
+      function showConfirmationDlg(text,agree,disAgree,commandLink){
+            document.getElementById('confDialog').style.display = '';            
+            document.getElementById('confMsgLable').innerHTML= text;
+            //diaolg
+            $(document.getElementById('confDialog')).puidialog({  
+                showEffect: 'fade',  
+                hideEffect: 'fade',  
+                minimizable: false,  
+                maximizable: false,
+                resizable  : false,
+                closeOnEscape: false,
+                modal: true,  
+                buttons: [{  
+                        text:  agree,  
+                        icon: 'ui-icon-check',  
+                        click: function() {  
+                              var cmdBtn = commandLink;
+                              cmdBtn.click();
+                         }  
+                    },  
+                    {  
+                        text: disAgree,  
+                        icon: 'ui-icon-close',  
+                        click: function() {  
+                            $(document.getElementById('confDialog')).puidialog('hide');  
+                        }  
+                    }  
+                ]  
+            });
+            
+            $(document.getElementById('confDialog')).puidialog('show');  
+        }

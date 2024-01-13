@@ -81,6 +81,106 @@ const supportedFiles = [
     gender: 'f',
     file: 'F_IS.html',
     name: 'نظم المعلومات'
+  },
+  {
+    gender: 'm',
+    file: 'M_CE.html',
+    name: 'هندسة الحاسب'
+  },
+  {
+    gender: 'm',
+    file: 'M_SWE.html',
+    name: 'هندسة البرمجيات'
+  },
+  {
+    gender: 'f',
+    file: 'F_CE.html',
+    name: 'هندسة الحاسب'
+  },
+  {
+    gender: 'f',
+    file: 'F_SWE.html',
+    name: 'هندسة البرمجيات'
+  },
+  {
+    gender: 'm',
+    file: 'M_CivE.html',
+    name: 'الهندسة المدنية'
+  },
+  {
+    gender: 'm',
+    file: 'M_EE.html',
+    name: 'الهندسة الكهربائية'
+  },
+  {
+    gender: 'm',
+    file: 'M_ME.html',
+    name: 'الهندسة الميكانيكية'
+  },
+  {
+    gender: 'm',
+    file: 'M_IE.html',
+    name: 'الهندسة الصناعية'
+  },
+  {
+    gender: 'f',
+    file: 'F_EE.html',
+    name: 'الهندسة الكهربائية'
+  },
+  {
+    gender: 'm',
+    file: 'M_MKT.html',
+    name: 'التسويق'
+  },
+  {
+    gender: 'm',
+    file: 'M_FIN.html',
+    name: 'المالية'
+  },
+  {
+    gender: 'm',
+    file: 'M_ACC.html',
+    name: 'المحاسبة'
+  },
+  {
+    gender: 'm',
+    file: 'M_MIS.html',
+    name: 'نظم المعلومات الإدارية'
+  },
+  {
+    gender: 'm',
+    file: 'M_HR.html',
+    name: 'إدارة الموارد البشرية'
+  },
+  {
+    gender: 'm',
+    file: 'M_LAW.html',
+    name: 'القانون'
+  },
+  {
+    gender: 'f',
+    file: 'F_FIN.html',
+    name: 'المالية'
+  },
+  {
+    gender: 'f',
+    file: 'F_ACC.html',
+    name: 'المحاسبة'
+  },
+  {
+    gender: 'f',
+    file: 'F_MIS.html',
+    name: 'نظم المعلومات الإدارية'
+  },
+  {
+    gender: 'f',
+    file: 'F_HR.html',
+    name: 'إدارة الموارد البشرية'
+  },
+  {
+    gender: 'f',
+    file: 'F_LAW.html',
+    name: 'القانون'
   }
 ]
 const lastUpdated = '2023-01-13 4:45 PM'
