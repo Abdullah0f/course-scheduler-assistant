@@ -1,6 +1,10 @@
 <template>
   <div class="mr-5">
     <div v-if="Object.keys(courses).length !== 0">
+      <p>
+        اذا اردت تحديث البيانات او رفع ملف جديد اذهب لصفحة
+        <RouterLink class="link" to="/uploadData">رفع ملف</RouterLink>
+      </p>
       <form @submit.prevent="handleCourses">
         <ChooseCourses
           :courses="transformedCourses"
@@ -19,7 +23,6 @@
       <p>لا يوجد مواد مضافة حالياً</p>
       <p>بامكانك اضافة المواد الخاصة بك من صفحة رفع ملف او من هنا</p>
       <UploadData :center="false" />
-
     </div>
   </div>
   <div v-if="schedules">
