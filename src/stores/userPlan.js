@@ -1,0 +1,24 @@
+import { defineStore } from 'pinia'
+
+export const usePlanStore = defineStore('plan', {
+  state: () => ({
+    plan: {}
+  }),
+  actions: {
+    setPlan(newPlan) {
+      this.plan = newPlan
+    }
+  },
+  getters: {
+    getFinishedCoursesCodes() {
+      const coursesCodes = []
+      this.plan.forEach((term) => {
+        term.courses.forEach((course) => {
+          if (course.status === 'Finished') coursesCodes.push(course.courseCode)
+        })
+      })
+      return coursesCodes
+    }
+  },
+  persist: true
+})

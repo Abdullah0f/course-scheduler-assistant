@@ -5,11 +5,16 @@
         اذا اردت تحديث البيانات او رفع ملف جديد اذهب لصفحة
         <RouterLink class="link" to="/uploadData">رفع ملف</RouterLink>
       </p>
+      <div class="flex gap-2 mt-7">
+        <Checkbox v-model="showFinishedCourses" binary inputId="show-finished-courses" />
+        <label for="show-finished-courses" class="select-none ml-2">اظهار المواد المجتازة</label>
+      </div>
       <form @submit.prevent="handleCourses">
         <ChooseCourses
           :courses="transformedCourses"
           @courses-changed="onSelectedCoursesChange"
           :errorMessage="selectedCoursesError"
+          :showFinishedCourses="showFinishedCourses"
         />
         <ChooseSectionCourse
           :selectCourse="selectCourse"
@@ -64,15 +69,12 @@
 </template>
 
 <script setup>
-import { schedule } from '../../schedule.js'
-import ScheduleComponent from '@/components/ScheduleComponents/ScheduleComponent.vue'
 import { generateSchedules } from '@/utils/generateSchdules.js'
 import { resetColors } from '@/utils/getColor.js'
 import ChooseCourses from '@/components/ScheduleComponents/chooseCourses.vue'
 import ChooseSectionCourse from '@/components/ScheduleComponents/ChooseSectionCourse.vue'
 import ChooseFilters from '@/components/ScheduleComponents/ChooseFilters.vue'
 import SchedulesList from '@/components/ScheduleComponents/SchedulesList.vue'
-import LoadExampleCourses from '@/components/misc/LoadExampleCourses.vue'
 import { useCoursesStore } from '@/stores/courses'
 import Button from 'primevue/button'
 import { ref, computed, watch } from 'vue'
@@ -83,15 +85,30 @@ import ScrollTop from 'primevue/scrolltop'
 import UploadData from './UploadData.vue'
 import Dialog from 'primevue/dialog'
 import { useReviewFormStore } from '@/stores/reviewForm'
+import Checkbox from 'primevue/checkbox'
+import { usePlanStore } from '@/stores/userPlan'
 const { handleSubmit } = useForm()
 const reviewFormStore = useReviewFormStore()
 const hasSomthingChanged = ref(true)
 const somethingChanged = () => (hasSomthingChanged.value = true)
 
 const schedules = ref(null)
+const showFinishedCourses = ref(false)
 const courses = computed(() => useCoursesStore().courses)
+const finishedCourses = usePlanStore().getFinishedCoursesCodes
+
 const transformedCourses = computed(() => {
-  return Object.keys(courses.value).map((key) => ({
+  const filteredCourses = Object.keys(courses.value).reduce((acc, key) => {
+    if (showFinishedCourses.value) {
+      acc[key] = courses.value[key]
+    } else {
+      if (!finishedCourses.includes(key)) {
+        acc[key] = courses.value[key]
+      }
+    }
+    return acc
+  }, {})
+  return Object.keys(filteredCourses).map((key) => ({
     name: courses.value[key][0].code + ' | ' + courses.value[key][0].name,
     code: key
   }))

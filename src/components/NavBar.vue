@@ -62,7 +62,8 @@ watchEffect(() => {
       { label: ' الرئيسية ', icon: 'pi pi-fw pi-home', to: '/' },
       { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },
       { label: ' الملف الشخصي ', icon: 'pi pi-fw pi-user', to: '/profile' },
-      { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' }
+      { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' },
+      { label: ' رفع الخطة ', icon: 'pi pi-fw pi-upload', to: '/uploadPlan' }
     ]
   } else {
     items.value = [

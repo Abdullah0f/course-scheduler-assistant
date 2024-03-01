@@ -88,6 +88,11 @@ const router = createRouter({
       component: () => import('../views/uploadData.vue')
     },
     {
+      path: '/uploadPlan',
+      name: 'uploadPlan',
+      component: () => import('../views/uploadPlan.vue')
+    },
+    {
       path: '/login',
       name: 'login',
       component: LoginForm,
