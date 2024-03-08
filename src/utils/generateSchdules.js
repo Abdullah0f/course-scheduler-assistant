@@ -2,7 +2,7 @@ import { DAYS, MAX_GENERATED_SCHEDULES } from './constants'
 import cloneDeep from 'lodash/cloneDeep'
 import { getTimings, getTotalBreaks, getDaysOff , getID } from '@/utils/scheduleHelpers'
 
-function initializeBlankSchedule() {
+export function initializeBlankSchedule() {
   let schedule = {}
   for (const day of DAYS) {
     schedule[day] = []
@@ -26,13 +26,13 @@ function periodConflictsWithDaySchedule(period, daySchedule) {
   return daySchedule.some((scheduledPeriod) => hasConflict(period, scheduledPeriod))
 }
 
-function canAddCourseOptionToSchedule(option, schedule) {
+export function canAddCourseOptionToSchedule(option, schedule) {
   return option.periods.every((period) => {
     const days = period.days.map(dayToString)
     return days.every((day) => !periodConflictsWithDaySchedule(period, schedule[day]))
   })
 }
-function addCourseOptionToSchedule(option, schedule) {
+export function addCourseOptionToSchedule(option, schedule) {
   for (const period of option.periods) {
     for (const dayNumber of period.days) {
       const day = dayToString(dayNumber)
@@ -54,9 +54,16 @@ function addCourseOptionToSchedule(option, schedule) {
   return schedule
 }
 
-function addMetaToSchedule(schedule) {
+export function addMetaToSchedule(schedule) {
   schedule.meta = {
     id:  getID(schedule),
+    timings: getTimings(schedule),
+    totalbreaks: getTotalBreaks(schedule),
+    daysOff: getDaysOff(schedule)
+  }
+}
+export function updateScheduleMeta(schedule) {
+  schedule.meta = {
     timings: getTimings(schedule),
     totalbreaks: getTotalBreaks(schedule),
     daysOff: getDaysOff(schedule)

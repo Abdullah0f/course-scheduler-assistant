@@ -23,6 +23,7 @@
       <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
     </OverlayPanel>
     <Button
+    v-if="!props.empty"
     v-show="!isCapturing"
     :icon="bookMarkButton ? 'pi pi-bookmark-fill' : 'pi pi-bookmark'"
     class="absolute bookmark-btn"
@@ -64,6 +65,11 @@ const props = defineProps({
     validator: (value) => {
       return ['default', 'small'].includes(value);
     }
+  },
+  empty:{
+    type: Boolean,
+    required: false,
+    default: false,
   }
 })
 const isCapturing = ref(false);
@@ -71,7 +77,10 @@ const toast = useToast();
 const emit = defineEmits(['unBooked']);
 const scheduleDiv = ref();
 const windowSize = useWindowSize()
-const timings = computed(()=> (props.schedule.meta.timings));
+const timings = computed(()=> {
+  if (props.empty) return {earliestHour: 8, timeDiff: 5}
+  return props.schedule.meta.timings
+});
 const isMobile = computed(()=> isMobileFunc(windowSize.width.value))
 const device = computed(() => isMobile.value? 'mobile' : 'other');
 const hourPixels = computed(() => SIZE_PIXELS_MAP[device.value][props.size]);

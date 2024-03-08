@@ -2,6 +2,7 @@ export function getTimings(schedule) {
   let earliestTime = new Date('1970-01-01T23:59:59')
   let latestTime = new Date('1970-01-01T00:00:00')
   for (const day in schedule) {
+    if (day === 'meta') continue // skip meta key (if it exists) useful in updateScheduleMeta
     schedule[day].forEach((item) => {
       earliestTime = item.startTime < earliestTime ? item.startTime : earliestTime
       latestTime = item.endTime > latestTime ? item.endTime : latestTime
@@ -19,6 +20,7 @@ export function getTimings(schedule) {
 export function getTotalBreaks(schedule) {
   let totalBreaks = 0;
   for (const day in schedule) {
+    if (day === 'meta') continue // skip meta key (if it exists) useful in updateScheduleMeta
     const items = schedule[day];
     if (items.length <= 1) {
       continue; // skip days with only one lecture or no lectures
@@ -35,6 +37,7 @@ export function getTotalBreaks(schedule) {
 export function getDaysOff(schedule) {
   let daysOff = [];
   for (const day in schedule) {
+    if (day === 'meta') continue // skip meta key (if it exists) useful in updateScheduleMeta
     const items = schedule[day];
     if (items.length == 0) {
       daysOff.push(day);
@@ -92,5 +95,14 @@ export function sortSchedules(schedules, sort) {
 function getTimeDiff(earliestTime, latestTime) {
   // find diff between hours and if there is a remainder, add 1
   return latestTime.getHours() - earliestTime.getHours() + (latestTime.getMinutes() > 0 ? 1 : 0)
+}
+
+export function deleteSectionFromSchedule(classCode, schedule) {
+  Object.keys(schedule).forEach(day => {
+    if (Array.isArray(schedule[day])) {
+      schedule[day] = schedule[day].filter(section => section.classCode !== classCode)
+    }
+  })
+  return schedule
 }
 

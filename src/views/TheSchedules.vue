@@ -1,28 +1,49 @@
 <template>
   <div class="mr-5">
     <div v-if="Object.keys(courses).length !== 0">
-      <p>
-        اذا اردت تحديث البيانات او رفع ملف جديد اذهب لصفحة
-        <RouterLink class="link" to="/uploadData">رفع ملف</RouterLink>
-      </p>
-      <div class="flex gap-2 mt-7">
-        <Checkbox v-model="showFinishedCourses" binary inputId="show-finished-courses" />
-        <label for="show-finished-courses" class="select-none ml-2">اظهار المواد المجتازة</label>
-      </div>
-      <form @submit.prevent="handleCourses">
-        <ChooseCourses
-          :courses="transformedCourses"
-          @courses-changed="onSelectedCoursesChange"
-          :errorMessage="selectedCoursesError"
-          :showFinishedCourses="showFinishedCourses"
-        />
-        <ChooseSectionCourse
-          :selectCourse="selectCourse"
-          @update-selectedSection="handleSelectedSectionUpdate"
-        />
-        <ChooseFilters @filters-changed="updateFilters" :filters="filters" />
-        <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
-      </form>
+      <TabView
+      v-model:activeIndex="activeIndex"
+       :pt="
+      {
+        nav: 'flex justify-content-center',
+      }">
+        <TabPanel header="جميع الجداول الممكنة">
+          <p>
+          اذا اردت تحديث البيانات او رفع ملف جديد اذهب لصفحة
+          <RouterLink class="link" to="/uploadData">رفع ملف</RouterLink>
+          </p>
+          <div class="flex gap-2 mt-7">
+            <Checkbox v-model="showFinishedCourses" binary inputId="show-finished-courses" />
+            <label for="show-finished-courses" class="select-none ml-2">اظهار المواد المجتازة</label>
+          </div>
+          <form @submit.prevent="handleCourses">
+            <ChooseCourses
+              :courses="transformedCourses"
+              @courses-changed="onSelectedCoursesChange"
+              :errorMessage="selectedCoursesError"
+              :showFinishedCourses="showFinishedCourses"
+            />
+            <ChooseSectionCourse
+              :selectCourse="selectCourse"
+              @update-selectedSection="handleSelectedSectionUpdate"
+            />
+            <ChooseFilters @filters-changed="updateFilters" :filters="filters" />
+            <Button class="w-max mt-3" label="تاكيد" type="submit"></Button>
+          </form>
+        </TabPanel>
+        <TabPanel header="انشاء جدولك الخاص">
+          <Checkbox v-model="showFinishedCourses" binary inputId="show-finished-courses" />
+          <label for="show-finished-courses" class="select-none ml-2">اظهار المواد المجتازة</label>
+          <ChooseCourses
+              :courses="transformedCourses"
+              @courses-changed="onSelectedCoursesChange"
+              :errorMessage="selectedCoursesError"
+              :showFinishedCourses="showFinishedCourses"
+            />
+          <CustomSchedule :selectedCourses="currentSelected"/>
+        </TabPanel>
+          
+      </TabView>
     </div>
     <div v-else class="text-lg">
       <p>لا يوجد مواد مضافة حالياً</p>
@@ -30,7 +51,7 @@
       <UploadData :center="false" />
     </div>
   </div>
-  <div v-if="schedules">
+  <div v-if="schedules && activeIndex === 0">
     <ChooseSort :sort="sort" @sort-changed="updateSort" class="mr-5" />
     <SchedulesList :schedules="sortedSchedules" />
   </div>
@@ -82,15 +103,20 @@ import ChooseSort from '@/components/ScheduleComponents/chooseSort.vue'
 import { sortSchedules } from '@/utils/scheduleHelpers.js'
 import { useField, useForm } from 'vee-validate'
 import ScrollTop from 'primevue/scrolltop'
+import TabView from 'primevue/tabview'
+import TabPanel from 'primevue/tabpanel'
 import UploadData from './UploadData.vue'
 import Dialog from 'primevue/dialog'
 import { useReviewFormStore } from '@/stores/reviewForm'
 import Checkbox from 'primevue/checkbox'
 import { usePlanStore } from '@/stores/userPlan'
+import CustomSchedule from '@/components/ScheduleComponents/CustomSchedule.vue'
 const { handleSubmit } = useForm()
 const reviewFormStore = useReviewFormStore()
 const hasSomthingChanged = ref(true)
 const somethingChanged = () => (hasSomthingChanged.value = true)
+
+const activeIndex = ref(0) // activeIndex of the tabView
 
 const schedules = ref(null)
 const showFinishedCourses = ref(false)
@@ -115,7 +141,7 @@ const transformedCourses = computed(() => {
 })
 const selectCourse = ref([])
 const selectedSection = ref([])
-
+const currentSelected = ref([])
 const isModalVisible = ref(false)
 const submitCount = ref(0)
 
@@ -141,6 +167,7 @@ const {
   handleChange: onSelectedCoursesChangeValidator
 } = useField('selectedCourses', isNotEmpty)
 const onSelectedCoursesChange = (selectedCourses) => {
+  currentSelected.value = selectedCourses
   onSelectedCoursesChangeValidator(selectedCourses)
   courseSection(selectedCourses)
   somethingChanged()
