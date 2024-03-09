@@ -70,6 +70,7 @@ watchEffect(() => {
       { label: ' الرئيسية ', icon: 'pi pi-fw pi-home', to: '/' },
       { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },
       { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' },
+      { label: 'الخطة ', icon: 'pi pi-calendar', to: '/uploadPlan' },
       { label: ' تسجيل الدخول', icon: 'pi pi-sign-in', to: '/login' }
     ]
   }

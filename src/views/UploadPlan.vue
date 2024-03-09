@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-5" :style="center ? 'margin: 0 auto' : ''">
+  <div class="my-3 flex flex-column justify-content-center align-items-center" :style="center ? 'margin: 0 auto' : ''">
     <Toast :pt="{ icon: 'ml-3' }" />
     <FileUpload
       mode="basic"
