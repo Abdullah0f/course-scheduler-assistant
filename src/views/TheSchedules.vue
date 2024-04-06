@@ -2,19 +2,21 @@
   <div class="mr-5">
     <div v-if="Object.keys(courses).length !== 0">
       <TabView
-      v-model:activeIndex="activeIndex"
-       :pt="
-      {
-        nav: 'flex justify-content-center',
-      }">
+        v-model:activeIndex="activeIndex"
+        :pt="{
+          nav: 'flex justify-content-center'
+        }"
+      >
         <TabPanel header="جميع الجداول الممكنة">
           <p>
-          اذا اردت تحديث البيانات او رفع ملف جديد اذهب لصفحة
-          <RouterLink class="link" to="/uploadData">رفع ملف</RouterLink>
+            اذا اردت تحديث البيانات او رفع ملف جديد اذهب لصفحة
+            <RouterLink class="link" to="/uploadData">رفع ملف</RouterLink>
           </p>
           <div class="flex gap-2 mt-7">
             <Checkbox v-model="showFinishedCourses" binary inputId="show-finished-courses" />
-            <label for="show-finished-courses" class="select-none ml-2">اظهار المواد المجتازة</label>
+            <label for="show-finished-courses" class="select-none ml-2"
+              >اظهار المواد المجتازة</label
+            >
           </div>
           <form @submit.prevent="handleCourses">
             <ChooseCourses
@@ -35,14 +37,13 @@
           <Checkbox v-model="showFinishedCourses" binary inputId="show-finished-courses" />
           <label for="show-finished-courses" class="select-none ml-2">اظهار المواد المجتازة</label>
           <ChooseCourses
-              :courses="transformedCourses"
-              @courses-changed="onSelectedCoursesChange"
-              :errorMessage="selectedCoursesError"
-              :showFinishedCourses="showFinishedCourses"
-            />
-          <CustomSchedule :selectedCourses="currentSelected"/>
+            :courses="transformedCourses"
+            @courses-changed="onSelectedCoursesChange"
+            :errorMessage="selectedCoursesError"
+            :showFinishedCourses="showFinishedCourses"
+          />
+          <CustomSchedule :selectedCourses="currentSelected" />
         </TabPanel>
-          
       </TabView>
     </div>
     <div v-else class="text-lg">
@@ -90,7 +91,7 @@
 </template>
 
 <script setup>
-import { generateSchedules } from '@/utils/generateSchdules.js'
+import { generateSchedules } from '@/utils/generateSchdules.ts'
 import { resetColors } from '@/utils/getColor.js'
 import ChooseCourses from '@/components/ScheduleComponents/chooseCourses.vue'
 import ChooseSectionCourse from '@/components/ScheduleComponents/ChooseSectionCourse.vue'
@@ -210,6 +211,7 @@ const handleCourses = handleSubmit((values) => {
   }, {})
 
   schedules.value = generateSchedules(selectedCoursesObject, selectedSection.value, filters.value)
+  console.log(schedules.value)
   hasSomthingChanged.value = false
   submitCount.value++
 })

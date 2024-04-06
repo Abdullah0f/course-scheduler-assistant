@@ -1,6 +1,6 @@
 import { DAYS, MAX_GENERATED_SCHEDULES } from './constants'
 import cloneDeep from 'lodash/cloneDeep'
-import { getTimings, getTotalBreaks, getDaysOff , getID } from '@/utils/scheduleHelpers'
+import { getTimings, getTotalBreaks, getDaysOff, getID } from '@/utils/scheduleHelpers'
 
 export function initializeBlankSchedule() {
   let schedule = {}
@@ -56,7 +56,7 @@ export function addCourseOptionToSchedule(option, schedule) {
 
 export function addMetaToSchedule(schedule) {
   schedule.meta = {
-    id:  getID(schedule),
+    id: getID(schedule),
     timings: getTimings(schedule),
     totalbreaks: getTotalBreaks(schedule),
     daysOff: getDaysOff(schedule)
@@ -113,23 +113,23 @@ export function theAlgorithm(courses, currentSchedule, currentIndex, filters) {
   }
   return possibleSchedules
 }
-  function minimizeSectionCourses(coursesArray, section) {
-    for (const i of coursesArray) {
-      for (const j of section) {
-        const [, num, name] = j.code.split(' - ').map((str) => str.trim())
-        if (i[0].code == name) {
-          coursesArray = coursesArray.map((course) => {
-            if (course[0].code == name) {
-              return course.filter((section) => section.classCode == num)
-            } else {
-              return course;
-            }
-          })
-        }
+function minimizeSectionCourses(coursesArray, section) {
+  for (const i of coursesArray) {
+    for (const j of section) {
+      const [, num, name] = j.code.split(' - ').map((str) => str.trim())
+      if (i[0].code == name) {
+        coursesArray = coursesArray.map((course) => {
+          if (course[0].code == name) {
+            return course.filter((section) => section.classCode == num)
+          } else {
+            return course
+          }
+        })
       }
     }
-    return coursesArray
   }
+  return coursesArray
+}
 export function generateSchedules(courses, section, filters) {
   let coursesArray = Object.values(courses)
   if (section) {
@@ -139,4 +139,57 @@ export function generateSchedules(courses, section, filters) {
   // sort courses by number of options
   coursesArray.sort((course1, course2) => course1.length - course2.length)
   return theAlgorithm(coursesArray, initializeBlankSchedule(), 0, filters)
+}
+
+// function calculatePreferenceScore(schedule, preferences) {
+//   let score = 0
+
+//   const scheduleStartHour = schedule.meta.timings.earliestHour
+//   const scheduleEndHour = schedule.meta.timings.earliestHour + schedule.meta.timings.timeDiff
+//   if (preferences.startTimePreference === 'Earliest') {
+//     score += 24 - scheduleStartHour // Earlier start times score higher
+//   } else {
+//     score += scheduleStartHour // Later start times score higher
+//   }
+
+//   if (preferences.endTimePreference === 'Earliest') {
+//     score += 24 - scheduleEndHour // Earlier end times score higher
+//   } else {
+//     score += scheduleEndHour // Later end times score higher
+//   }
+
+//   // Breaks preferences
+//   const breaksScore =
+//     preferences.breaks === 'Less' ? -schedule.meta.totalbreaks : schedule.meta.totalbreaks
+//   score += breaksScore / 100 // Normalize break score to prevent it from overpowering
+
+//   // Days off preferences
+//   const daysActive = 5 - schedule.meta.daysOff.length // Assuming a 5-day workweek for simplicity
+//   score += preferences.daysOff === 'More' ? schedule.meta.daysOff.length : -daysActive
+
+//   // Preferred/Unpreferred Days
+//   preferences.preferredDays.forEach((day) => {
+//     if (schedule[day.toLowerCase()].length > 0) {
+//       score += 1 // Increase score for each preferred day used
+//     }
+//   })
+//   preferences.unpreferredDays.forEach((day) => {
+//     if (schedule[day.toLowerCase()].length > 0) {
+//       score -= 1 // Decrease score for each unpreferred day used
+//     }
+//   })
+
+//   return score
+// }
+
+// list of prefernces that will be used not to filter the schedules..
+// but to rank them based on the user prefernces
+export const PREFERENCES = {
+  time: 'Earliest|Latest',
+  breaks: 'Less|More',
+  daysOff: 'More|Less',
+  preferredDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+  unpreferredDays: ['Sat', 'Sun'],
+  startTimePreference: 'Earliest|Latest',
+  endTimePreference: 'Earliest|Latest'
 }

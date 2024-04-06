@@ -50,7 +50,7 @@
         >
           <template v-for="(file, i) in supportedFiles" :key="i">
             <Button
-              class=" gap-2 shadow-4 fadein hover:bg-primary-reverse animation-duration-300 z-5 lg:my-1 lg:gap-1"
+              class="gap-2 shadow-4 fadein hover:bg-primary-reverse animation-duration-300 z-5 lg:my-1 lg:gap-1"
               :label="file.name"
               @click="fetchAndProcessFile(file.file)"
               v-if="file.gender === gender && file.college === college"
@@ -331,5 +331,4 @@ const fetchAndProcessFile = async (filename) => {
     25px 25px 50px #d0d0d0,
     -25px -25px 50px #ffffff;
 }
-
 </style>
