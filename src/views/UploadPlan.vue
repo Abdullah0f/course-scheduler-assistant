@@ -25,7 +25,7 @@
         placeholder="الكل"
       />
     </div>
-    <div v-for="item in usePlanStore().plan" :key="item.term" class="term-section">
+    <div v-for="item in usePlanStore().plan.terms" :key="item.term" class="term-section">
       <h2>المستوى {{ item.termNumber }}</h2>
       <table>
         <thead>
@@ -38,7 +38,9 @@
         <tbody>
           <tr v-for="course in filteredCourses(item.courses)" :key="course.courseCode">
             <td>{{ course.courseCode }}</td>
-            <td>{{ course.courseName }}</td>
+            <td>{{ course.courseName }}
+              <span v-if="course.zeroCourse" class="font-bold">  (المادة صفرية)</span>
+            </td>
             <td>{{ status[course.status] }}</td>
           </tr>
         </tbody>

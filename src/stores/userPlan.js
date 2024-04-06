@@ -13,7 +13,7 @@ export const usePlanStore = defineStore('plan', {
   getters: {
     getFinishedCoursesCodes() {
       const coursesCodes = []
-      this.plan.forEach((term) => {
+      this.plan.terms.forEach((term) => {
         term.courses.forEach((course) => {
           if (course.status === 'Finished') coursesCodes.push(course.courseCode)
         })

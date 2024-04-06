@@ -8,6 +8,10 @@ export function extractPlanData(document) {
   }
 
   const rows = table.querySelectorAll('tr')
+  const plan = {
+    terms: [],
+    meta: {}
+  }
   const termsWithCourses = []
 
   rows.forEach((row, index) => {
@@ -23,7 +27,11 @@ export function extractPlanData(document) {
 
     const termCourses = {
       termNumber: index,
-      courses: []
+      courses: [],
+      meta: {
+        totalCourses: 0,
+        finishedCourses: 0
+      }
     }
 
     for (let i = 1; i < cells.length; i++) {
@@ -39,25 +47,66 @@ export function extractPlanData(document) {
       termCourses.courses.push({
         courseCode,
         courseName,
-        status
+        status,
+        zeroCourse: false
       })
     }
-
+    termCourses.meta.totalCourses = termCourses.courses.length
+    termCourses.courses.forEach((course) =>
+      course.status === 'Finished' ? termCourses.meta.finishedCourses++ : ''
+    )
+    plan.terms.push({
+      termNumber: index,
+      courses: termCourses.courses,
+      status:
+        termCourses.meta.finishedCourses === termCourses.meta.totalCourses
+          ? 'Finished'
+          : termCourses.meta.finishedCourses === 0
+          ? 'Not Started'
+          : 'Not Finished',
+      meta: termCourses.meta
+    })
     termsWithCourses.push(termCourses)
   })
-
-  return termsWithCourses
+  isItZeroCourse(plan)
+  addMetaToPlan(plan)
+  return plan
 }
 
-// const { JSDOM } = jsdom;
+function addMetaToPlan(plan) {
+  plan.meta = {
+    totalTerms: plan.terms.length,
+    totalCourses: getTotalCourses(plan),
+    totalFinishedCourses: getTotalFinishedCourses(plan),
+    finishedTerms: getFinishedTerms(plan.terms)
+  }
+}
+function getTotalCourses(plan) {
+  let totalCourses = 0
+  plan.terms.forEach((term) => {
+    totalCourses += term.meta.totalCourses
+  })
+  return totalCourses
+}
+function getTotalFinishedCourses(plan) {
+  let totalFinishedCourses = 0
+  plan.terms.forEach((term) => {
+    totalFinishedCourses += term.meta.finishedCourses
+  })
+  return totalFinishedCourses
+}
 
-// // Read the HTML file
-// const html = readFileSync('stuPlan.html', 'utf-8');
+function getFinishedTerms(terms) {
+  return terms.filter((term) => term.status === 'Finished').length
+}
 
-// const dom = new JSDOM(html);
-// const document = dom.window.document;
-
-// const extractedData = extractTermsAndCourses(document);
-
-// // Save the result in a JSON file
-// writeFileSync('output.json', JSON.stringify(extractedData, null, 2));
+function isItZeroCourse(plan) {
+  plan.terms.forEach((term) => {
+    if (term.status !== 'Finished' && term.status !== 'Not Started') {
+      term.courses.forEach((course) => {
+        // if (course.status === 'Current Term') return;
+        if (course.status === 'Not Started') course.zeroCourse = true;
+      });
+    }
+  });
+}
