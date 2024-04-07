@@ -61,6 +61,6 @@ export type ScheduleBase = {
   [key in Days]: SchedulePeriod[]
 }
 
-export interface Schedule extends ScheduleBase {
+export interface ISchedule extends ScheduleBase {
   meta?: ScheduleMeta
 }
