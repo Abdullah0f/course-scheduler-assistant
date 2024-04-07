@@ -154,8 +154,76 @@ export function generateSchedules(
   if (sections) {
     coursesArray = minimizeSectionCourses(coursesArray, sections)
   }
-
   // sort courses by number of options
   coursesArray.sort((course1, course2) => course1.length - course2.length)
   return theAlgorithm(coursesArray, initializeBlankSchedule(), 0, filters)
 }
+
+enum TimePreference {
+  Earliest = 'Earliest',
+  Latest = 'Latest'
+}
+enum BreaksPreference {
+  Less = 'Less',
+  More = 'More'
+}
+enum DaysOffPreference {
+  More = 'More',
+  Less = 'Less'
+}
+function calculatePreferenceScore(schedule: Schedule, preferences: Preferences): number {
+  let score = 0
+  if (!schedule.meta) return score
+  const { timings, totalbreaks, daysOff } = schedule.meta
+
+  const scheduleStartHour = timings.earliestHour
+  const scheduleEndHour = timings.earliestHour + timings.timeDiff
+
+  score +=
+    preferences.startTimePreference === TimePreference.Earliest
+      ? 24 - scheduleStartHour
+      : scheduleStartHour
+
+  score +=
+    preferences.endTimePreference === TimePreference.Earliest
+      ? 24 - scheduleEndHour
+      : scheduleEndHour
+
+  score += preferences.breaks === BreaksPreference.Less ? -totalbreaks / 100 : totalbreaks / 100
+
+  const daysActive = 5 - daysOff.length
+  score += preferences.daysOff === DaysOffPreference.More ? daysOff.length : -daysActive
+
+  preferences.preferredDays.forEach((day) => {
+    if (schedule[day].length > 0) {
+      score += 1
+    }
+  })
+
+  preferences.unpreferredDays.forEach((day) => {
+    if (schedule[day].length > 0) {
+      score -= 1
+    }
+  })
+
+  return score
+}
+
+interface Preferences {
+  time: TimePreference
+  breaks: BreaksPreference
+  daysOff: DaysOffPreference
+  preferredDays: Days[]
+  unpreferredDays: Days[]
+  startTimePreference: TimePreference
+  endTimePreference: TimePreference
+}
+// export const PREFERENCES = {
+//   time: 'Earliest|Latest',
+//   breaks: 'Less|More',
+//   daysOff: 'More|Less',
+//   preferredDays: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'],
+//   unpreferredDays: ['Sat', 'Sun'],
+//   startTimePreference: 'Earliest|Latest',
+//   endTimePreference: 'Earliest|Latest'
+// }
