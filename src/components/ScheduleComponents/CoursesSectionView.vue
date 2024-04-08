@@ -43,7 +43,7 @@ import Accordion from 'primevue/accordion';
 import AccordionTab from 'primevue/accordiontab';
 import Button from 'primevue/button';
 import ScheduleComponent from './ScheduleComponent.vue';
-import { initializeBlankSchedule,addCourseOptionToSchedule,addMetaToSchedule } from '@/utils/generateSchdules';
+import Schedule from '../../classes/Schedule.ts';
 const coursesStore = useCoursesStore();
 const props = defineProps({
     selectedCourses: {
@@ -60,7 +60,7 @@ const props = defineProps({
     }
 })
 const emit = defineEmits(['add-section','delete-section'])
-const previewSchedule = ref()
+const previewSchedule = ref(new Schedule())
 const filteredCourses = computed(() => {
     return Object.keys(coursesStore.courses) 
     .filter(course => props.selectedCourses.includes(course))
@@ -89,9 +89,9 @@ const isSectionDeletable = (section) => {
 }
 
 const previwSchedule = (section) => {
-    previewSchedule.value = initializeBlankSchedule()
-    previewSchedule.value = addCourseOptionToSchedule(section,previewSchedule.value)
-    addMetaToSchedule(previewSchedule.value)
+    previewSchedule.value = new Schedule()
+    previewSchedule.value.addCourseOptionToSchedule(section)
+    previewSchedule.value.addOrUpdateMeta();
     showSchedulePreview.value = true
 }
 

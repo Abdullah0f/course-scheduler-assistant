@@ -20,13 +20,10 @@
 <script setup>
 import ScheduleComponent from './ScheduleComponent.vue';
 import CoursesSectionView from './CoursesSectionView.vue';
-import ChooseCourses from './ChooseCourses.vue';
-import { ref,onMounted,computed, watch } from 'vue'
-
-import { canAddCourseOptionToSchedule, addCourseOptionToSchedule ,addMetaToSchedule,initializeBlankSchedule,updateScheduleMeta } from '@/utils/generateSchdules';
-import { deleteSectionFromSchedule } from '@/utils/scheduleHelpers';
+import { ref, watch } from 'vue'
 import { useToast } from "primevue/usetoast";
 import Toast from 'primevue/toast';
+import Schedule from '../../classes/Schedule.ts';
 
 const props = defineProps({
     selectedCourses: {
@@ -37,7 +34,7 @@ const props = defineProps({
 
 const toast = useToast();
 const currentlyAddedSections = ref([])
-const schedule = ref(initializeBlankSchedule())
+const schedule = ref(new Schedule())
 
 
 const isEmpty = ref(true)
@@ -47,9 +44,9 @@ const isEmpty = ref(true)
 
 const handleAddSection = (section) => {
 
-  if(canAddCourseOptionToSchedule(section, schedule.value)) {
-    schedule.value = addCourseOptionToSchedule(section, schedule.value)
-    schedule.value.meta ? addMetaToSchedule(schedule.value) : updateScheduleMeta(schedule.value)
+  if(schedule.value.canAddCourseOptionToSchedule(section)) {
+    schedule.value = schedule.value.addCourseOptionToSchedule(section)
+    schedule.value.addOrUpdateMeta()
     currentlyAddedSections.value.push(section.classCode)
     isEmpty.value = false
   } else {
@@ -62,7 +59,7 @@ const handleAddSection = (section) => {
   }
 }
 const handleDeleteSection = (sectionCode) => {
-  schedule.value = deleteSectionFromSchedule(sectionCode, schedule.value)
+  schedule.value.deleteSection(sectionCode)
   updateAddedSections(sectionCode)
 
 }
@@ -77,9 +74,9 @@ const updateAddedSections = (deletedSection) => {
 watch(currentlyAddedSections, () => {
   if (currentlyAddedSections.value.length == 0) {
     isEmpty.value = true
-    schedule.value = initializeBlankSchedule()
+    schedule.value = new Schedule()
   } else {
-    updateScheduleMeta(schedule.value)
+    schedule.value.addOrUpdateMeta()
   }
 
 })

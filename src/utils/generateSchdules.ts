@@ -1,92 +1,12 @@
 // @ts-ignore
 import { DAYS, MAX_GENERATED_SCHEDULES } from './constants'
 import cloneDeep from 'lodash/cloneDeep'
-// @ts-ignore
-import { getTimings, getTotalBreaks, getDaysOff, getID } from '@/utils/scheduleHelpers'
 import { Course, Filters, Period, ISchedule, SchedulePeriod, Section } from './interfaces'
 import { Days, OpenStatus } from './enums'
-
-function initializeBlankSchedule(): ISchedule {
-  let schedule: Partial<ISchedule> = {}
-  for (const day of Object.values(Days)) {
-    schedule[day] = []
-  }
-  return schedule as ISchedule
-}
+import Schedule from '../classes/Schedule'
 
 function isLocked(period: Course) {
   return period.open === OpenStatus.open
-}
-
-// Translate day number to string representation
-function dayToString(dayNumber: number) {
-  return DAYS[dayNumber - 1] as Days
-}
-// Check if two periods have a time conflict
-function hasConflict(period1: Period, period2: SchedulePeriod) {
-  return (
-    period1.startTime < period2.endTime.getTime() && period1.endTime > period2.startTime.getTime()
-  )
-}
-function periodConflictsWithDaySchedule(period: Period, daySchedule: SchedulePeriod[]) {
-  return daySchedule.some((scheduledPeriod) => hasConflict(period, scheduledPeriod))
-}
-
-function canAddCourseOptionToSchedule(option: Course, schedule: ISchedule): boolean {
-  return option.periods.every((period) => {
-    if (!period.days) return true
-    const days = period.days.map(dayToString)
-    return days.every((day) => !periodConflictsWithDaySchedule(period, schedule[day]))
-  })
-}
-export function addCourseOptionToSchedule(option: Course, schedule: ISchedule) {
-  for (const period of option.periods) {
-    for (const dayNumber of period.days) {
-      const day = dayToString(dayNumber)
-
-      const schedulePeriod: SchedulePeriod = {
-        title: option.name,
-        startTime: new Date(period.startTime),
-        endTime: new Date(period.endTime),
-        location: period.location,
-        classType: period.classType,
-        instructor: period.instructor,
-        classCode: option.classCode,
-        isOpen: option.open
-      }
-      schedule[day].push(schedulePeriod)
-      schedule[day].sort((a, b) => a.startTime.getTime() - b.startTime.getTime()) // sort lecture by start time
-    }
-  }
-  return schedule
-}
-
-function addMetaToSchedule(schedule: ISchedule): void {
-  schedule.meta = {
-    id: getID(schedule),
-    timings: getTimings(schedule),
-    totalbreaks: getTotalBreaks(schedule),
-    daysOff: getDaysOff(schedule)
-  }
-}
-export function updateScheduleMeta(schedule: ISchedule) {
-  schedule.meta = {
-    id: schedule?.meta?.id || getID(schedule),
-    timings: getTimings(schedule),
-    totalbreaks: getTotalBreaks(schedule),
-    daysOff: getDaysOff(schedule)
-  }
-}
-
-function scheduleApplyFilters(schedule: ISchedule, filters: Filters) {
-  const meta = schedule.meta
-  if (!meta) return false
-  const totalBreaksInHours = meta.totalbreaks / 60
-  return (
-    totalBreaksInHours <= filters.breaksLimit &&
-    meta.daysOff.length >= filters.daysOff &&
-    filters.offInTheseDays.every((day) => meta.daysOff.includes(day))
-  )
 }
 
 // Generate all possible schedules
@@ -99,8 +19,8 @@ function theAlgorithm(
   if (currentIndex === courses.length) {
     // here is the final stage that each complete schedule go through
     // meta data will be added here
-    addMetaToSchedule(currentSchedule)
-    if (scheduleApplyFilters(currentSchedule, filters)) {
+    currentSchedule.addOrUpdateMeta()
+    if (currentSchedule.doesApplyFilters(filters)) {
       return [currentSchedule]
     }
     return []
@@ -115,9 +35,9 @@ function theAlgorithm(
 
     if (
       (filters.allowLocked || !isLocked(section)) &&
-      canAddCourseOptionToSchedule(section, tempSchedule)
+      tempSchedule.canAddCourseOptionToSchedule(section)
     ) {
-      tempSchedule = addCourseOptionToSchedule(section, tempSchedule)
+      tempSchedule = tempSchedule.addCourseOptionToSchedule(section)
       possibleSchedules = possibleSchedules.concat(
         theAlgorithm(courses, tempSchedule, currentIndex + 1, filters)
       )
@@ -156,7 +76,7 @@ export function generateSchedules(
   }
   // sort courses by number of options
   coursesArray.sort((course1, course2) => course1.length - course2.length)
-  return theAlgorithm(coursesArray, initializeBlankSchedule(), 0, filters)
+  return theAlgorithm(coursesArray, new Schedule(), 0, filters)
 }
 
 enum TimePreference {

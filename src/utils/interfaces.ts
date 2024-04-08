@@ -63,4 +63,8 @@ export type ScheduleBase = {
 
 export interface ISchedule extends ScheduleBase {
   meta?: ScheduleMeta
+  canAddCourseOptionToSchedule: (option: Course) => boolean
+  addCourseOptionToSchedule: (option: Course) => ISchedule
+  addOrUpdateMeta: () => void
+  doesApplyFilters: (filters: Filters) => boolean
 }
