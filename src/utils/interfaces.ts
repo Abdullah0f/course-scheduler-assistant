@@ -34,16 +34,26 @@ export interface Section {
   label: string
 }
 
+export type metaScore = {
+  totalScore: number
+  daysOffScore: number
+  breaksScore: number
+  startTimeScore: number
+  endTimeScore: number
+  scheduleLengthScore: number
+}
 export interface ScheduleMeta {
   id: number
   timings: {
     earliestTime: Date
     latestTime: Date
     earliestHour: number
+    latestHour: number
     timeDiff: number
   }
   totalbreaks: number
   daysOff: Days[]
+  score?: metaScore
 }
 
 export interface SchedulePeriod {
@@ -67,4 +77,35 @@ export interface ISchedule extends ScheduleBase {
   addCourseOptionToSchedule: (option: Course) => ISchedule
   addOrUpdateMeta: () => void
   doesApplyFilters: (filters: Filters) => boolean
+}
+
+enum basePreference {
+  None = 'None'
+}
+export enum TimePreference {
+  None = basePreference.None,
+  Earliest = 'Earliest',
+  Latest = 'Latest'
+}
+export enum BreaksPreference {
+  None = basePreference.None,
+  Less = 'Less',
+  More = 'More'
+}
+export enum DaysOffPreference {
+  None = basePreference.None,
+  More = 'More',
+  Less = 'Less'
+}
+export enum ScheduleLengthPreference {
+  None = basePreference.None,
+  Shorter = 'Shorter',
+  Longer = 'Longer'
+}
+export interface Preferences {
+  breaks?: BreaksPreference
+  daysOff?: DaysOffPreference
+  startTimePreference?: TimePreference
+  endTimePreference?: TimePreference
+  scheduleLength?: ScheduleLengthPreference
 }

@@ -13,6 +13,7 @@ export function getTimings(schedule) {
     earliestTime,
     latestTime,
     earliestHour: earliestTime.getHours(),
+    latestHour: latestTime.getHours(),
     timeDiff: getTimeDiff(earliestTime, latestTime)
   }
 }

@@ -53,8 +53,14 @@
     </div>
   </div>
   <div v-if="schedules && activeIndex === 0">
-    <ChooseSort :sort="sort" @sort-changed="updateSort" class="mr-5" />
-    <SchedulesList :schedules="sortedSchedules" />
+    <div class="flex">
+      <ChooseSort :sort="sort" @sort-changed="updateSort" class="mr-5" />
+      <Button @click="showPreferencesModal = true" class="mt-3">التفضيلات</Button>
+    </div>
+    {{ schedules.length }}
+
+    <SchedulesList :schedules="suggestedSchedules" v-if="suggestedSchedules" />
+    <SchedulesList :schedules="sortedSchedules" v-else />
   </div>
   <ScrollTop
     target="window"
@@ -67,26 +73,12 @@
       }
     }"
   />
-  <Dialog
-    v-model:visible="isModalVisible"
-    modal
-    header="رسالة"
-    :style="{ width: '50rem' }"
-    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
-  >
-    <div class="flex-grow-1 flex justify-content-center">
-      <h3>
-        نرجو منكم تعبئة الاستبيان
-        <a
-          href="https://docs.google.com/forms/d/1bS8rbYvnHFRq6rGYNRFM8qDVXRexek5oYqg0-smhi5M"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="link"
-          @click="onModalClick"
-          >من هنا</a
-        >
-      </h3>
-    </div>
+  <Dialog v-model:visible="showPreferencesModal" modal>
+    <PreferencesChooser
+      @submit="onPreferencesSubmit"
+      :schedules="schedules"
+      @close="showPreferencesModal = false"
+    />
   </Dialog>
 </template>
 
@@ -108,22 +100,28 @@ import TabView from 'primevue/tabview'
 import TabPanel from 'primevue/tabpanel'
 import UploadData from './UploadData.vue'
 import Dialog from 'primevue/dialog'
-import { useReviewFormStore } from '@/stores/reviewForm'
 import Checkbox from 'primevue/checkbox'
 import { usePlanStore } from '@/stores/userPlan'
 import CustomSchedule from '@/components/ScheduleComponents/CustomSchedule.vue'
+import SchedulesRanker from '../classes/SchedulesRanker'
+import PreferencesChooser from '../components/misc/PreferencesChooser.vue'
 const { handleSubmit } = useForm()
-const reviewFormStore = useReviewFormStore()
 const hasSomthingChanged = ref(true)
 const somethingChanged = () => (hasSomthingChanged.value = true)
 
 const activeIndex = ref(0) // activeIndex of the tabView
 
+const showPreferencesModal = ref(false)
+
 const schedules = ref(null)
+const suggestedSchedules = ref(null)
 const showFinishedCourses = ref(false)
 const courses = computed(() => useCoursesStore().courses)
 const finishedCourses = usePlanStore().getFinishedCoursesCodes
-
+const analysis = computed(() => {
+  const schedulesRanker = new SchedulesRanker(schedules.value)
+  return schedulesRanker.analysisResult
+})
 const transformedCourses = computed(() => {
   const filteredCourses = Object.keys(courses.value).reduce((acc, key) => {
     if (showFinishedCourses.value) {
@@ -143,15 +141,6 @@ const transformedCourses = computed(() => {
 const selectCourse = ref([])
 const selectedSection = ref([])
 const currentSelected = ref([])
-const isModalVisible = ref(false)
-const submitCount = ref(0)
-
-const showModalAfterDelay = () => {
-  if (reviewFormStore.userHasReviewed) return
-  setTimeout(() => {
-    isModalVisible.value = true
-  }, 5000)
-}
 
 // Method to handle the update-selectedSection event
 const handleSelectedSectionUpdate = (newSelection) => {
@@ -211,19 +200,12 @@ const handleCourses = handleSubmit((values) => {
   }, {})
 
   schedules.value = generateSchedules(selectedCoursesObject, selectedSection.value, filters.value)
-  console.log(schedules.value)
   hasSomthingChanged.value = false
-  submitCount.value++
 })
 
-const onModalClick = () => {
-  reviewFormStore.userReviewd()
-  isModalVisible.value = false
+const onPreferencesSubmit = (newSchdules) => {
+  suggestedSchedules.value = newSchdules
 }
-
-watch(submitCount, () => {
-  if (submitCount.value % 3 === 0) showModalAfterDelay()
-})
 </script>
 
 <style scoped>

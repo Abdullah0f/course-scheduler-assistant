@@ -21,6 +21,7 @@
         ساعة)
       </p>
       <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
+      <pre>{{ schedule.meta?.score }}</pre>
     </OverlayPanel>
     <Button
     v-if="!props.empty"
