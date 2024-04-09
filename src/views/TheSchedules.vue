@@ -55,7 +55,7 @@
   <div v-if="schedules && activeIndex === 0">
     <div class="flex">
       <ChooseSort :sort="sort" @sort-changed="updateSort" class="mr-5" />
-      <Button @click="showPreferencesModal = true" class="mt-3">التفضيلات</Button>
+      <Button @click="showPreferencesModal = true" class="mt-3">اقترح لي</Button>
     </div>
     {{ schedules.length }}
 
