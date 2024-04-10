@@ -103,9 +103,9 @@ export enum ScheduleLengthPreference {
   Longer = 'Longer'
 }
 export interface Preferences {
-  breaks?: BreaksPreference
-  daysOff?: DaysOffPreference
-  startTimePreference?: TimePreference
-  endTimePreference?: TimePreference
-  scheduleLength?: ScheduleLengthPreference
+  breaks: BreaksPreference
+  daysOff: DaysOffPreference
+  startTimePreference: TimePreference
+  endTimePreference: TimePreference
+  scheduleLength: ScheduleLengthPreference
 }

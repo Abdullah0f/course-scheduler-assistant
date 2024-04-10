@@ -246,7 +246,7 @@ export default class SchedulesRanker {
     return ((value - min) / (max - min)) * normalizeTo
   }
 }
-interface AnalysisResult {
+export interface AnalysisResult {
   averageStartTime: number
   averageEndTime: number
   averageTotalBreaks: number

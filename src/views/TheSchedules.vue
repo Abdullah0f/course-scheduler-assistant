@@ -53,10 +53,11 @@
     </div>
   </div>
   <div v-if="schedules && activeIndex === 0">
-    <div class="flex">
-      <ChooseSort :sort="sort" @sort-changed="updateSort" class="mr-5" />
+    <div class="flex mr-5">
+      <ChooseSort v-if="!suggestedSchedules" :sort="sort" @sort-changed="updateSort" />
       <Button @click="showPreferencesModal = true" class="mt-3">اقترح لي</Button>
     </div>
+    <SchedulesStatistics :statistics="analysis" />
 
     <SchedulesList
       :schedules="suggestedSchedules"
@@ -109,6 +110,7 @@ import { usePlanStore } from '@/stores/userPlan'
 import CustomSchedule from '@/components/ScheduleComponents/CustomSchedule.vue'
 import SchedulesRanker from '../classes/SchedulesRanker'
 import PreferencesChooser from '../components/misc/PreferencesChooser.vue'
+import SchedulesStatistics from '../components/misc/SchedulesStatistics.vue'
 const { handleSubmit } = useForm()
 const hasSomthingChanged = ref(true)
 const somethingChanged = () => (hasSomthingChanged.value = true)
