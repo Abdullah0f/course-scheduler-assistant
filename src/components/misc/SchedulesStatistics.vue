@@ -77,26 +77,26 @@ const statisticsInfo = ref([
   },
   {
     label: 'أقصى وقت للبداية',
-    value: props.statistics.maxStartTime,
-    unit: 'ساعات',
+    value: to12HourFormat(props.statistics.maxStartTime),
+    unit: '',
     isLocaleString: false
   },
   {
     label: 'اقل وقت للبداية',
-    value: props.statistics.minStartTime,
-    unit: 'ساعات',
+    value: to12HourFormat(props.statistics.minStartTime),
+    unit: '',
     isLocaleString: false
   },
   {
     label: 'أقصى وقت للانتهاء',
-    value: props.statistics.maxEndTime,
-    unit: 'ساعات',
+    value: to12HourFormat(props.statistics.maxEndTime),
+    unit: '',
     isLocaleString: false
   },
   {
     label: 'اقل وقت للانتهاء',
-    value: props.statistics.minEndTime,
-    unit: 'ساعات',
+    value: to12HourFormat(props.statistics.minEndTime),
+    unit: '',
     isLocaleString: false
   },
   {
@@ -141,6 +141,11 @@ const statisticsInfo = ref([
   padding: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   text-align: center;
+
+  transition: transform 0.2s;
+  &:hover {
+    transform: scale(1.05);
+  }
 }
 
 .card-header {

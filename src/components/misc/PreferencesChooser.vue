@@ -2,7 +2,10 @@
   <div>
     <div class="preferences-container">
       <div class="preference-item">
-        <div class="preference-label">ايام الاوف</div>
+        <div class="flex mb-2 align-items-center justify-content-between">
+          <div class="preference-label">ايام الاوف</div>
+          <Rating dir="ltr" :stars="3" v-model="daysOffImportance" :cancel="false" />
+        </div>
         <SelectButton
           :allow-empty="false"
           dir="ltr"
@@ -14,7 +17,10 @@
       </div>
 
       <div class="preference-item">
-        <div class="preference-label">وقت بداية الجدول</div>
+        <div class="flex mb-2 align-items-center justify-content-between">
+          <div class="preference-label">وقت بداية الجدول</div>
+          <Rating dir="ltr" :stars="3" v-model="startTimeImportance" :cancel="false" />
+        </div>
         <SelectButton
           :allow-empty="false"
           dir="ltr"
@@ -26,7 +32,10 @@
       </div>
 
       <div class="preference-item">
-        <div class="preference-label">وقت نهاية الجدول</div>
+        <div class="flex mb-2 align-items-center justify-content-between">
+          <div class="preference-label">وقت نهاية الجدول</div>
+          <Rating dir="ltr" :stars="3" v-model="endTimeImportance" :cancel="false" />
+        </div>
         <SelectButton
           :allow-empty="false"
           dir="ltr"
@@ -38,7 +47,10 @@
       </div>
 
       <div class="preference-item">
-        <div class="preference-label">البريكات</div>
+        <div class="flex mb-2 align-items-center justify-content-between">
+          <div class="preference-label">البريكات</div>
+          <Rating dir="ltr" :stars="3" v-model="breaksImportance" :cancel="false" />
+        </div>
         <SelectButton
           :allow-empty="false"
           dir="ltr"
@@ -49,7 +61,10 @@
         />
       </div>
       <div class="preference-item">
-        <div class="preference-label">طول الجدول</div>
+        <div class="flex mb-2 align-items-center justify-content-between">
+          <div class="preference-label">طول الجدول</div>
+          <Rating dir="ltr" :stars="3" v-model="scheduleLengthImportance" :cancel="false" />
+        </div>
         <SelectButton
           :allow-empty="false"
           dir="ltr"
@@ -88,6 +103,7 @@ import { useUserPreferenceStore } from '../../stores/userPreference'
 import Schedule from '../../classes/Schedule'
 import SchedulesRanker from '../../classes/SchedulesRanker'
 import Slider from 'primevue/slider'
+import Rating from 'primevue/rating'
 
 const props = defineProps<{
   schedules: Schedule[]
@@ -96,6 +112,7 @@ const emit = defineEmits(['submit', 'close'])
 
 const userPreferenceStore = useUserPreferenceStore()
 const preferences = userPreferenceStore.preferences
+const importance = userPreferenceStore.preferencesImportance
 const suggestionsCount = ref(userPreferenceStore.suggestionsCount)
 
 const daysOffValue = ref(preferences.daysOff)
@@ -103,6 +120,12 @@ const startTimeValue = ref(preferences.startTimePreference)
 const endTimeValue = ref(preferences.endTimePreference)
 const breaksValue = ref(preferences.breaks)
 const scheduleLengthValue = ref(preferences.scheduleLength)
+
+const daysOffImportance = ref(importance.daysOff)
+const startTimeImportance = ref(importance.startTimePreference)
+const endTimeImportance = ref(importance.endTimePreference)
+const breaksImportance = ref(importance.breaks)
+const scheduleLengthImportance = ref(importance.scheduleLength)
 const preferenceOptions = {
   daysOff: Object.values(DaysOffPreference).map((value) => ({
     label: PREFERENCES_AR[value],
@@ -128,6 +151,13 @@ const updatePreferences = () => {
     endTimePreference: endTimeValue.value,
     scheduleLength: scheduleLengthValue.value
   })
+  useUserPreferenceStore().setPreferencesImportance({
+    daysOff: daysOffImportance.value,
+    breaks: breaksImportance.value,
+    startTimePreference: startTimeImportance.value,
+    endTimePreference: endTimeImportance.value,
+    scheduleLength: scheduleLengthImportance.value
+  })
   useUserPreferenceStore().setSuggestionsCount(suggestionsCount.value)
 }
 
@@ -135,9 +165,12 @@ const onSubmit = () => {
   updatePreferences()
   const schedulesRanker = new SchedulesRanker(props.schedules)
   const preferences = useUserPreferenceStore().preferences
-  const rankedSchedules = schedulesRanker.rankSchedules(preferences)
-  //   take only the best X schedules
-  rankedSchedules.splice(suggestionsCount.value)
+  const preferencesImportance = useUserPreferenceStore().preferencesImportance
+  const rankedSchedules = schedulesRanker.rankSchedules(
+    preferences,
+    preferencesImportance,
+    suggestionsCount.value
+  )
   emit('submit', rankedSchedules)
   emit('close')
 }
@@ -149,7 +182,6 @@ const onSubmit = () => {
 
 .preference-label {
   font-weight: bold;
-  margin-bottom: 8px;
   color: var(--text-color);
   font-size: 1.1rem;
 }

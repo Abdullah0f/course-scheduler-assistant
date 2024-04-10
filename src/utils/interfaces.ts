@@ -109,3 +109,12 @@ export interface Preferences {
   endTimePreference: TimePreference
   scheduleLength: ScheduleLengthPreference
 }
+
+export type PreferencesImportanceValue = 1 | 2 | 3
+export interface PreferencesImportance {
+  breaks: PreferencesImportanceValue
+  daysOff: PreferencesImportanceValue
+  startTimePreference: PreferencesImportanceValue
+  endTimePreference: PreferencesImportanceValue
+  scheduleLength: PreferencesImportanceValue
+}

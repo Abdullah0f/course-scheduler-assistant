@@ -5,7 +5,8 @@ import {
   BreaksPreference,
   DaysOffPreference,
   TimePreference,
-  ScheduleLengthPreference
+  ScheduleLengthPreference,
+  PreferencesImportance
 } from '../utils/interfaces'
 
 export const useUserPreferenceStore = defineStore(
@@ -18,7 +19,17 @@ export const useUserPreferenceStore = defineStore(
       endTimePreference: TimePreference.None,
       scheduleLength: ScheduleLengthPreference.None
     })
+
+    const preferencesImportance = ref<PreferencesImportance>({
+      breaks: 1,
+      daysOff: 3,
+      startTimePreference: 1,
+      endTimePreference: 1,
+      scheduleLength: 1
+    })
+
     const suggestionsCount = ref<number>(5)
+
     const setSuggestionsCount = (count: number) => {
       suggestionsCount.value = count
     }
@@ -26,7 +37,18 @@ export const useUserPreferenceStore = defineStore(
       preferences.value = newPreferences
     }
 
-    return { preferences, setPreferences, suggestionsCount, setSuggestionsCount }
+    const setPreferencesImportance = (newPreferencesImportance: PreferencesImportance) => {
+      preferencesImportance.value = newPreferencesImportance
+    }
+
+    return {
+      preferences,
+      setPreferences,
+      suggestionsCount,
+      setSuggestionsCount,
+      preferencesImportance,
+      setPreferencesImportance
+    }
   },
   { persist: true }
 )

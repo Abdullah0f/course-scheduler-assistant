@@ -3,6 +3,7 @@ import {
   BreaksPreference,
   DaysOffPreference,
   Preferences,
+  PreferencesImportance,
   ScheduleLengthPreference,
   ScheduleMeta,
   TimePreference,
@@ -10,6 +11,7 @@ import {
 } from '../utils/interfaces'
 import Schedule from './Schedule'
 export default class SchedulesRanker {
+  static MAX_TOTAL_SCORE = 100
   analysisResult?: AnalysisResult
   private schedules: Schedule[]
   constructor(
@@ -83,18 +85,41 @@ export default class SchedulesRanker {
     return analysisResult
   }
 
-  calculateScore(schedule: Schedule, preferences: Preferences): metaScore {
+  calculateScore(
+    schedule: Schedule,
+    preferences: Preferences,
+    preferencesImportance: PreferencesImportance
+  ): metaScore {
     const analysis = this.analysisResult
 
     if (!schedule.meta || !analysis) throw new Error('Schedule meta or analysis result is missing')
 
     const meta = schedule.meta
 
-    const daysOffScore = this.calculateDaysOffScore(meta, preferences, analysis)
-    const breaksScore = this.calculateBreaksScore(meta, preferences, analysis)
-    const startTimeScore = this.calculateStartTimeScore(meta, preferences, analysis)
-    const endTimeScore = this.calculateEndTimeScore(meta, preferences, analysis)
-    const scheduleLengthScore = this.calculateScheduleLengthScore(meta, preferences, analysis)
+    const maxValues = this.calculateMaxValues(preferences, preferencesImportance)
+
+    console.log('maxValues', maxValues)
+
+    const daysOffScore = this.calculateDaysOffScore(meta, preferences, analysis, maxValues.daysOff)
+    const breaksScore = this.calculateBreaksScore(meta, preferences, analysis, maxValues.breaks)
+    const startTimeScore = this.calculateStartTimeScore(
+      meta,
+      preferences,
+      analysis,
+      maxValues.startTimePreference
+    )
+    const endTimeScore = this.calculateEndTimeScore(
+      meta,
+      preferences,
+      analysis,
+      maxValues.endTimePreference
+    )
+    const scheduleLengthScore = this.calculateScheduleLengthScore(
+      meta,
+      preferences,
+      analysis,
+      maxValues.scheduleLength
+    )
 
     const totalScore =
       daysOffScore + breaksScore + startTimeScore + endTimeScore + scheduleLengthScore
@@ -109,18 +134,14 @@ export default class SchedulesRanker {
     }
   }
 
-  rankSchedules(preferences: Preferences): Schedule[] {
-    // const preferences: Preferences = {
-    //   breaks: BreaksPreference.Less,
-    //   daysOff: DaysOffPreference.None,
-    //   startTimePreference: TimePreference.Latest,
-    //   endTimePreference: TimePreference.None,
-    //   scheduleLength: ScheduleLengthPreference.Shorter
-    // }
-    // embed the score in the schedule object
+  rankSchedules(
+    preferences: Preferences,
+    preferencesImportance: PreferencesImportance,
+    suggestionsCount?: number
+  ): Schedule[] {
     this.schedules.forEach((schedule) => {
       if (!schedule.meta) return
-      schedule.meta.score = this.calculateScore(schedule, preferences)
+      schedule.meta.score = this.calculateScore(schedule, preferences, preferencesImportance)
     })
 
     // sort the schedules based on the score
@@ -129,17 +150,69 @@ export default class SchedulesRanker {
       return b.meta.score.totalScore - a.meta.score.totalScore
     })
 
+    if (suggestionsCount) {
+      return this.schedules.slice(0, suggestionsCount)
+    }
+
     return this.schedules
   }
+  /**
+   * Calculates the maximum score values for scheduling preferences based on their importance.
+   *
+   * This function dynamically adjusts the maximum scores for each preference criterion
+   * so that the sum of all maximum scores equals the predefined maximum total score
+   * (SchedulesRanker.MAX_TOTAL_SCORE). It achieves this by first determining the total
+   * importance of all active preferences (excluding those set to None) and then scaling
+   * each preference's score proportionally.
+   *
+   * @param preferences - The actual preferences selected by the user, used to exclude
+   *                      any preferences set to None from the scoring.
+   * @param preferencesImportance - An object containing the importance levels for each preference.
+   *                                The importance level is typically a numerical value indicating
+   *                                how much a specific preference should be weighted.
+   * @returns An object with the same keys as the input preferencesImportance, where each value
+   *          has been scaled to ensure the sum of all values equals the maximum total score,
+   *          excluding preferences marked as None.
+   */
+  private calculateMaxValues(
+    preferences: Preferences,
+    preferencesImportance: PreferencesImportance
+  ) {
+    const totalImportance = Object.keys(preferencesImportance).reduce((total, key) => {
+      const preferenceKey = key as keyof Preferences
+      if (preferences[preferenceKey] !== 'None') {
+        return total + preferencesImportance[preferenceKey]
+      }
+      return total
+    }, 0)
 
+    const scalingFactor = SchedulesRanker.MAX_TOTAL_SCORE / totalImportance
+    // Now calculate the maxScores scaled to sum up to SchedulesRanker.MAX_TOTAL_SCORE
+    const scaledMaxValues = Object.keys(preferencesImportance).reduce(
+      (acc, key) => {
+        const preferenceKey = key as keyof Preferences
+        if (preferences[preferenceKey] !== 'None') {
+          const importance = preferencesImportance[preferenceKey]
+          acc[preferenceKey] = importance * scalingFactor
+        } else {
+          // Set to 0 or another appropriate value for preferences set to None
+          acc[preferenceKey] = 0
+        }
+        return acc
+      },
+      {} as { [key in keyof PreferencesImportance]: number }
+    )
+    return scaledMaxValues
+  }
   private calculateDaysOffScore(
     meta: ScheduleMeta,
     preferences: Preferences,
-    analysis: AnalysisResult
+    analysis: AnalysisResult,
+    maxScore: number
   ): number {
     if (!preferences.daysOff || preferences.daysOff === DaysOffPreference.None) return 0
 
-    const maxDaysOffScore = 30
+    const maxDaysOffScore = maxScore
     const daysOffScore = this.getNormalizedScore({
       value: meta.daysOff.length,
       min: analysis.minDaysOff,
@@ -154,11 +227,12 @@ export default class SchedulesRanker {
   private calculateBreaksScore(
     meta: ScheduleMeta,
     preferences: Preferences,
-    analysis: AnalysisResult
+    analysis: AnalysisResult,
+    maxScore: number
   ): number {
     if (!preferences.breaks || preferences.breaks === BreaksPreference.None) return 0
 
-    const maxBreaksScore = 10
+    const maxBreaksScore = maxScore
     const breaksScore = this.getNormalizedScore({
       value: meta.totalbreaks,
       min: analysis.minTotalBreaks,
@@ -172,12 +246,13 @@ export default class SchedulesRanker {
   private calculateStartTimeScore(
     meta: ScheduleMeta,
     preferences: Preferences,
-    analysis: AnalysisResult
+    analysis: AnalysisResult,
+    maxScore: number
   ): number {
     if (!preferences.startTimePreference || preferences.startTimePreference === TimePreference.None)
       return 0
 
-    const maxStartTimeScore = 10
+    const maxStartTimeScore = maxScore
     const startTimeScore = this.getNormalizedScore({
       value: meta.timings.earliestHour,
       min: analysis.minStartTime,
@@ -193,12 +268,13 @@ export default class SchedulesRanker {
   private calculateEndTimeScore(
     meta: ScheduleMeta,
     preferences: Preferences,
-    analysis: AnalysisResult
+    analysis: AnalysisResult,
+    maxScore: number
   ): number {
     if (!preferences.endTimePreference || preferences.endTimePreference === TimePreference.None)
       return 0
 
-    const maxEndTimeScore = 10
+    const maxEndTimeScore = maxScore
     const endTimeScore = this.getNormalizedScore({
       value: meta.timings.latestHour,
       min: analysis.minEndTime,
@@ -214,12 +290,13 @@ export default class SchedulesRanker {
   private calculateScheduleLengthScore(
     meta: ScheduleMeta,
     preferences: Preferences,
-    analysis: AnalysisResult
+    analysis: AnalysisResult,
+    maxScore: number
   ): number {
     if (!preferences.scheduleLength || preferences.scheduleLength === ScheduleLengthPreference.None)
       return 0
 
-    const maxScheduleLengthScore = 10
+    const maxScheduleLengthScore = maxScore
     const scheduleLengthScore = this.getNormalizedScore({
       value: meta.timings.timeDiff,
       min: analysis.minTimeDifference,
