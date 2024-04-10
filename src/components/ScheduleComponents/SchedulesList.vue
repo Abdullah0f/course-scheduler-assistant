@@ -5,6 +5,9 @@
       <span v-else> عدد الجداول الممكنة </span>
 
       <span class="text-blue-600 mr-2">{{ schedules.length }}</span>
+      <span v-if="schedules.length >= MAX_GENERATED_SCHEDULES" class="text-red-500 text-sm mx-2">
+        لقد تجاوزت الحد الاقصى للجداول الممكنة الرجاء فلترة الجداول لضمان الحصول على نتائج اكثر دقة
+      </span>
 
       <Button
         v-if="isSuggested"
@@ -31,7 +34,7 @@
 <script setup>
 import { defineAsyncComponent, ref, watchEffect, computed } from 'vue'
 import { useWindowScroll } from '@vueuse/core'
-import { SCHEDULES_PER_PAGE } from '@/utils/constants'
+import { SCHEDULES_PER_PAGE, MAX_GENERATED_SCHEDULES } from '@/utils/constants'
 import Button from 'primevue/button'
 
 // lazy loding the schedule component
