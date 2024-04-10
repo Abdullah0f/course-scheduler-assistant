@@ -57,9 +57,13 @@
       <ChooseSort :sort="sort" @sort-changed="updateSort" class="mr-5" />
       <Button @click="showPreferencesModal = true" class="mt-3">اقترح لي</Button>
     </div>
-    {{ schedules.length }}
 
-    <SchedulesList :schedules="suggestedSchedules" v-if="suggestedSchedules" />
+    <SchedulesList
+      :schedules="suggestedSchedules"
+      @close-suggestions="suggestedSchedules = null"
+      isSuggested
+      v-if="suggestedSchedules"
+    />
     <SchedulesList :schedules="sortedSchedules" v-else />
   </div>
   <ScrollTop
