@@ -13,6 +13,13 @@
       text
       rounded
     ></Button>
+    <Badge
+      v-if="schedule.meta?.score?.totalScore"
+      :value="schedule.meta?.score?.totalScore.toFixed(0) + ' نقطة'"
+      severity="info"
+      class="mt-1 absolute top-0"
+      :style="{ right: '7%' }"
+    />
     <OverlayPanel ref="op" class="small-overlay-panel">
       <p>
         اجمالي البريكات {{ getTotalBreaks(schedule) }} دقيقة ({{
@@ -39,6 +46,7 @@
 </template>
 
 <script setup>
+import Badge from 'primevue/badge';
 import HourColumn from './HourColumn.vue';
 import Day from './Day.vue'
 import SaveButton from './SaveButton.vue';

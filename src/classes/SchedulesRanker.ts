@@ -88,17 +88,13 @@ export default class SchedulesRanker {
   calculateScore(
     schedule: Schedule,
     preferences: Preferences,
-    preferencesImportance: PreferencesImportance
+    maxValues: { [key in keyof PreferencesImportance]: number }
   ): metaScore {
     const analysis = this.analysisResult
 
     if (!schedule.meta || !analysis) throw new Error('Schedule meta or analysis result is missing')
 
     const meta = schedule.meta
-
-    const maxValues = this.calculateMaxValues(preferences, preferencesImportance)
-
-    console.log('maxValues', maxValues)
 
     const daysOffScore = this.calculateDaysOffScore(meta, preferences, analysis, maxValues.daysOff)
     const breaksScore = this.calculateBreaksScore(meta, preferences, analysis, maxValues.breaks)
@@ -139,9 +135,10 @@ export default class SchedulesRanker {
     preferencesImportance: PreferencesImportance,
     suggestionsCount?: number
   ): Schedule[] {
+    const maxValues = this.calculateMaxValues(preferences, preferencesImportance)
     this.schedules.forEach((schedule) => {
       if (!schedule.meta) return
-      schedule.meta.score = this.calculateScore(schedule, preferences, preferencesImportance)
+      schedule.meta.score = this.calculateScore(schedule, preferences, maxValues)
     })
 
     // sort the schedules based on the score
