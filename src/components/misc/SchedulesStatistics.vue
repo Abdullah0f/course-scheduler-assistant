@@ -11,7 +11,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { AnalysisResult } from '../../classes/SchedulesRanker'
 const props = defineProps<{
   statistics: AnalysisResult
@@ -32,7 +32,7 @@ const to12HourFormat = (time) => {
   return `${hours} ${period}`
 }
 
-const statisticsInfo = ref([
+const statisticsInfo = computed(() => [
   {
     label: 'متوسط طول الجدول',
     value: props.statistics.averageTimeDifference,
