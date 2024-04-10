@@ -4,6 +4,7 @@
       <div class="preference-item">
         <div class="preference-label">ايام الاوف</div>
         <SelectButton
+          :allow-empty="false"
           dir="ltr"
           v-model="daysOffValue"
           :options="preferenceOptions.daysOff"
@@ -15,6 +16,7 @@
       <div class="preference-item">
         <div class="preference-label">وقت بداية الجدول</div>
         <SelectButton
+          :allow-empty="false"
           dir="ltr"
           v-model="startTimeValue"
           :options="preferenceOptions.startTime"
@@ -26,6 +28,7 @@
       <div class="preference-item">
         <div class="preference-label">وقت نهاية الجدول</div>
         <SelectButton
+          :allow-empty="false"
           dir="ltr"
           v-model="endTimeValue"
           :options="preferenceOptions.endTime"
@@ -37,6 +40,7 @@
       <div class="preference-item">
         <div class="preference-label">البريكات</div>
         <SelectButton
+          :allow-empty="false"
           dir="ltr"
           v-model="breaksValue"
           :options="preferenceOptions.breaks"
@@ -47,12 +51,21 @@
       <div class="preference-item">
         <div class="preference-label">طول الجدول</div>
         <SelectButton
+          :allow-empty="false"
           dir="ltr"
           v-model="scheduleLengthValue"
           :options="preferenceOptions.breaks"
           option-label="label"
           option-value="value"
         />
+      </div>
+
+      <div class="preference-item">
+        <div class="preference-label mb-3">
+          عدد الاقتراحات:
+          <span class="mx-1">{{ suggestionsCount }}</span>
+        </div>
+        <Slider v-model="suggestionsCount" :step="1" :min="1" :max="15" />
       </div>
     </div>
 
@@ -74,6 +87,7 @@ import {
 import { useUserPreferenceStore } from '../../stores/userPreference'
 import Schedule from '../../classes/Schedule'
 import SchedulesRanker from '../../classes/SchedulesRanker'
+import Slider from 'primevue/slider'
 
 const props = defineProps<{
   schedules: Schedule[]
@@ -82,6 +96,7 @@ const emit = defineEmits(['submit', 'close'])
 
 const userPreferenceStore = useUserPreferenceStore()
 const preferences = userPreferenceStore.preferences
+const suggestionsCount = ref(userPreferenceStore.suggestionsCount)
 
 const daysOffValue = ref(preferences.daysOff)
 const startTimeValue = ref(preferences.startTimePreference)
@@ -113,6 +128,7 @@ const updatePreferences = () => {
     endTimePreference: endTimeValue.value,
     scheduleLength: scheduleLengthValue.value
   })
+  useUserPreferenceStore().setSuggestionsCount(suggestionsCount.value)
 }
 
 const onSubmit = () => {
@@ -120,8 +136,8 @@ const onSubmit = () => {
   const schedulesRanker = new SchedulesRanker(props.schedules)
   const preferences = useUserPreferenceStore().preferences
   const rankedSchedules = schedulesRanker.rankSchedules(preferences)
-  //   take only the best 5 schedules
-  rankedSchedules.splice(5)
+  //   take only the best X schedules
+  rankedSchedules.splice(suggestionsCount.value)
   emit('submit', rankedSchedules)
   emit('close')
 }
