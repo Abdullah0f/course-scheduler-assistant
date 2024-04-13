@@ -68,7 +68,7 @@ function minimizeSectionCourses(coursesArray: Course[][], section: Section[]): C
 export function generateSchedules(
   courses: Record<string, Course[]>,
   sections: Section[] | null,
-  filters: Filters = { allowLocked: false, breaksLimit: 0, daysOff: 0, offInTheseDays: [] }
+  filters: Filters = { allowLocked: true, breaksLimit: 999, daysOff: 0, offInTheseDays: [] }
 ) {
   let coursesArray = Object.values(courses)
   if (sections) {
