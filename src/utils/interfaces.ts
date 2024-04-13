@@ -65,6 +65,7 @@ export interface SchedulePeriod {
   instructor: string
   classCode: string | undefined
   isOpen: OpenStatus | undefined
+  courseCode: string
 }
 
 export type ScheduleBase = {

@@ -13,11 +13,11 @@
                     <div class="flex justify-content-between  gap-3 action-buttons">
                         <Button
                         v-if="isSectionDeletable(section.classCode)"
-                            label="حذف" size="small" severity="danger" icon="pi pi-trash" icon-pos="right" @click="emit('delete-section', section.classCode)" />
+                            label="حذف" size="small" severity="danger" icon="pi pi-trash" icon-pos="right" @click="emit('delete-section', section)" />
                         <Button
                         v-else
                          label="اضافة" size="small" severity="success" icon="pi pi-plus" icon-pos="right" @click="emit('add-section', section)"
-                        :disabled="isSameCourseAdded(section.name)"/>
+                        :disabled="isSameCourseAdded(section.code)"/>
                         <Button label="مشاهدة" icon="pi pi-eye" icon-pos="right" size="small" @click="previwSchedule(section)" />
                     </div>
                 </div>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <Dialog v-model:visible="showSchedulePreview" :draggable="false" modal :pt="{
-        root: '',
+        root: {},
     }">
     <ScheduleComponent :schedule="previewSchedule" size="small"  />
     </Dialog>
@@ -44,6 +44,7 @@ import AccordionTab from 'primevue/accordiontab';
 import Button from 'primevue/button';
 import ScheduleComponent from './ScheduleComponent.vue';
 import Schedule from '../../classes/Schedule.ts';
+import { filterCoursesWithNonEmptyPeriods } from '@/utils/coursesHelpers';
 const coursesStore = useCoursesStore();
 const props = defineProps({
     selectedCourses: {
@@ -57,12 +58,17 @@ const props = defineProps({
     currentlyAddedSections: {
         type: Array,
         required: true
+    },
+    currentlyAddedCourses: {
+        type: Array,
+        required: true
     }
 })
 const emit = defineEmits(['add-section','delete-section'])
 const previewSchedule = ref(new Schedule())
 const filteredCourses = computed(() => {
-    return Object.keys(coursesStore.courses) 
+    const coursesfiltered = filterCoursesWithNonEmptyPeriods(coursesStore.courses)
+    return Object.keys(coursesfiltered) 
     .filter(course => props.selectedCourses.includes(course))
     .reduce((acc, key) => {
         acc[key] = coursesStore.courses[key]
@@ -72,16 +78,8 @@ const filteredCourses = computed(() => {
 
 const showSchedulePreview = ref(false);
 
-
-
-
-const isSameCourseAdded = (courseName) => {
-    return Object.values(props.currentSchedule).some((day) => {
-        // if meta skip it
-        if (!Array.isArray(day))  return false
-
-        return day.some((lecture) => lecture.title === courseName)
-    })
+const isSameCourseAdded = (courseCode) => {
+    return props.currentlyAddedCourses.some((course) => course === courseCode)
 }
 
 const isSectionDeletable = (section) => {

@@ -6,6 +6,14 @@ export enum Days {
   Thursday = 'thu'
 }
 
+export enum DaysArabic {
+  'sun' = 'الأحد',
+  'mon' = 'الإثنين',
+  'tue' = 'الثلاثاء',
+  'wed' = 'الأربعاء',
+  'thu' = 'الخميس'
+}
+
 export enum OpenStatus {
   open = 'مفتوحة',
   closed = 'مغلقة'

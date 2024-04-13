@@ -45,6 +45,25 @@ export default class Schedule implements ISchedule {
       return days.every((day) => !this.periodConflictsWithDaySchedule(period, this[day]))
     })
   }
+  provideDetailedConflictInfo(option: Course): { day: Days, conflictingPeriod: SchedulePeriod }[] {
+    if (this.canAddCourseOptionToSchedule(option)) return []
+    const conflictingPeriods: {day: Days, conflictingPeriod: SchedulePeriod}[] = []
+
+    for (const period of option.periods) {
+      if (!period.days) continue
+      const days = period.days.map(this.dayToString)
+
+      for (const day of days) {
+        const daySchedule = this[day]
+          daySchedule.forEach((scheduledPeriod) => {
+          if (this.hasConflict(period, scheduledPeriod)) {
+            conflictingPeriods.push({day, conflictingPeriod: scheduledPeriod})
+          }
+        })
+      }
+    }
+    return conflictingPeriods
+  }
   addCourseOptionToSchedule(option: Course) {
     for (const period of option.periods) {
       for (const dayNumber of period.days) {
@@ -58,7 +77,8 @@ export default class Schedule implements ISchedule {
           classType: period.classType,
           instructor: period.instructor,
           classCode: option.classCode,
-          isOpen: option.open
+          isOpen: option.open,
+          courseCode: option.code
         }
         this[day].push(schedulePeriod)
         this[day].sort((a, b) => a.startTime.getTime() - b.startTime.getTime())
@@ -88,6 +108,29 @@ export default class Schedule implements ISchedule {
     Object.values(Days).forEach((day) => {
       this[day] = this[day].filter((section: SchedulePeriod) => section.classCode !== classCode)
     })
+  }
+  getUniqueSections(): string[] {
+    const uniqueSections: string[] = []
+    Object.values(Days).forEach((day) => {
+      this[day].forEach((section) => {
+        if (!uniqueSections.includes(section.classCode as string)) {
+          uniqueSections.push(section.classCode as string)
+        }
+      })
+    })
+    return uniqueSections
+  }
+
+  getUniqueCourses(): string[] {
+    const uniqueCourses: string[] = []
+    Object.values(Days).forEach((day) => {
+      this[day].forEach((section) => {
+        if (!uniqueCourses.includes(section.courseCode)) {
+          uniqueCourses.push(section.courseCode)
+        }
+      })
+    })
+    return uniqueCourses
   }
   // function deleteSectionFromSchedule(classCode, schedule) {
   //   Object.keys(schedule).forEach((day) => {

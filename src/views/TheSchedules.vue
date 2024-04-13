@@ -204,7 +204,6 @@ const handleCourses = handleSubmit((values) => {
     acc[courseCode] = courses.value[courseCode]
     return acc
   }, {})
-
   schedules.value = generateSchedules(selectedCoursesObject, selectedSection.value, filters.value)
   suggestedSchedules.value = null
   hasSomthingChanged.value = false
