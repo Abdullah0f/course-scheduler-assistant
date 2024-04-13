@@ -85,6 +85,31 @@
       @close="showPreferencesModal = false"
     />
   </Dialog>
+  <Dialog
+    v-model:visible="warningVisibility"
+    modal
+    header="تحذير"
+    :closable="false"
+    :style="{ width: '30rem' }"
+    :breakpoints="{ '1199px': '75vw', '575px': '90vw' }"
+  >
+    <div class=" flex justify-content-center align-items-center gap-3">
+      <div>
+        <i class="pi pi-exclamation-triangle block" style="font-size: 3rem;"></i>
+      </div>
+      <h3 v-if="zeroCourses" class="line-height-3">
+       لديك 
+  <strong>{{ zeroCourses.length > 1 ? 'مواد صفرية' : 'مادة صفرية' }}</strong>
+  <span v-for="(course, index) in zeroCourses" :key="index">
+    "{{ course }}"{{ index !== zeroCourses.length - 1 ? ' و ' : '' }}
+  </span>
+  يرجى التأكد من إضافتها لتفادي أية مشاكل في الجدول مستقبلاً.
+      </h3>
+    </div>
+    <div class="flex justify-content-center">
+      <Button @click="warningVisibility = false" label="حسناً" />
+    </div>
+  </Dialog>
 </template>
 
 <script setup>
@@ -122,8 +147,10 @@ const showPreferencesModal = ref(false)
 const schedules = ref(null)
 const suggestedSchedules = ref(null)
 const showFinishedCourses = ref(false)
+const warningVisibility = ref(false)
 const courses = computed(() => useCoursesStore().courses)
 const finishedCourses = usePlanStore().getFinishedCoursesCodes
+const zeroCourses = computed(()=>usePlanStore().getZeroCourses)
 const analysis = computed(() => {
   const schedulesRanker = new SchedulesRanker(schedules.value)
   return schedulesRanker.analysisResult
@@ -153,6 +180,13 @@ const handleSelectedSectionUpdate = (newSelection) => {
   selectedSection.value = newSelection
   somethingChanged()
 }
+const handleZeroCourses = () => {
+  if(zeroCourses.value.length ==0) return
+  setTimeout(() => {
+    warningVisibility.value = true
+  }, 5000)
+}
+
 
 function isNotEmpty(value) {
   return (Array.isArray(value) && value.length > 0) || 'لا يمكن ان تكون المواد المختارة فارغة'
@@ -212,6 +246,9 @@ const handleCourses = handleSubmit((values) => {
 const onPreferencesSubmit = (newSchdules) => {
   suggestedSchedules.value = newSchdules
 }
+watch(zeroCourses, (newVal) => {
+  if (newVal && newVal.length > 0) handleZeroCourses();
+}, { immediate: true });
 </script>
 
 <style scoped>

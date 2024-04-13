@@ -63,7 +63,7 @@ watchEffect(() => {
       { label: ' الجداول ', icon: 'pi pi-fw pi-stopwatch', to: '/schedules' },
       { label: ' الملف الشخصي ', icon: 'pi pi-fw pi-user', to: '/profile' },
       { label: ' رفع ملف ', icon: 'pi pi-fw pi-upload', to: '/uploadData' },
-      { label: ' رفع الخطة ', icon: 'pi pi-fw pi-upload', to: '/uploadPlan' }
+      { label: 'الخطة ', icon: 'pi pi-fw pi-upload', to: '/uploadPlan' }
     ]
   } else {
     items.value = [
@@ -79,10 +79,10 @@ const showDiv = ref(true)
 const par = ref(null)
 
 const removeDiv = () => {
-  par.value.classList.add('fadeOut') // Add your animation class here
+  par.value.classList.add('fadeOut') 
   setTimeout(() => {
     showDiv.value = false
-  }, 500) // Set timeout duration to match your animation duration
+  }, 500) 
 }
 const activeIndex = ref(0)
 const router = useRouter()

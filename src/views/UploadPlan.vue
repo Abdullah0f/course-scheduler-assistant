@@ -39,7 +39,8 @@
           <tr v-for="course in filteredCourses(item.courses)" :key="course.courseCode">
             <td>{{ course.courseCode }}</td>
             <td>{{ course.courseName }}
-              <span v-if="course.zeroCourse" class="font-bold">  (المادة صفرية)</span>
+              <span v-if="course.zeroCourse" class="font-bold">(المادة صفرية)</span>
+              <span v-if="course.optionalCourse" class="font-bold">(المادة إختيارية)</span>
             </td>
             <td>{{ status[course.status] }}</td>
           </tr>
