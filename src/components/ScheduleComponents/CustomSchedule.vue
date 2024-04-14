@@ -70,17 +70,16 @@ const handleAddSection = (section) => {
 }
 
 const handleDeleteSection = (section) => {
+  console.log(section)
   schedule.value.deleteSection(section.classCode)
-  updateAddedSections(section)
+  section.code ? updateAddedSections(section.classCode,section.code) :
+  updateAddedSections(section.classCode,section.courseCode)
 
 }
 
-const updateAddedSections = (deletedSection) => {
-  // currentlyAddedSections.value = currentlyAddedSections.value.filter((section) => section !== deletedSection.classCode)
-  // currentlyAddedCourses.value = currentlyAddedCourses.value.filter((course) => course !== deletedSection.code)
-  const index = currentlyAddedSections.value.findIndex((section) => section === deletedSection.classCode)
-  currentlyAddedSections.value.splice(index, 1)
-  currentlyAddedCourses.value.splice(index, 1)
+const updateAddedSections = (deletedSectionClassCode,deletedSectionCourseCode) => {
+  currentlyAddedSections.value = currentlyAddedSections.value.filter((section) => section !== deletedSectionClassCode)
+  currentlyAddedCourses.value = currentlyAddedCourses.value.filter((course) => course !== deletedSectionCourseCode)
 }
 
 const handleForceAdd = (conflicts) => {
@@ -98,17 +97,26 @@ const handleGenerateSchedules = () => {
     coursesObject[courseCode] = storedCourses[courseCode]
   })
   coursesObject[conflictedCourseCode.value] = storedCourses[conflictedCourseCode.value]
-  console.log(coursesObject)
   scheduleOptions.value = generateSchedules(coursesObject)
   showSchedulesList.value = true
-  console.log(scheduleOptions.value)
 }
 
 const handleChoosenSchedule = (newSchdule) => {
   schedule.value = newSchdule
   showConflictDialog.value = false
-  currentlyAddedCourses.value = schedule.value.getUniqueCourses()
-  currentlyAddedSections.value = schedule.value.getUniqueSections()
+  currentlyAddedSections.value = []
+  currentlyAddedCourses.value = []
+  Object.values(schedule.value).forEach(day => {
+    if (Array.isArray(day)) {
+      day.forEach(period => {
+        if (!currentlyAddedCourses.value.includes(period.courseCode)) {
+          currentlyAddedCourses.value.push(period.courseCode)
+          currentlyAddedSections.value.push(period.classCode)
+        }
+      })
+    }
+  })
+
 }
 
 

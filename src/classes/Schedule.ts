@@ -109,29 +109,6 @@ export default class Schedule implements ISchedule {
       this[day] = this[day].filter((section: SchedulePeriod) => section.classCode !== classCode)
     })
   }
-  getUniqueSections(): string[] {
-    const uniqueSections: string[] = []
-    Object.values(Days).forEach((day) => {
-      this[day].forEach((section) => {
-        if (!uniqueSections.includes(section.classCode as string)) {
-          uniqueSections.push(section.classCode as string)
-        }
-      })
-    })
-    return uniqueSections
-  }
-
-  getUniqueCourses(): string[] {
-    const uniqueCourses: string[] = []
-    Object.values(Days).forEach((day) => {
-      this[day].forEach((section) => {
-        if (!uniqueCourses.includes(section.courseCode)) {
-          uniqueCourses.push(section.courseCode)
-        }
-      })
-    })
-    return uniqueCourses
-  }
   // function deleteSectionFromSchedule(classCode, schedule) {
   //   Object.keys(schedule).forEach((day) => {
   //     if (Array.isArray(schedule[day])) {

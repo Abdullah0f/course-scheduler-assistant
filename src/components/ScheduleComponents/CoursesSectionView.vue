@@ -71,7 +71,7 @@ const filteredCourses = computed(() => {
     return Object.keys(coursesfiltered) 
     .filter(course => props.selectedCourses.includes(course))
     .reduce((acc, key) => {
-        acc[key] = coursesStore.courses[key]
+        acc[key] = coursesfiltered[key]
         return acc
     }, {})
 })
@@ -92,6 +92,10 @@ const previwSchedule = (section) => {
     previewSchedule.value.addOrUpdateMeta();
     showSchedulePreview.value = true
 }
+
+watch(() => props.selectedCourses, (newVal) => {
+    console.log('selectedCourses', newVal)
+})
 
 
 </script>
