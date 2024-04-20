@@ -29,12 +29,12 @@
       </p>
       <p>عدد ايام الاوف {{ getDaysOff(schedule).length }}</p>
       <div v-if="schedule.meta && schedule.meta.score">
-        <p>النتيجة الكلية: {{ schedule.meta.score.totalScore }}</p>
-        <p>نقاط أيام الاوف: {{ schedule.meta.score.daysOffScore }}</p>
-        <p>نقاط الاستراحات: {{ schedule.meta.score.breaksScore }}</p>
-        <p>نقاط وقت البدء: {{ schedule.meta.score.startTimeScore }}</p>
-        <p>نقاط وقت الانتهاء: {{ schedule.meta.score.endTimeScore }}</p>
-        <p>نقاط طول الجدول: {{ schedule.meta.score.scheduleLengthScore }}</p>
+        <p>النتيجة الكلية: {{ schedule.meta.score.totalScore.toFixed(0) }}</p>
+        <p>نقاط أيام الاوف: {{ schedule.meta.score.daysOffScore.toFixed(0) }}</p>
+        <p>نقاط الاستراحات: {{ schedule.meta.score.breaksScore.toFixed(0) }}</p>
+        <p>نقاط وقت البدء: {{ schedule.meta.score.startTimeScore.toFixed(0) }}</p>
+        <p>نقاط وقت الانتهاء: {{ schedule.meta.score.endTimeScore.toFixed(0) }}</p>
+        <p>نقاط طول الجدول: {{ schedule.meta.score.scheduleLengthScore.toFixed(0) }}</p>
       </div>
     </OverlayPanel>
     <Button
