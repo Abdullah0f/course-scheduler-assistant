@@ -135,8 +135,12 @@ const statisticsInfo = computed(() => [
 }
 
 .statistics-card {
+  /* dark mode */
   background-color: #2c2f33;
   color: #ffffff;
+  /* light mode */
+  background-color: #ffffff;
+  color: #000000;
   border-radius: 8px;
   padding: 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
