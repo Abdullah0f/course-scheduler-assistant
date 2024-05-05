@@ -1,4 +1,4 @@
-import { Days } from '../utils/enums'
+import { Days, DaysArabic } from '../utils/enums'
 import {
   BreaksPreference,
   DaysOffPreference,
@@ -39,7 +39,28 @@ export default class SchedulesRanker {
     let minEndTime = Infinity
     let maxTimeDifference = 0
     let minTimeDifference = Infinity
-
+    const noOfDaysOff = {
+      0: 0,
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+    }
+    const offDays = {
+      [DaysArabic.sun]: 0,
+      [DaysArabic.mon]: 0,
+      [DaysArabic.tue]: 0,
+      [DaysArabic.wed]: 0,
+      [DaysArabic.thu]: 0,
+    }
+    const startTimeOccurences = {}
+    const endTimeOccurences = {}
+    const scheduleLength = {}
+    const totalBreaksOccurences = {
+        '0': 0, '1-100': 0, '101-200': 0, '201-300': 0, '301-400': 0,
+        '401-500': 0, '501-600': 0, '601-700': 0, '701-800': 0,
+        '801-900': 0, '901-1000': 0, '1000+': 0
+    }
     this.schedules.forEach((schedule) => {
       const { meta } = schedule
       if (!meta) return
@@ -48,6 +69,33 @@ export default class SchedulesRanker {
       totalBreaks += meta.totalbreaks
       totalDaysOff += meta.daysOff.length
       totalTimeDifference += meta.timings.timeDiff
+      noOfDaysOff[meta.daysOff.length]++
+      meta.daysOff.forEach((day) => {
+        offDays[DaysArabic[day]]++
+      })
+      if (!scheduleLength[meta.timings.timeDiff]) {
+        scheduleLength[meta.timings.timeDiff] = 1
+      } else {
+        scheduleLength[meta.timings.timeDiff]++
+      }
+      const totalBreaksBin = this.getTotalBreaksBins(meta.totalbreaks)
+        totalBreaksOccurences[totalBreaksBin]++
+      
+
+      if (!startTimeOccurences[meta.timings.earliestHour]) {
+        startTimeOccurences[meta.timings.earliestHour] = 1
+      } else {
+        startTimeOccurences[meta.timings.earliestHour]++
+      }
+
+      if (!endTimeOccurences[meta.timings.latestHour]) {
+        endTimeOccurences[meta.timings.latestHour] = 1
+      } else {
+        endTimeOccurences[meta.timings.latestHour]++
+      }
+
+
+
 
       maxTotalBreaks = Math.max(maxTotalBreaks, meta.totalbreaks)
       minTotalBreaks = Math.min(minTotalBreaks, meta.totalbreaks)
@@ -60,7 +108,12 @@ export default class SchedulesRanker {
       maxTimeDifference = Math.max(maxTimeDifference, meta.timings.timeDiff)
       minTimeDifference = Math.min(minTimeDifference, meta.timings.timeDiff)
     })
-
+    // Filter out bins with zero occurrences
+    Object.keys(totalBreaksOccurences).forEach(bin => {
+      if (totalBreaksOccurences[bin] === 0) {
+          delete totalBreaksOccurences[bin];
+      }
+    });
     const schedulesCount = this.schedules.length
     const analysisResult: AnalysisResult = {
       averageStartTime: schedulesCount > 0 ? totalStartTime / schedulesCount : 0,
@@ -77,7 +130,13 @@ export default class SchedulesRanker {
       maxEndTime,
       minEndTime,
       minTimeDifference,
-      maxTimeDifference
+      maxTimeDifference,
+      noOfDaysOff,
+      offDays,
+      scheduleLength,
+      totalBreaksOccurences,
+      startTimeOccurences,
+      endTimeOccurences
     }
 
     this.analysisResult = analysisResult
@@ -319,6 +378,35 @@ export default class SchedulesRanker {
   }): number {
     return ((value - min) / (max - min)) * normalizeTo
   }
+
+  private getTotalBreaksBins(totalBreaks: number) {
+    switch (true) {
+      case totalBreaks === 0:
+        return '0'
+      case totalBreaks <= 100:
+        return '1-100'
+      case totalBreaks <= 200:
+        return '101-200'
+      case totalBreaks <= 300:
+        return '201-300'
+      case totalBreaks <= 400:
+        return '301-400'
+      case totalBreaks <= 500:
+        return '401-500'
+      case totalBreaks <= 600:
+        return '501-600'
+      case totalBreaks <= 700:
+        return '601-700'
+      case totalBreaks <= 800:
+        return '701-800'
+      case totalBreaks <= 900:
+        return '801-900'
+      case totalBreaks <= 1000:
+        return '901-1000'
+      default:
+        return '1000+'
+    }
+  }
 }
 export interface AnalysisResult {
   averageStartTime: number
@@ -336,4 +424,30 @@ export interface AnalysisResult {
   minEndTime: number
   minTimeDifference: number
   maxTimeDifference: number
+  noOfDaysOff: {
+    0: number
+    1: number
+    2: number
+    3: number
+    4: number
+  }
+  offDays: {
+    [DaysArabic.sun]: number
+    [DaysArabic.mon]: number
+    [DaysArabic.tue]: number
+    [DaysArabic.wed]: number
+    [DaysArabic.thu]: number
+  }
+  scheduleLength: {
+    [key: string]: number
+  }
+  totalBreaksOccurences: {
+    [key: string]: number
+  }
+  startTimeOccurences: {
+    [key: string]: number
+  }
+  endTimeOccurences: {
+    [key: string]: number
+  }
 }

@@ -1,21 +1,48 @@
 <template>
   <div class="flex flex-wrap statistics-container">
-    <div class="statistics-card" v-for="statistic in statisticsInfo" :key="statistic.label">
+    <!-- <div class="statistics-card" v-for="statistic in statisticsInfo" :key="statistic.label">
       <div class="card-header">{{ statistic.label }}</div>
       <div class="card-content">
         {{ statistic.isLocaleString ? statistic.value.toLocaleString() : statistic.value }}
         {{ statistic.unit }}
       </div>
-    </div>
+    </div> -->
+    
   </div>
+  <Button @click="statsDialogVisibility = true" label="الاحصائيات" icon="pi pi-chart-bar" :icon-pos="'right'" :pt="{
+      icon: 'mx-2'
+    }" />
+    <Dialog v-model:visible="statsDialogVisibility" modal maximizable :draggable="false" style="width: 50vw" >
+      <h2>إحصائيات عن الجداول</h2>
+      <div class="flex flex-column gap-2">
+        <div >
+          <h3>ايام الأوف</h3>
+          <ScheduleChart :data="statistics.noOfDaysOff" label="عدد الأيام الأوف" />
+          <ScheduleChart :data="statistics.offDays" label="حسب اليوم" /> 
+        </div>
+        <div>
+          <h3>الوقت</h3>
+          <ScheduleChart :data="statistics.scheduleLength" label=" (بالساعة) طول الجدول" />
+          <ScheduleChart :data="statistics.startTimeOccurences" label="وقت البداية" />
+          <ScheduleChart :data="statistics.endTimeOccurences" label="وقت الانتهاء" />
+          <ScheduleChart :data="statistics.totalBreaksOccurences" label="(بالدقائق) فترات البريك" />
+        </div>
+      </div>
+
+    </Dialog>
+
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted , ref} from 'vue'
 import { AnalysisResult } from '../../classes/SchedulesRanker'
+import ScheduleChart from './ScheduleChart.vue';
+import Dialog from 'primevue/dialog';
+import Button from 'primevue/button';
 const props = defineProps<{
   statistics: AnalysisResult
 }>()
+const statsDialogVisibility = ref(false)
 
 const to12HourFormat = (time) => {
   const date = new Date()
@@ -63,18 +90,7 @@ const statisticsInfo = computed(() => [
     unit: 'أيام',
     isLocaleString: true
   },
-  {
-    label: 'أقصى عدد أيام اوف',
-    value: props.statistics.maxDaysOff,
-    unit: 'أيام',
-    isLocaleString: false
-  },
-  {
-    label: 'أدنى عدد أيام اوف',
-    value: props.statistics.minDaysOff,
-    unit: 'أيام',
-    isLocaleString: false
-  },
+  
   {
     label: 'أقصى وقت للبداية',
     value: to12HourFormat(props.statistics.maxStartTime),
@@ -100,18 +116,6 @@ const statisticsInfo = computed(() => [
     isLocaleString: false
   },
   {
-    label: 'اقصر طول جدول',
-    value: props.statistics.minTimeDifference,
-    unit: 'ساعات',
-    isLocaleString: false
-  },
-  {
-    label: 'اطول طول جدول',
-    value: props.statistics.maxTimeDifference,
-    unit: 'ساعات',
-    isLocaleString: false
-  },
-  {
     label: 'أقصى مجموع فترات البريك',
     value: props.statistics.maxTotalBreaks,
     unit: 'دقائق',
@@ -124,6 +128,9 @@ const statisticsInfo = computed(() => [
     isLocaleString: false
   }
 ])
+onMounted(() => {
+  console.log(props.statistics)
+})
 </script>
 
 <style scoped>
