@@ -171,6 +171,7 @@ const onSubmit = () => {
     preferencesImportance,
     suggestionsCount.value
   )
+  console.log(rankedSchedules)
   emit('submit', rankedSchedules)
   emit('close')
 }

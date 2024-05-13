@@ -14,7 +14,7 @@
       rounded
     ></Button>
     <Badge
-      v-if="schedule.meta?.score?.totalScore"
+      v-if="schedule.meta?.score?.totalScore !== undefined"
       :value="schedule.meta?.score?.totalScore.toFixed(0) + ' نقطة'"
       severity="info"
       class="mt-1 absolute top-0"
@@ -144,6 +144,7 @@ const saveCurrentSchedule = async () => {
 .schedule {
   border: 1px solid #aaa;
   padding: 10px;
+  padding-top: 15px;
   margin: 10px 0;
   display: flex;
   flex-direction: row;
